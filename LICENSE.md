@@ -1,7 +1,9 @@
 MIT License
 
 Copyright (c) 2018 Pablo Sánchez (Pausansol)
+
 Copyright (c) 2018 Jason Burns (Sonburn)
+
 Copyright (c) 2017 Zero Height Limited (zeroheight)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
