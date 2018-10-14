@@ -13,7 +13,7 @@
     "script": "script.js",
     "handler": "replaceStyles",
     "shortcut": "ctrl command c",
-    "name": "Apply theme",
+    "name": "Camilo",
     "identifier": "replaceStyles"
   }],
   "menu": {

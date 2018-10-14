@@ -237,7 +237,7 @@ var replaceStyles = function (context) {
   
   	var alert = COSAlertWindow.new();
   	alert.setMessageText('Camilo');
-  	alert.setInformativeText("Select a brand and their styles will be magically synchronized 🎉")
+  	alert.setInformativeText("Select a theme library to replace magically document's layer styles and symbols 🎉")
   	// add new logo
   	alert.setIcon(NSImage.alloc().initByReferencingFile(context.plugin.urlForResourceNamed("icon.png").path()));
   	 var optionselected = NSComboBox.alloc().initWithFrame(NSMakeRect(0, 0, 200, 25));
