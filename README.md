@@ -18,6 +18,7 @@ By name
 
 ## Contact
 Get in touch at pausansol#gmail.com, but use @ instead of # if you're not a 🤖
+Camilo logo by Héctor Sancho
 
 ## License
 Copyright (c) 2018 Pablo Sánchez. This is a simplified, modified and merged version of Sync Layer Styles and Symbol Swapper.
