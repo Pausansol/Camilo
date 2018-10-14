@@ -20,6 +20,6 @@ By name
 Get in touch at pausansol#gmail.com, but use @ instead of # if you're not a 🤖
 
 ## License
-Copyright (c) 2018 Pabo Sánchez. This is a simplified, modified and merged version of Sync Layer Styles and Symbol Swapper.
+Copyright (c) 2018 Pablo Sánchez and Héctor Sancho. This is a simplified, modified and merged version of Sync Layer Styles and Symbol Swapper.
 
 See [LICENSE.md](https://github.com/pausansol/camilo/blob/master/LICENSE.md) for further details.
