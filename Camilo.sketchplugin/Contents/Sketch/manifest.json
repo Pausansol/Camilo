@@ -1,0 +1,25 @@
+{
+  "name": "Camilo",
+  "version": "0.1",
+  "description": "Apply themes to UIkits",
+  "icon" : "icon.png",
+  "authorEmail": "psanchez@tuenti.com",
+  "author": "Tuenti team",
+  "appcast": "https://drive.google.com/open?id=1mjsfKnHNtVpH1tOfFizLi0Q867dnrrj7",
+  "updateURL": "https://drive.google.com/open?id=1hPv5nEPF4EOVzljiEJz_tggK6BLCPMcp",
+  "compatibleVersion": 52,
+  "bundleVersion": 1,
+  "commands": [{
+    "script": "script.js",
+    "handler": "replaceStyles",
+    "shortcut": "ctrl command c",
+    "name": "Apply theme",
+    "identifier": "replaceStyles"
+  }],
+  "menu": {
+    "isRoot": true,
+    "items": [
+      "replaceStyles"
+    ]
+  }
+}
