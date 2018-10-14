@@ -21,4 +21,4 @@ No, sync is only one-way (from Library to document).
 Get in touch at pausansol#gmail.com, but use @ instead of # if you're not a 🤖
 
 ## License
-Copyright (c) 2018 Tuenti team. See [LICENSE.md](https://github.com/pausansol/camilo/master/LICENSE.md) for further details.
+Copyright (c) 2018 Tuenti team. See [LICENSE.md](https://github.com/pausansol/camilo/LICENSE.md) for further details.
