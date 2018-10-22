@@ -1,7 +1,7 @@
 <img src='https://raw.githubusercontent.com/pausansol/camilo/master/images/cover.png'>
 
 ## Overview
-One click theme change for Sketch app. It replaces layer styles, text styles and symbols from a Sketch library with the current document. 
+One click theme change for Sketch app](https://www.sketchapp.com/). It replaces layer styles, text styles and symbols from a Sketch library with the current document. 
 
 ### How does it match styles?
 By name
@@ -15,6 +15,8 @@ By name
 
 ## Usage
 * press `Control + Command + C` to choose the library you want to replace with, or use the `Plugins` menu
+
+<img src='https://raw.githubusercontent.com/pausansol/camilo/master/images/brand_change.gif'>
 
 ## Contact
 Get in touch at pausansol@gmail.com
