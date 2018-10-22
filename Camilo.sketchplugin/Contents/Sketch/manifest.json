@@ -6,9 +6,7 @@
       "identifier": "replaceStyles",
       "shortcut": "ctrl command c",
       "script": "script.js",
-      "handler": "replaceStyles",
-      "icon" : "icon_small.png",
-      "description" : "Select a library to replace Layer styles, Text Styles and symbols from.",     
+      "handler": "replaceStyles",     
     },
   ],
   "menu": {
