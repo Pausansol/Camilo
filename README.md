@@ -17,7 +17,7 @@ It replaces symbols by name
 
 ## Install
 
-* Download and install the `camilo.sketchplugin` zip file [here](https://github.com/pausansol/camilo/releases/latest). 
+* Download and install the `camilo.sketchplugin` zip file [here](https://github.com/Pausansol/Camilo/releases/download/1.0/Camilo.sketchplugin.zip). 
 
 
 ## Usage
