@@ -27,15 +27,20 @@ It replaces symbols by name
 
 * Open `uiKit` file
 
-* Press `Control + Command + C` to choose the library you want to replace with, or use the `Plugins` menu
+* Press `Control + Command + C` or use the `Plugins` menu and choose brandLibrary_2 (uiKit comes with brandLibrary_1 styles applied) 
 
 * 🎉 🎈 🙌🏼 🎈 🎉
 
 
 ## Contact
-Get in touch at pausansol@gmail.com
+
+pausansol@gmail.com
+
+[linkedin](https://www.linkedin.com/in/pablosanchezsoler/)
+
+[Twitter](https://twitter.com/pausansol)
 
 ## License
-Copyright (c) 2018 Pablo Sánchez.
+Copyright (c) 2018 Pablo Sánchez. Camilo is a simplified, modified and adapted mixture of Library Styles Sync by Zero Height and Symbol Swapper by Jason Burns.
 
 See [LICENSE.md](https://github.com/pausansol/camilo/blob/master/LICENSE.md) for further details.
