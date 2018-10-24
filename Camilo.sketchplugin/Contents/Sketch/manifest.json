@@ -17,7 +17,7 @@
   },
   "name": "Camilo",
   "version": "1.0",
-  "description": "Replace Layer styles, Text Styles and symbols from selected library.",
+  "description": "Replace layerStyles, layerTextStyles and symbols from selected library.",
   "icon" : "icon.png",
   "authorEmail": "pausansol@gmail.com",
   "appcast": "https://raw.githubusercontent.com/pausansol/camilo/master/appcast.xml",
