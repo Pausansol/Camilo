@@ -29,7 +29,7 @@ It replaces symbols by name
 
 * Open `uiKit` file
 
-* Press `Control + Command + C` or use the `Plugins` menu and choose brandLibrary_2 (uiKit comes with brandLibrary_1 styles applied) 
+* Press `Control + Command + C` or use the `Plugins` menu and choose brand_2 (uiKit comes with brand_1 styles applied) 
 
 * 🎉 🎈 🙌🏼 🎈 🎉
 

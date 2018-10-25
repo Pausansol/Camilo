@@ -260,7 +260,7 @@ var replaceStyles = function (context) {
   		
         	syncLibraryStyles(lib.document().layerStyles(), doc.layerStyles(), lookups.layer);
         	syncLibraryStyles(lib.document().layerTextStyles(), doc.layerTextStyles(), lookups.text);
-        	context.document.showMessage('🎉 🎈 🙌🏼  Applied theme from ' + chosenLibrary + '  🙌🏼 🎉 🎈');
+        	context.document.showMessage('🎉 🎈 🙌🏼  Applied theme from ' + chosenLibrary + ' library  🙌🏼 🎉 🎈');
 			assetstosync('' + chosenLibrary);
 		 	replaceSymbols(context);
 		}
