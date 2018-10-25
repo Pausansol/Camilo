@@ -15,6 +15,8 @@ It replaces symbols by name
 
 <img src='https://raw.githubusercontent.com/pausansol/camilo/master/images/brand_change.gif'>
 
+<img src='https://raw.githubusercontent.com/pausansol/camilo/master/images/twitter_dark.gif'>
+
 ## Install
 
 * Download and install the `camilo.sketchplugin` zip file [here](https://github.com/Pausansol/Camilo/releases/download/1.0/Camilo.sketchplugin.zip). 
@@ -41,6 +43,6 @@ pausansol@gmail.com
 [Twitter](https://twitter.com/pausansol)
 
 ## License
-Copyright (c) 2018 Pablo Sánchez. Camilo is a simplified, modified and adapted mixture of Library Styles Sync by Zero Height and Symbol Swapper by Jason Burns.
+Copyright (c) 2018 Pablo Sánchez. Camilo is a simplified, modified and adapted mixture of Library Styles Sync by Zero Height and Symbol Swapper by Jason Burns. Camilo logo by Hector Sancho.
 
 See [LICENSE.md](https://github.com/pausansol/camilo/blob/master/LICENSE.md) for further details.
