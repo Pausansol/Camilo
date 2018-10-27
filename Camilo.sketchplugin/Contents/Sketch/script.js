@@ -249,6 +249,7 @@ var replaceStyles = function (context) {
 
   	alert.addButtonWithTitle('Sync');
 	alert.addButtonWithTitle('Cancel');
+	googleAnalytics(context,"Open Camilo","Alert", "UI");
 
 	
 
@@ -260,9 +261,10 @@ var replaceStyles = function (context) {
   		
         	syncLibraryStyles(lib.document().layerStyles(), doc.layerStyles(), lookups.layer);
         	syncLibraryStyles(lib.document().layerTextStyles(), doc.layerTextStyles(), lookups.text);
-        	context.document.showMessage('🎉 🎈 🙌🏼  Applied theme from ' + chosenLibrary + ' library  🙌🏼 🎉 🎈');
+        	context.document.showMessage('🎉 🎈 🙌🏼  Applied theme from ' + chosenLibrary + '  🙌🏼 🎉 🎈');
 			assetstosync('' + chosenLibrary);
 		 	replaceSymbols(context);
+		 	googleAnalytics(context,"Camilo replacement with",chosenLibrary, "Library");
 		}
     });
   }
@@ -311,6 +313,47 @@ var librariesController = function () {
   return AppController.sharedInstance().librariesController();
 };
 
+function googleAnalytics(context,category,action,label,value) {
+	var trackingID = "UA-128191866-1",
+		uuidKey = "google.analytics.uuid",
+		uuid = NSUserDefaults.standardUserDefaults().objectForKey(uuidKey);
+
+	if (!uuid) {
+		uuid = NSUUID.UUID().UUIDString();
+		NSUserDefaults.standardUserDefaults().setObject_forKey(uuid,uuidKey);
+	}
+
+	var url = "https://www.google-analytics.com/collect?v=1";
+	// Tracking ID
+	url += "&tid=" + trackingID;
+	// Source
+	url += "&ds=sketch" + MSApplicationMetadata.metadata().appVersion;
+	// Client ID
+	url += "&cid=" + uuid;
+	// pageview, screenview, event, transaction, item, social, exception, timing
+	url += "&t=event";
+	// App Name
+	url += "&an=" + encodeURI(context.plugin.name());
+	// App Version
+	url += "&av=" + context.plugin.version();
+	// Event category
+	url += "&ec=" + encodeURI(category);
+	// Event action
+	url += "&ea=" + encodeURI(action);
+	// Event label
+	if (label) {
+		url += "&el=" + encodeURI(label);
+	}
+	// Event value
+	if (value) {
+		url += "&ev=" + encodeURI(value);
+	}
+
+	var session = NSURLSession.sharedSession(),
+		task = session.dataTaskWithURL(NSURL.URLWithString(NSString.stringWithString(url)));
+
+	task.resume();
+}
 
 var librarySort = NSSortDescriptor.sortDescriptorWithKey_ascending("name",1),
 	libraries = AppController.sharedInstance().librariesController().libraries().sortedArrayUsingDescriptors([librarySort]),
