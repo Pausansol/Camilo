@@ -3,6 +3,9 @@
 ## Overview
 One click theme change for [Sketch app](https://www.sketchapp.com/). It replaces layer styles, text styles and symbols from a Sketch library with the current document. Read the history of this plugin and how we included it in the design workflow along with the use of libraries [here](https://medium.com/makingtuenti/camilo-our-tool-and-technique-for-one-click-brand-change-in-sketch-52-2060ae4161ae). 
 
+<a href="https://medium.com/makingtuenti/camilo-our-tool-and-technique-for-one-click-brand-change-in-sketch-52-2060ae4161ae">
+	<img width="337" height="241" src="https://raw.githubusercontent.com/pausansol/camilo/master/images/medium_preview.png" >
+
 It replaces styles by name
 
 * if the style doesn't exist, nothing happens
