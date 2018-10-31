@@ -13,7 +13,7 @@ It replaces symbols by name
 * if the symbol doesn't exist, nothing happens
 * if it does exist, it's overwritten
 
-<img src='https://raw.githubusercontent.com/pausansol/camilo/master/images/brand_change.gif'>
+![](https://raw.githubusercontent.com/pausansol/camilo/master/images/brand_change.gif)
 
 <img src='https://raw.githubusercontent.com/pausansol/camilo/master/images/twitter_dark.gif'>
 
