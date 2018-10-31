@@ -5,6 +5,7 @@ One click theme change for [Sketch app](https://www.sketchapp.com/). It replaces
 
 <a href="https://medium.com/makingtuenti/camilo-our-tool-and-technique-for-one-click-brand-change-in-sketch-52-2060ae4161ae">
 	<img width="337" height="241" src="https://raw.githubusercontent.com/pausansol/camilo/master/images/medium_preview.png" >
+>
 
 It replaces styles by name
 
