@@ -6,9 +6,7 @@ var assetstosync = function(sel){
 
 var replaceSymbols = function(context) {
 	
-	var localSymbols = context.document.documentData().localSymbols(),
-		foreignSymbols = context.document.documentData().foreignSymbols(),
-		docSymbols = context.document.documentData().allSymbols(),
+	var docSymbols = context.document.documentData().allSymbols(),
 		predicate = NSPredicate.predicateWithFormat("className == %@ || className == %@","MSSymbolMaster","MSSymbolInstance"),
 		selection = docSymbols.filteredArrayUsingPredicate(predicate);
 
@@ -21,8 +19,7 @@ var replaceSymbols = function(context) {
 				selectionLoop = selection.objectEnumerator(),
 				selection,
 				symbolMaster,
-				instanceMap = {},
-				count = 0;
+				instanceMap = {};
 
 			while (selection = selectionLoop.nextObject()) {
 				var proceed = false;
@@ -62,12 +59,10 @@ var replaceSymbols = function(context) {
 						for (var i = 0; i < instances.length; i++) {
 							instances[i].changeInstanceToSymbol(symbolMaster);
 							instances[i].setName(symbolMaster.name());
-							count++;
 						}
 						
 						selection.removeFromParent();
 						selection.setName(symbolMaster.name());
-						count++;
 					}
 				}
 			}
@@ -84,11 +79,7 @@ var replaceSymbols = function(context) {
 			}
 			
 
-			context.document.reloadInspector();
-
-			var libraryName = (selectedLibrary == 0) ? "current document" : selectedLibrary.name() + " library";
-
-			
+			context.document.reloadInspector();			
 		}
 	} else {
 		displayDialog("Please select at least one symbol master or instance.");
@@ -113,11 +104,8 @@ function getInstances(context) {
 
 function getLibrary(context) {
    
-	
 	var lastLibrary = context.command.valueForKey_onLayer("lastLibrary",context.document.documentData()),
-		library = 0,
-		selectLibrary = 0,
-		selectSymbol = 0;
+		library = 0;
 
 	if (lastLibrary && lastLibrary != 0) {
 		var predicate = NSPredicate.predicateWithFormat("name == %@",lastLibrary),
@@ -125,7 +113,6 @@ function getLibrary(context) {
 
 		if (libraryMatch) {
 			library = libraryMatch;
-			selectLibrary = libraryNames.indexOf(lastLibrary.trim());
 		}
 	}
 
@@ -150,16 +137,9 @@ function getLibrary(context) {
 				
 	}
 	
-	if (context.selection.length == 1) {
-		var symbolName = (context.selection[0].class() == "MSSymbolMaster") ? context.selection[0].name() : context.selection[0].symbolMaster().name();
-
-		if (symbolArray.containsObject(symbolName)) {
-			selectSymbol = symbolArray.indexOfObject(symbolName);
-		}
+	return {
+		selectedLibrary : selectedLibraryIndex,
 	}
-		return {
-			selectedLibrary : selectedLibraryIndex,
-		}
 	
 }
 
@@ -180,21 +160,6 @@ function getLibrarySymbols(library) {
 	}
 
 	return librarySymbols.sortedArrayUsingDescriptors([librarySymbolSort]);
-}
-
-function getForeignSymbolByName(name,library) {
-	var librarySymbols = getLibrarySymbols(library),
-		librarySymbolLoop = librarySymbols.objectEnumerator(),
-		librarySymbol,
-		foreignSymbol;
-
-	while (librarySymbol = librarySymbolLoop.nextObject()) {
-		if (!foreignSymbol && librarySymbol.name().trim() == name.trim()) {
-			foreignSymbol = librarySymbol;
-		}
-	}
-
-	return foreignSymbol;
 }
 
 function importForeignSymbol(symbol,library) {
@@ -221,7 +186,7 @@ function openFile(path) {
 
 
 
-//Replace layerStyles and textLayerStyles in the document with selected theme library
+// Replace layerStyles and textLayerStyles in the document with selected theme library
 
 var replaceStyles = function (context) {
 	var doc = context.document.documentData();
@@ -286,15 +251,6 @@ var writeStyleUpdate = function (styles, currentStyle, newStyle) {
   } else {
     currentStyle.updateToMatch(newStyle);
     currentStyle.resetReferencingInstances();
-  }
-};
-
-var writeStyleCreate = function (styles, name, newStyle) {
-  if (styles.addSharedObjectWithName_firstInstance) {
-    styles.addSharedObjectWithName_firstInstance(name, newStyle);
-  } else {
-    var s = MSSharedStyle.alloc().initWithName_firstInstance(name, newStyle);
-    styles.addSharedObject(s);
   }
 };
 
