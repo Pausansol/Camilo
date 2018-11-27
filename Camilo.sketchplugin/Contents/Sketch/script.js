@@ -4,6 +4,86 @@ var PLUGIN_LOGO = 'icon.png';
 var SYMBOL_MASTER = 'MSSymbolMaster';
 var SYMBOL_INSTANCE = 'MSSymbolInstance';
 
+var sketch = require('sketch');
+var pages = sketch.getSelectedDocument().pages;
+
+
+var setNewOverrideValue = function (overrides, newOverrideValue, layers) {
+    
+    layers.setOverrideValue(overrides, newOverrideValue); 
+};
+
+//Compare by name foreignLayerStyles with libraryLayerStyles
+var importStylesFromLibraryAsForeign = function (overrides, lib, libraryStyles, librarySharedStyle, layers, context, currentForeignLayerStyle, currentForeignTextStyle) {
+
+	if (libraryStyles.class() == MSSharedStyleContainer){
+        var foreignLayerStyle = MSForeignLayerStyle.alloc().initWithOriginalObject_inLibrary(librarySharedStyle, lib);
+        var addforeignLayerStyle = context.document.documentData().addForeignLayerStyle(foreignLayerStyle);
+        var newOverrideValue = foreignLayerStyle.localSharedStyle().objectID();
+        setNewOverrideValue(overrides, newOverrideValue, layers);
+        //var removeForeignLayerStyle = context.document.documentData().removeForeignLayerStyle(currentForeignLayerStyle);
+    }
+    if (libraryStyles.class() == MSSharedTextStyleContainer){
+        var foreignTextStyle = MSForeignTextStyle.alloc().initWithOriginalObject_inLibrary(librarySharedStyle, lib);
+        var addforeignTextStyle = context.document.documentData().addForeignTextStyle(foreignTextStyle);
+        var newOverrideValue = foreignTextStyle.localSharedStyle().objectID();
+        setNewOverrideValue(overrides, newOverrideValue, layers);
+        //var removeForeignTextStyle = context.document.documentData().removeForeignTextStyle(currentForeignTextStyle);
+    }
+};
+
+//Compare by name foreignLayerStyles with libraryLayerStyles
+var matchStylesBetweenForeignAndLibrary = function (nameToCompare, overrides, libraryStyles, lib, layers, context, currentForeignLayerStyle, currentForeignTextStyle) {
+
+    libraryStyles.sharedStyles().forEach(function (librarySharedStyle) {
+        var name = librarySharedStyle.name();
+       //var libraryStyle = librarySharedStyle.objectID();
+        if (String(name) == String(nameToCompare)){
+            importStylesFromLibraryAsForeign(overrides, lib, libraryStyles, librarySharedStyle, layers, context, currentForeignLayerStyle, currentForeignTextStyle);
+        }
+    });
+}
+
+//check if the styles override has a correspondence with library styles
+var matchIDsBetweenForeignAndLibrary = function (value, overrides, layers, lib, context) {
+    var styles = context.document.documentData().foreignLayerStyles();
+    styles.forEach(function (currentForeignLayerStyle){
+        valueToCompare = currentForeignLayerStyle.localSharedStyle().objectID();
+        if (value == valueToCompare) {
+            var nameToCompare = currentForeignLayerStyle.localSharedStyle().name();
+            matchStylesBetweenForeignAndLibrary(nameToCompare, overrides, lib.document().layerStyles(), lib, layers, context, currentForeignLayerStyle);
+        };
+    });
+    var textStyles = context.document.documentData().foreignTextStyles();
+    textStyles.forEach(function (currentForeignTextStyle){
+        valueToCompare = currentForeignTextStyle.localSharedStyle().objectID();
+        if (value == valueToCompare) {
+            var nameToCompare = currentForeignTextStyle.localSharedStyle().name();
+        	matchStylesBetweenForeignAndLibrary(nameToCompare, overrides, lib.document().layerTextStyles(), lib, layers, context, currentForeignTextStyle)
+        };
+    });
+}
+
+//Search for symbol style overrides 
+var overridesFromPagesTree = function (layers, lib, context) {
+  layers.forEach(function (layers) {
+        if(layers.layers != undefined){
+            overridesFromPagesTree(layers.layers, lib, context)
+        }
+
+        if(layers.layers == undefined){
+            if(layers.overrides != undefined){
+                layers.overrides.forEach(function (overrides) {
+                    if(overrides.property == 'layerStyle' || overrides.property == 'textStyle'){
+                        matchIDsBetweenForeignAndLibrary(overrides.value, overrides, layers, lib, context)
+                    }
+                });
+            }
+        }
+    });
+}
+
+
 var createLookup = function (styles) {
 	var lookup = {};
 	styles.sharedStyles().forEach(function (style) {
@@ -225,18 +305,14 @@ var replaceSymbols = function(context, chosenLibrary) {
 			var selectedLibrary = (librarySettings.selectedLibrary != 0) ? libraries[librarySettings.selectedLibrary - 1] : 0;
 			var librarySymbols = librarySettings.librarySymbols;
 			var symbolArray = librarySettings.symbolArray;
-			var	selectedMaster = librarySettings.selectedMaster;
+			//var	selectedMaster = librarySettings.selectedMaster;
 			var	selectionLoop = selection.objectEnumerator();
 			var	selection;
 			var	symbolMaster;
 			var	instanceMap = {};
 
 			while (selection = selectionLoop.nextObject()) {
-				if (selectedMaster) {
-					symbolMaster = getSymbolMaster(selectedMaster, selectedLibrary);
-					instanceMap[selection.symbolID().toString()] = symbolMaster.symbolID().toString();
-					proceed(selection, symbolMaster);
-				} else {
+				
 					var symbolName = (selection.class() == SYMBOL_MASTER) ? 
 						selection.name() : 
 						selection.symbolMaster().name();
@@ -247,7 +323,7 @@ var replaceSymbols = function(context, chosenLibrary) {
 						instanceMap[selection.symbolID().toString()] = symbolMaster.symbolID().toString();
 						proceed(selection, symbolMaster);
 					}
-				}
+				
 			}
 
 			getInstances(context).forEach(function (instance) {
@@ -294,6 +370,9 @@ var replaceStyles = function (context) {
 				context.document.showMessage('🎉 🎈 🙌🏼  Applied theme from ' + chosenLibrary + '  🙌🏼 🎉 🎈');
 				replaceSymbols(context, String(chosenLibrary));
 				googleAnalytics(context, "Camilo replacement with", chosenLibrary, "Library");
+				pages.forEach(function (page) {
+   					overridesFromPagesTree(page.layers, lib, context);
+				});
 			}
 		});
 	}
