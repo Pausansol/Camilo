@@ -7,75 +7,99 @@ var SYMBOL_INSTANCE = 'MSSymbolInstance';
 var sketch = require('sketch');
 var pages = sketch.getSelectedDocument().pages;
 
-
+//Set new override value to layers from new foreignStyles.objectID
 var setNewOverrideValue = function (overrides, newOverrideValue, layers) {
-    
     layers.setOverrideValue(overrides, newOverrideValue); 
 };
 
-//Compare by name foreignLayerStyles with libraryLayerStyles
+//Add matching incomingStyles to document as foreignStyles
 var importStylesFromLibraryAsForeign = function (overrides, lib, libraryStyles, librarySharedStyle, layers, context, currentForeignLayerStyle, currentForeignTextStyle) {
+    
+    if (libraryStyles.class() == MSSharedStyleContainer){
+        var foreignLayerStyle = MSForeignLayerStyle.alloc().initWithOriginalObject_inLibrary(librarySharedStyle, lib),
+            addforeignLayerStyle = context.document.documentData().addForeignLayerStyle(foreignLayerStyle),
+            newOverrideValue = foreignLayerStyle.localSharedStyle().objectID();
+        setNewOverrideValue(overrides, newOverrideValue, layers);
+    };
 
-	if (libraryStyles.class() == MSSharedStyleContainer){
-        var foreignLayerStyle = MSForeignLayerStyle.alloc().initWithOriginalObject_inLibrary(librarySharedStyle, lib);
-        var addforeignLayerStyle = context.document.documentData().addForeignLayerStyle(foreignLayerStyle);
-        var newOverrideValue = foreignLayerStyle.localSharedStyle().objectID();
-        setNewOverrideValue(overrides, newOverrideValue, layers);
-        //var removeForeignLayerStyle = context.document.documentData().removeForeignLayerStyle(currentForeignLayerStyle);
-    }
     if (libraryStyles.class() == MSSharedTextStyleContainer){
-        var foreignTextStyle = MSForeignTextStyle.alloc().initWithOriginalObject_inLibrary(librarySharedStyle, lib);
-        var addforeignTextStyle = context.document.documentData().addForeignTextStyle(foreignTextStyle);
-        var newOverrideValue = foreignTextStyle.localSharedStyle().objectID();
+        var foreignTextStyle = MSForeignTextStyle.alloc().initWithOriginalObject_inLibrary(librarySharedStyle, lib),
+            addforeignTextStyle = context.document.documentData().addForeignTextStyle(foreignTextStyle),
+            newOverrideValue = foreignTextStyle.localSharedStyle().objectID();
         setNewOverrideValue(overrides, newOverrideValue, layers);
-        //var removeForeignTextStyle = context.document.documentData().removeForeignTextStyle(currentForeignTextStyle);
-    }
+    };
 };
 
-//Compare by name foreignLayerStyles with libraryLayerStyles
-var matchStylesBetweenForeignAndLibrary = function (nameToCompare, overrides, libraryStyles, lib, layers, context, currentForeignLayerStyle, currentForeignTextStyle) {
-
-    libraryStyles.sharedStyles().forEach(function (librarySharedStyle) {
-        var name = librarySharedStyle.name();
-       //var libraryStyle = librarySharedStyle.objectID();
-        if (String(name) == String(nameToCompare)){
-            importStylesFromLibraryAsForeign(overrides, lib, libraryStyles, librarySharedStyle, layers, context, currentForeignLayerStyle, currentForeignTextStyle);
-        }
+var createDocForeignStylesLookup = function (currentDocumentForeignStyles) {
+    var lookup = {};
+    currentDocumentForeignStyles.forEach(function (currentDocumentForeignStyle) {
+        var id = currentDocumentForeignStyle.remoteStyleID();
+        lookup[id] = currentDocumentForeignStyle;
     });
+    return lookup;
+};
+
+//Check if document's layer style overrides have a correspondence with incomingLibrary styles by comparing their names
+var matchStylesBetweenForeignAndLibrary = function (nameToCompare, overrides, libraryStyles, lib, layers, context, currentForeignLayerStyle, lookupslayer, lookupstext, originlookups) {
+    
+    var currentStyle = lookupslayer[nameToCompare],
+        currentTextStyle = lookupstext[nameToCompare];
+    if (currentStyle) {
+        var documentForeignStyles = context.document.documentData().foreignLayerStyles(),
+            originsymbolslookups = {
+            layerID: createDocForeignStylesLookup(context.document.documentData().foreignLayerStyles())
+        };
+        var currentID = originsymbolslookups.layerID[currentStyle.objectID()]
+        if (currentID) {
+            setNewOverrideValue(overrides, currentID.localSharedStyle().objectID(), layers);
+        } else {
+            importStylesFromLibraryAsForeign(overrides, lib, libraryStyles, currentStyle, layers, context); 
+        };
+    };
+   
+    if (currentTextStyle) {
+        var documentForeignTextStyles = context.document.documentData().foreignLayerStyles(),
+            originsymbolslookups = {
+            layerID: createDocForeignStylesLookup(context.document.documentData().foreignTextStyles())
+        };
+        var currentID = originsymbolslookups.layerID[currentTextStyle.objectID()]
+        if (currentID) {
+            setNewOverrideValue(overrides, currentID.localSharedStyle().objectID(), layers);
+        } else {
+            importStylesFromLibraryAsForeign(overrides, lib, libraryStyles, currentTextStyle, layers, context); 
+        };
+    };
+};
+
+//Compare foreignStyles IDs from masterLibrary and currentDocument with layer overrides values to get the nameToCompare
+var matchIDsBetweenForeignAndLibrary = function (value, overrides, layers, lib, originlookupslayer, originlookupstext, context, lookupslayer, lookupstext) {
+    
+    //Match IDs with masterLibrary ForeignStyles and get nameToCompare
+    var currentOriginStyle = originlookupslayer[value],
+        currentOriginTextStyle = originlookupstext[value];
+    if (currentOriginStyle) {
+        var nameToCompare = currentOriginStyle.localSharedStyle().name();
+        matchStylesBetweenForeignAndLibrary(nameToCompare, overrides, lib.document().layerStyles(), lib, layers, context, currentOriginStyle, lookupslayer, lookupstext, originlookupslayer);
+    }
+    if (currentOriginTextStyle) {
+        var nameToCompare = currentOriginTextStyle.localSharedStyle().name();
+        matchStylesBetweenForeignAndLibrary(nameToCompare, overrides, lib.document().layerTextStyles(), lib, layers, context, currentOriginTextStyle, lookupslayer, lookupstext, originlookupstext);
+    }
 }
 
-//check if the styles override has a correspondence with library styles
-var matchIDsBetweenForeignAndLibrary = function (value, overrides, layers, lib, context) {
-    var styles = context.document.documentData().foreignLayerStyles();
-    styles.forEach(function (currentForeignLayerStyle){
-        valueToCompare = currentForeignLayerStyle.localSharedStyle().objectID();
-        if (value == valueToCompare) {
-            var nameToCompare = currentForeignLayerStyle.localSharedStyle().name();
-            matchStylesBetweenForeignAndLibrary(nameToCompare, overrides, lib.document().layerStyles(), lib, layers, context, currentForeignLayerStyle);
-        };
-    });
-    var textStyles = context.document.documentData().foreignTextStyles();
-    textStyles.forEach(function (currentForeignTextStyle){
-        valueToCompare = currentForeignTextStyle.localSharedStyle().objectID();
-        if (value == valueToCompare) {
-            var nameToCompare = currentForeignTextStyle.localSharedStyle().name();
-        	matchStylesBetweenForeignAndLibrary(nameToCompare, overrides, lib.document().layerTextStyles(), lib, layers, context, currentForeignTextStyle)
-        };
-    });
-}
-
-//Search for symbol style overrides 
-var overridesFromPagesTree = function (layers, lib, context) {
-  layers.forEach(function (layers) {
+//Search in document pages for symbol style overrides 
+var overridesFromPagesTree = function (layers, lib, originlookupslayer, originlookupstext, context, lookupslayer, lookupstext) {
+    
+    layers.forEach(function (layers) {
         if(layers.layers != undefined){
-            overridesFromPagesTree(layers.layers, lib, context)
+            overridesFromPagesTree(layers.layers, lib, originlookupslayer, originlookupstext, context, lookupslayer, lookupstext)
         }
 
         if(layers.layers == undefined){
             if(layers.overrides != undefined){
                 layers.overrides.forEach(function (overrides) {
                     if(overrides.property == 'layerStyle' || overrides.property == 'textStyle'){
-                        matchIDsBetweenForeignAndLibrary(overrides.value, overrides, layers, lib, context)
+                        matchIDsBetweenForeignAndLibrary(overrides.value, overrides, layers, lib, originlookupslayer, originlookupstext, context, lookupslayer, lookupstext)
                     }
                 });
             }
@@ -83,6 +107,74 @@ var overridesFromPagesTree = function (layers, lib, context) {
     });
 }
 
+var checkIncomingLibraryName = function (lib, context, lookupslayer, lookupstext, foreignLibrary) {
+    
+    AppController.sharedInstance().librariesController().libraries().forEach(function (originlib) {
+        if (originlib.name() == foreignLibrary) {
+            var originLibrary = originlib.document().documentData();
+            var doc = context.document.documentData();
+            var originlookups = {
+                layerID: createForeignStylesLookup(originLibrary.foreignLayerStyles(), doc.foreignLayerStyles()),
+                textID: createForeignStylesLookup(originLibrary.foreignTextStyles(), doc.foreignTextStyles()),
+            };
+            pages.forEach(function (page) {
+                overridesFromPagesTree(page.layers, lib, originlookups.layerID, originlookups.textID, context, lookupslayer, lookupstext);
+            });
+        };
+    });
+}
+
+var createForeignStylesLookup = function (masterLibraryForeignStyles, currentDocumentForeignStyles) {
+    var lookup = {};
+    masterLibraryForeignStyles.forEach(function (masterLibraryForeignStyle) {
+        var id = masterLibraryForeignStyle.localSharedStyle().objectID();
+        lookup[id] = masterLibraryForeignStyle;
+    });
+    currentDocumentForeignStyles.forEach(function (currentDocumentForeignStyle) {
+        var id = currentDocumentForeignStyle.localSharedStyle().objectID();
+        lookup[id] = currentDocumentForeignStyle;
+    });
+    return lookup;
+};
+
+var createIncomingStylesLookup = function (incomingStyles) {
+    var lookup = {};
+    incomingStyles.sharedStyles().forEach(function (incomingStyle) {
+        var name = incomingStyle.name();
+        lookup[name] = incomingStyle;
+    });
+    return lookup;
+};
+
+var createLibrariesLookup = function (librariesForeignSymbols) {
+   
+    if(librariesForeignSymbols.length > 0) {
+        var lookup = {};
+        librariesForeignSymbols.forEach(function (librariesForeignSymbol) {
+            var name = librariesForeignSymbol.sourceLibraryName();
+            lookup[name] = librariesForeignSymbol;
+        });
+    return lookup;
+  }
+};
+
+var findSourceLibraries = function (lib, context, lookupslayer, lookupstext) {
+    
+    var librariesForeignSymbols = context.document.documentData().foreignSymbols();
+    var librariesLookups = {
+        library: createLibrariesLookup(librariesForeignSymbols),
+    };
+    AppController.sharedInstance().librariesController().libraries().forEach(function (library) {
+        var libraryName = String(library.name()),
+            currentLibrary = librariesLookups.library[libraryName];
+        if(currentLibrary){
+            var originLibrary = libraryName;
+            checkIncomingLibraryName(lib, context, lookupslayer, lookupstext, originLibrary);
+        }else{
+            checkIncomingLibraryName(lib, context, lookupslayer, lookupstext);
+        }
+    });
+};
 
 var createLookup = function (styles) {
 	var lookup = {};
@@ -367,13 +459,16 @@ var replaceStyles = function (context) {
 			if (lib.name() == chosenLibrary) {
 				syncLibraryStyles(lib.document().layerStyles(), doc.layerStyles(), lookups.layer);
 				syncLibraryStyles(lib.document().layerTextStyles(), doc.layerTextStyles(), lookups.text);
-				context.document.showMessage('🎉 🎈 🙌🏼  Applied theme from ' + chosenLibrary + '  🙌🏼 🎉 🎈');
 				replaceSymbols(context, String(chosenLibrary));
 				googleAnalytics(context, "Camilo replacement with", chosenLibrary, "Library");
-				pages.forEach(function (page) {
-   					overridesFromPagesTree(page.layers, lib, context);
-				});
-			}
+				var doce = lib.document();
+        		var lookupse = {
+            		layer: createIncomingStylesLookup(doce.layerStyles()),
+            		text: createIncomingStylesLookup(doce.layerTextStyles())
+        		}
+        		findSourceLibraries(lib, context, lookupse.layer, lookupse.text);
+				}
+				context.document.showMessage('🎉 🎈 🙌🏼  Applied theme from ' + chosenLibrary + '  🙌🏼 🎉 🎈');
 		});
 	}
 };
