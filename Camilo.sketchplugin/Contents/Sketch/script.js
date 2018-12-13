@@ -50,8 +50,15 @@ var matchStylesBetweenForeignAndLibrary = function (nameToCompare, overrides, li
             layerID: createDocForeignStylesLookup(context.document.documentData().foreignLayerStyles())
         };
         var currentID = originsymbolslookups.layerID[currentStyle.objectID()]
+        
         if (currentID) {
-            setNewOverrideValue(overrides, currentID.localSharedStyle().objectID(), layers);
+            var currentIDLibraryName = String(currentID.sourceLibraryName());
+            var incomingLibraryName = String(lib.name())
+            if(currentIDLibraryName == incomingLibraryName) {
+                setNewOverrideValue(overrides, currentID.localSharedStyle().objectID(), layers);
+            } else {
+                importStylesFromLibraryAsForeign(overrides, lib, libraryStyles, currentStyle, layers, context);   
+            }
         } else {
             importStylesFromLibraryAsForeign(overrides, lib, libraryStyles, currentStyle, layers, context); 
         };
@@ -64,7 +71,13 @@ var matchStylesBetweenForeignAndLibrary = function (nameToCompare, overrides, li
         };
         var currentID = originsymbolslookups.layerID[currentTextStyle.objectID()]
         if (currentID) {
-            setNewOverrideValue(overrides, currentID.localSharedStyle().objectID(), layers);
+            var currentIDLibraryName = String(currentID.sourceLibraryName());
+            var incomingLibraryName = String(lib.name())
+            if(currentIDLibraryName == incomingLibraryName) {
+            setNewOverrideValue(overrides, currentID.localSharedStyle().bjectID(), layers);
+            } else {
+                importStylesFromLibraryAsForeign(overrides, lib, libraryStyles, currentStyle, layers, context);   
+            }
         } else {
             importStylesFromLibraryAsForeign(overrides, lib, libraryStyles, currentTextStyle, layers, context); 
         };
