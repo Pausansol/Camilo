@@ -74,7 +74,7 @@ var matchStylesBetweenForeignAndLibrary = function (nameToCompare, overrides, li
             var currentIDLibraryName = String(currentID.sourceLibraryName());
             var incomingLibraryName = String(lib.name())
             if(currentIDLibraryName == incomingLibraryName) {
-            setNewOverrideValue(overrides, currentID.localSharedStyle().bjectID(), layers);
+            setNewOverrideValue(overrides, currentID.localSharedStyle().objectID(), layers);
             } else {
                 importStylesFromLibraryAsForeign(overrides, lib, libraryStyles, currentStyle, layers, context);   
             }
