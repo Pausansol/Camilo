@@ -65,7 +65,7 @@ var matchStylesBetweenForeignAndLibrary = function (nameToCompare, overrides, li
     };
    
     if (currentTextStyle) {
-        var documentForeignTextStyles = context.document.documentData().foreignLayerStyles(),
+        var documentForeignTextStyles = context.document.documentData().foreignTextStyles(),
             originsymbolslookups = {
             layerID: createDocForeignStylesLookup(context.document.documentData().foreignTextStyles())
         };
