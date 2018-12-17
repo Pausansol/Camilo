@@ -3,9 +3,12 @@
 ## Overview
 One click theme change for [Sketch app](https://www.sketchapp.com/). It replaces layer styles, text styles and symbols from a Sketch library with the current document. Read the history of this plugin [here](https://medium.com/makingtuenti/camilo-our-tool-and-technique-for-one-click-brand-change-in-sketch-52-2060ae4161ae). 
 
-## `** 🙌 New in 1.2 🙌 **`
+## `🙌 New in 1.2 🙌 `
 
- Now Camilo replaces symbol style overrides pointing to a external library with another set of styles from another library. For example, it replaces layer style override "primaryColor" from Brand A Library with "primaryColor" from Brand B Library. Works with text and layer styles.
+Now Camilo replaces symbol style overrides pointing to an external library with another set of styles from another library. This means that it is no longer necessary to have the styles in the document where you work. The styles remain linked to an external library and Camilo will take care of replacing them with another external library. 
+
+For example, it replaces layer style override "primaryColor" from Brand A Library with "primaryColor" from Brand B Library. Works with text and layer styles.
+
 
 ## How it works?
 
