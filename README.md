@@ -33,7 +33,7 @@ It replaces symbols by name
 
 ## Install
 
-* Download and install the `camilo.sketchplugin` zip file [here](https://github.com/Pausansol/Camilo/releases/download/1.1/Camilo.sketchplugin.zip). 
+* Download and install the `camilo.sketchplugin` zip file [here](https://github.com/Pausansol/Camilo/releases/download/1.2/Camilo.sketchplugin.zip). 
 
 ## Usage
 
