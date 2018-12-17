@@ -7,7 +7,9 @@ One click theme change for [Sketch app](https://www.sketchapp.com/). It replaces
 
 Now Camilo replaces symbol style overrides pointing to an external library with another set of styles from another library. This means that it is no longer necessary to have the styles in the document where you work. The styles remain linked to an external library and Camilo will take care of replacing them with another external library. 
 
-For example, it replaces layer style override "primaryColor" from Brand A Library with "primaryColor" from Brand B Library. Works with text and layer styles.
+For example, it replaces layer style override "primaryColor" from theme1 Library with "primaryColor" from theme2 Library. Works with text and layer styles.
+
+Download the `example` zip file [here](https://github.com/Pausansol/Camilo/releases/download/1.2/Camilo_overrides_example.zip).
 
 
 ## How it works?
