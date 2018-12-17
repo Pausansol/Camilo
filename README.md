@@ -9,7 +9,7 @@ Now Camilo replaces symbol style overrides pointing to an external library with 
 
 For example, it replaces layer style override "primaryColor" from theme1 Library with "primaryColor" from theme2 Library. Works with text and layer styles.
 
-Download the `example` zip file [here](https://github.com/Pausansol/Camilo/releases/download/1.2/Camilo_overrides_example.zip).
+Download the `example` zip file [here](https://github.com/Pausansol/Camilo/releases/download/v1.2/Camilo_overrides_example.zip).
 
 
 ## How it works?
