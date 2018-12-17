@@ -16,8 +16,8 @@
     ]
   },
   "name": "Camilo",
-  "version": "1.1",
-  "description": "Replace layerStyles, layerTextStyles and symbols from selected library.",
+  "version": "1.2",
+  "description": "Replace symbol instances foreignStyles overrides, localStyles, symbols from selected library.",
   "icon" : "icon.png",
   "authorEmail": "pausansol@gmail.com",
   "appcast": "https://raw.githubusercontent.com/pausansol/camilo/master/appcast.xml",
