@@ -1,4 +1,4 @@
-function createLookup(styles) {
+export function createLookup(styles) {
   return styles.reduce((prev, s) => {
     // eslint-disable-next-line no-param-reassign
     prev[s.name] = s
