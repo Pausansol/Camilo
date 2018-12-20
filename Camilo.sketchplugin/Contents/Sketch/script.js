@@ -1,487 +1,433 @@
-var PLUGIN_NAME = 'Camilo';
-var PLUGIN_LOGO = 'icon.png';
+var that = this;
+function __skpm_run (key, context) {
+  that.context = context;
 
-var SYMBOL_MASTER = 'MSSymbolMaster';
-var SYMBOL_INSTANCE = 'MSSymbolInstance';
+var exports =
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/script.js");
+/******/ })
+/************************************************************************/
+/******/ ({
 
-var sketch = require('sketch');
-var pages = sketch.getSelectedDocument().pages;
+/***/ "./src/analytics.js":
+/*!**************************!*\
+  !*** ./src/analytics.js ***!
+  \**************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-//Set new override value to layers from new foreignStyles.objectID
-var setNewOverrideValue = function (overrides, newOverrideValue, layers) {
-    layers.setOverrideValue(overrides, newOverrideValue); 
-};
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return googleAnalytics; });
+/* harmony import */ var sketch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sketch */ "sketch");
+/* harmony import */ var sketch__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sketch__WEBPACK_IMPORTED_MODULE_0__);
+/* globals NSUUID, __command, NSURLSession, NSURL, NSString, NSUserDefaults */
 
-//Add matching incomingStyles to document as foreignStyles
-var importStylesFromLibraryAsForeign = function (overrides, lib, libraryStyles, librarySharedStyle, layers, context, currentForeignLayerStyle, currentForeignTextStyle) {
-    
-    if (libraryStyles.class() == MSSharedStyleContainer){
-        var foreignLayerStyle = MSForeignLayerStyle.alloc().initWithOriginalObject_inLibrary(librarySharedStyle, lib),
-            addforeignLayerStyle = context.document.documentData().addForeignLayerStyle(foreignLayerStyle),
-            newOverrideValue = foreignLayerStyle.localSharedStyle().objectID();
-        setNewOverrideValue(overrides, newOverrideValue, layers);
-    };
+var trackingID = 'UA-128191866-1';
+var uuidKey = 'google.analytics.uuid';
+var baseURL = 'https://www.google-analytics.com/collect?v=1';
+var uuid;
 
-    if (libraryStyles.class() == MSSharedTextStyleContainer){
-        var foreignTextStyle = MSForeignTextStyle.alloc().initWithOriginalObject_inLibrary(librarySharedStyle, lib),
-            addforeignTextStyle = context.document.documentData().addForeignTextStyle(foreignTextStyle),
-            newOverrideValue = foreignTextStyle.localSharedStyle().objectID();
-        setNewOverrideValue(overrides, newOverrideValue, layers);
-    };
-};
+try {
+  uuid = sketch__WEBPACK_IMPORTED_MODULE_0__["Settings"].globalSettingForKey(uuidKey);
+} catch (err) {
+  // this shouldn't be needed if we'd use Settings from the beginning
+  var value = NSUserDefaults.standardUserDefaults().objectForKey(uuidKey);
 
-var createDocForeignStylesLookup = function (currentDocumentForeignStyles) {
-    var lookup = {};
-    currentDocumentForeignStyles.forEach(function (currentDocumentForeignStyle) {
-        var id = currentDocumentForeignStyle.remoteStyleID();
-        lookup[id] = currentDocumentForeignStyle;
-    });
-    return lookup;
-};
-
-//Check if document's layer style overrides have a correspondence with incomingLibrary styles by comparing their names
-var matchStylesBetweenForeignAndLibrary = function (nameToCompare, overrides, libraryStyles, lib, layers, context, currentForeignLayerStyle, lookupslayer, lookupstext, originlookups) {
-    
-    var currentStyle = lookupslayer[nameToCompare],
-        currentTextStyle = lookupstext[nameToCompare];
-    if (currentStyle) {
-        var documentForeignStyles = context.document.documentData().foreignLayerStyles(),
-            originsymbolslookups = {
-            layerID: createDocForeignStylesLookup(context.document.documentData().foreignLayerStyles())
-        };
-        var currentID = originsymbolslookups.layerID[currentStyle.objectID()]
-        
-        if (currentID) {
-            var currentIDLibraryName = String(currentID.sourceLibraryName());
-            var incomingLibraryName = String(lib.name())
-            if(currentIDLibraryName == incomingLibraryName) {
-                setNewOverrideValue(overrides, currentID.localSharedStyle().objectID(), layers);
-            } else {
-                importStylesFromLibraryAsForeign(overrides, lib, libraryStyles, currentStyle, layers, context);   
-            }
-        } else {
-            importStylesFromLibraryAsForeign(overrides, lib, libraryStyles, currentStyle, layers, context); 
-        };
-    };
-   
-    if (currentTextStyle) {
-        var documentForeignTextStyles = context.document.documentData().foreignTextStyles(),
-            originsymbolslookups = {
-            layerID: createDocForeignStylesLookup(context.document.documentData().foreignTextStyles())
-        };
-        var currentID = originsymbolslookups.layerID[currentTextStyle.objectID()]
-        if (currentID) {
-            var currentIDLibraryName = String(currentID.sourceLibraryName());
-            var incomingLibraryName = String(lib.name())
-            if(currentIDLibraryName == incomingLibraryName) {
-            setNewOverrideValue(overrides, currentID.localSharedStyle().objectID(), layers);
-            } else {
-                importStylesFromLibraryAsForeign(overrides, lib, libraryStyles, currentStyle, layers, context);   
-            }
-        } else {
-            importStylesFromLibraryAsForeign(overrides, lib, libraryStyles, currentTextStyle, layers, context); 
-        };
-    };
-};
-
-//Compare foreignStyles IDs from masterLibrary and currentDocument with layer overrides values to get the nameToCompare
-var matchIDsBetweenForeignAndLibrary = function (value, overrides, layers, lib, originlookupslayer, originlookupstext, context, lookupslayer, lookupstext) {
-    
-    //Match IDs with masterLibrary ForeignStyles and get nameToCompare
-    var currentOriginStyle = originlookupslayer[value],
-        currentOriginTextStyle = originlookupstext[value];
-    if (currentOriginStyle) {
-        var nameToCompare = currentOriginStyle.localSharedStyle().name();
-        matchStylesBetweenForeignAndLibrary(nameToCompare, overrides, lib.document().layerStyles(), lib, layers, context, currentOriginStyle, lookupslayer, lookupstext, originlookupslayer);
-    }
-    if (currentOriginTextStyle) {
-        var nameToCompare = currentOriginTextStyle.localSharedStyle().name();
-        matchStylesBetweenForeignAndLibrary(nameToCompare, overrides, lib.document().layerTextStyles(), lib, layers, context, currentOriginTextStyle, lookupslayer, lookupstext, originlookupstext);
-    }
-}
-
-//Search in document pages for symbol style overrides 
-var overridesFromPagesTree = function (layers, lib, originlookupslayer, originlookupstext, context, lookupslayer, lookupstext) {
-    
-    layers.forEach(function (layers) {
-        if(layers.layers != undefined){
-            overridesFromPagesTree(layers.layers, lib, originlookupslayer, originlookupstext, context, lookupslayer, lookupstext)
-        }
-
-        if(layers.layers == undefined){
-            if(layers.overrides != undefined){
-                layers.overrides.forEach(function (overrides) {
-                    if(overrides.property == 'layerStyle' || overrides.property == 'textStyle'){
-                        matchIDsBetweenForeignAndLibrary(overrides.value, overrides, layers, lib, originlookupslayer, originlookupstext, context, lookupslayer, lookupstext)
-                    }
-                });
-            }
-        }
-    });
-}
-
-var checkIncomingLibraryName = function (lib, context, lookupslayer, lookupstext, foreignLibrary) {
-    
-    AppController.sharedInstance().librariesController().libraries().forEach(function (originlib) {
-        if (originlib.name() == foreignLibrary) {
-            var originLibrary = originlib.document().documentData();
-            var doc = context.document.documentData();
-            var originlookups = {
-                layerID: createForeignStylesLookup(originLibrary.foreignLayerStyles(), doc.foreignLayerStyles()),
-                textID: createForeignStylesLookup(originLibrary.foreignTextStyles(), doc.foreignTextStyles()),
-            };
-            pages.forEach(function (page) {
-                overridesFromPagesTree(page.layers, lib, originlookups.layerID, originlookups.textID, context, lookupslayer, lookupstext);
-            });
-        };
-    });
-}
-
-var createForeignStylesLookup = function (masterLibraryForeignStyles, currentDocumentForeignStyles) {
-    var lookup = {};
-    masterLibraryForeignStyles.forEach(function (masterLibraryForeignStyle) {
-        var id = masterLibraryForeignStyle.localSharedStyle().objectID();
-        lookup[id] = masterLibraryForeignStyle;
-    });
-    currentDocumentForeignStyles.forEach(function (currentDocumentForeignStyle) {
-        var id = currentDocumentForeignStyle.localSharedStyle().objectID();
-        lookup[id] = currentDocumentForeignStyle;
-    });
-    return lookup;
-};
-
-var createIncomingStylesLookup = function (incomingStyles) {
-    var lookup = {};
-    incomingStyles.sharedStyles().forEach(function (incomingStyle) {
-        var name = incomingStyle.name();
-        lookup[name] = incomingStyle;
-    });
-    return lookup;
-};
-
-var createLibrariesLookup = function (librariesForeignSymbols) {
-   
-    if(librariesForeignSymbols.length > 0) {
-        var lookup = {};
-        librariesForeignSymbols.forEach(function (librariesForeignSymbol) {
-            var name = librariesForeignSymbol.sourceLibraryName();
-            lookup[name] = librariesForeignSymbol;
-        });
-    return lookup;
+  if (typeof value === 'string') {
+    uuid = value;
+  } else {
+    uuid = NSUUID.UUID().UUIDString();
   }
-};
 
-var findSourceLibraries = function (lib, context, lookupslayer, lookupstext) {
-    
-    var librariesForeignSymbols = context.document.documentData().foreignSymbols();
-    var librariesLookups = {
-        library: createLibrariesLookup(librariesForeignSymbols),
-    };
-    AppController.sharedInstance().librariesController().libraries().forEach(function (library) {
-        var libraryName = String(library.name()),
-            currentLibrary = librariesLookups.library[libraryName];
-        if(currentLibrary){
-            var originLibrary = libraryName;
-            checkIncomingLibraryName(lib, context, lookupslayer, lookupstext, originLibrary);
-        }else{
-            checkIncomingLibraryName(lib, context, lookupslayer, lookupstext);
-        }
+  sketch__WEBPACK_IMPORTED_MODULE_0__["Settings"].setGlobalSettingForKey(uuid, uuidKey);
+}
+
+if (!uuid) {
+  uuid = NSUUID.UUID().UUIDString();
+  sketch__WEBPACK_IMPORTED_MODULE_0__["Settings"].setGlobalSettingForKey(uuid, uuidKey);
+}
+
+function googleAnalytics(category, action, label, value) {
+  var url = baseURL; // Tracking ID
+
+  url += "&tid=".concat(trackingID); // Source
+
+  url += "&ds=sketch".concat(sketch__WEBPACK_IMPORTED_MODULE_0__["version"].sketch); // Client ID
+
+  url += "&cid=".concat(uuid); // pageview, screenview, event, transaction, item, social, exception, timing
+
+  url += '&t=event'; // App Name
+
+  url += "&an=".concat(encodeURI(__command.pluginBundle().name())); // App Version
+
+  url += "&av=".concat(__command.pluginBundle().version()); // Event category
+
+  url += "&ec=".concat(encodeURI(category)); // Event action
+
+  url += "&ea=".concat(encodeURI(action)); // Event label
+
+  if (label) {
+    url += "&el=".concat(encodeURI(label));
+  } // Event value
+
+
+  if (value) {
+    url += "&ev=".concat(encodeURI(value));
+  }
+
+  var session = NSURLSession.sharedSession();
+  var task = session.dataTaskWithURL(NSURL.URLWithString(NSString.stringWithString(url)));
+  task.resume();
+}
+
+/***/ }),
+
+/***/ "./src/map-shared-styles.js":
+/*!**********************************!*\
+  !*** ./src/map-shared-styles.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function createLookup(styles) {
+  return styles.reduce(function (prev, s) {
+    // eslint-disable-next-line no-param-reassign
+    prev[s.name] = s;
+    return prev;
+  }, {});
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (function (document) {
+  return {
+    layer: createLookup(document.getSharedLayerStyles()),
+    text: createLookup(document.getSharedTextStyles())
+  };
+});
+
+/***/ }),
+
+/***/ "./src/replace-overrides.js":
+/*!**********************************!*\
+  !*** ./src/replace-overrides.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (function (docSymbolInstances, _ref) {
+  var symbolsMap = _ref.symbolsMap,
+      layerStylesMap = _ref.layerStylesMap,
+      textStylesMap = _ref.textStylesMap;
+  docSymbolInstances.forEach(function (symbolInstance) {
+    symbolInstance.overrides.forEach(function (override) {
+      if (override.property === 'symbolID' && symbolsMap[override.value]) {
+        // eslint-disable-next-line no-param-reassign
+        override.value = symbolsMap[override.value];
+      }
+
+      if (override.property === 'layerStyle' && layerStylesMap[override.value]) {
+        // eslint-disable-next-line no-param-reassign
+        override.value = layerStylesMap[override.value];
+      }
+
+      if (override.property === 'textStyle' && textStylesMap[override.value]) {
+        // eslint-disable-next-line no-param-reassign
+        override.value = textStylesMap[override.value];
+      }
     });
-};
+  });
+});
 
-var createLookup = function (styles) {
-	var lookup = {};
-	styles.sharedStyles().forEach(function (style) {
-		var name = style.name();
-		lookup[name] = style;
-	});
-	return lookup;
-};
-  
-var writeStyleUpdate = function (styles, currentStyle, newStyle) {
-	if (styles.updateValueOfSharedObject_byCopyingInstance) {
-		styles.updateValueOfSharedObject_byCopyingInstance_(currentStyle, newStyle);
-		styles.synchroniseInstancesOfSharedObject_withInstance_(currentStyle, newStyle);
-	} else {
-		currentStyle.updateToMatch(newStyle);
-		currentStyle.resetReferencingInstances();
-	}
-};
-  
-var syncLibraryStyles = function (libraryStyles, documentStyles, lookup) {
-	libraryStyles.sharedStyles().forEach(function (librarySharedStyle) {
-		var name = librarySharedStyle.name();
-		var currentStyle = lookup[name];
-		var libraryStyle = librarySharedStyle.style();
-		if (currentStyle) {
-			writeStyleUpdate(documentStyles, currentStyle, libraryStyle);
-		}
-	});
-};
-  
-function googleAnalytics(context, category, action, label, value) {
-	var trackingID = "UA-128191866-1";
-	var	uuidKey = "google.analytics.uuid";
-	var url = "https://www.google-analytics.com/collect?v=1";
-	var	uuid = NSUserDefaults.standardUserDefaults().objectForKey(uuidKey);
+/***/ }),
 
-	if (!uuid) {
-		uuid = NSUUID.UUID().UUIDString();
-		NSUserDefaults.standardUserDefaults().setObject_forKey(uuid,uuidKey);
-	}
+/***/ "./src/replace-shared-styles.js":
+/*!**************************************!*\
+  !*** ./src/replace-shared-styles.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-	// Tracking ID
-	url += "&tid=" + trackingID;
-	// Source
-	url += "&ds=sketch" + MSApplicationMetadata.metadata().appVersion;
-	// Client ID
-	url += "&cid=" + uuid;
-	// pageview, screenview, event, transaction, item, social, exception, timing
-	url += "&t=event";
-	// App Name
-	url += "&an=" + encodeURI(context.plugin.name());
-	// App Version
-	url += "&av=" + context.plugin.version();
-	// Event category
-	url += "&ec=" + encodeURI(category);
-	// Event action
-	url += "&ea=" + encodeURI(action);
-	// Event label
-	if (label) {
-		url += "&el=" + encodeURI(label);
-	}
-	// Event value
-	if (value) {
-		url += "&ev=" + encodeURI(value);
-	}
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (function (libraryStyles, lookup) {
+  var map = {};
+  libraryStyles.forEach(function (librarySharedStyle) {
+    var currentSharedStyle = lookup[librarySharedStyle.name];
 
-	var session = NSURLSession.sharedSession(),
-	task = session.dataTaskWithURL(NSURL.URLWithString(NSString.stringWithString(url)));
-	task.resume();
-}
+    if (currentSharedStyle) {
+      var imported = librarySharedStyle.import(); // if the shared style is coming from a library, then we just want to:
+      // - import the matching style
+      // - update all the instances to point to the imported style
 
-function getInstances(context) {
-	var instanceArray = NSArray.array();
-	var	predicate = NSPredicate.predicateWithFormat("className == %@", SYMBOL_INSTANCE);
-	var	pageLoop = context.document.pages().objectEnumerator();
-	var	page;
+      if (currentSharedStyle.getLibrary()) {
+        map[currentSharedStyle.id] = imported.id;
+        currentSharedStyle.getAllInstancesLayers().forEach(function (l) {
+          // eslint-disable-next-line no-param-reassign
+          l.sharedStyleId = imported.id;
+          l.style.syncWithSharedStyle(imported);
+        });
+      } else {
+        currentSharedStyle.style = imported.style;
+        currentSharedStyle.getAllInstances().forEach(function (s) {
+          return s.syncWithSharedStyle(currentSharedStyle);
+        });
+      }
+    }
+  });
+  return map;
+});
 
-	while (page = pageLoop.nextObject()) {
-		var pageInstances = page.children().filteredArrayUsingPredicate(predicate);
-		instanceArray = instanceArray.arrayByAddingObjectsFromArray(pageInstances);
-	}
+/***/ }),
 
-	return instanceArray;
-}
+/***/ "./src/replace-symbols.js":
+/*!********************************!*\
+  !*** ./src/replace-symbols.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-function getSymbolArray(librarySymbols) {
-	return (librarySymbols && librarySymbols.length) ?
-		librarySymbols.valueForKey("name") : 
-		NSMutableArray.arrayWithArray(["No Symbols"]);
-}
-
-function getLibrarySymbols(library) {
-	var librarySymbolSort = NSSortDescriptor.sortDescriptorWithKey_ascending("name", 1);
-	var	librarySymbols;
-
-	if (library == 0) {
-		librarySymbols = MSDocument.currentDocument().documentData().localSymbols();
-	} else {
-		var libraryPath = library.locationOnDisk().path();
-		var	libraryFile = openFile(libraryPath);
-
-		librarySymbols = (libraryFile) ? libraryFile.documentData().allSymbols() : nil;
-		libraryFile.close();
-	}
-
-	return librarySymbols.sortedArrayUsingDescriptors([librarySymbolSort]);
-}
-
-function getLibrary(context, chosenLibrary, libraries, libraryNames) {
-	var lastLibrary = context.command.valueForKey_onLayer("lastLibrary", context.document.documentData());
-	var	library = 0;
-
-	if (lastLibrary && lastLibrary != 0) {
-		var predicate = NSPredicate.predicateWithFormat("name == %@", lastLibrary);
-		var	libraryMatch = libraries.filteredArrayUsingPredicate(predicate).firstObject();
-
-		if (libraryMatch) {
-			library = libraryMatch;
-		}
-	}
-
-	librarySymbols = getLibrarySymbols(library);
-	symbolArray = getSymbolArray(librarySymbols);
-
-	var selectedLibraryIndex = [];
-	var idx = libraryNames.indexOf(chosenLibrary);
-	while (idx != -1) {
-	  selectedLibraryIndex.push(idx);
-	  idx = libraryNames.indexOf(chosenLibrary, idx + 1);
-	}
-	
-	var selectedLibrary = (selectedLibraryIndex == 0) ? 0 : libraries[selectedLibraryIndex - 1];
-	librarySymbols = getLibrarySymbols(selectedLibrary);
-	symbolArray = getSymbolArray(librarySymbols);
-
-	return {
-		selectedLibrary : selectedLibraryIndex,
-		librarySymbols,
-		symbolArray
-	}
-}
-
-function importForeignSymbol(symbol,library) {
-	var intoDocument = MSDocument.currentDocument().documentData();
-	var	libraryController = AppController.sharedInstance().librariesController();
-	var	foreignSymbol;
-
-	if (MSApplicationMetadata.metadata().appVersion >= 50) {
-		var objectReference = MSShareableObjectReference.referenceForShareableObject_inLibrary(symbol, library);
-		foreignSymbol = libraryController.importShareableObjectReference_intoDocument(objectReference, intoDocument);
-	} else {
-		foreignSymbol = libraryController.importForeignSymbol_fromLibrary_intoDocument_(symbol, library, intoDocument);
-	}
-
-	return foreignSymbol;
-}
-
-function openFile(path) {
-	var file = MSDocument.new();
-	return (file.readFromURL_ofType_error(path, 'com.bohemiancoding.sketch.drawing', nil)) ? file : nil;
-}
-
-function getOptionSelected() {
-	var options = [];
-	var optionSelected = NSComboBox.alloc().initWithFrame(NSMakeRect(0, 0, 200, 25));
-
-	AppController.sharedInstance().librariesController().libraries().forEach(function (lib) {
-    	options.push(lib.name());
-  	});
-  	optionSelected.i18nObjectValues = options;
-	optionSelected.setEditable(false);
-	optionSelected.addItemsWithObjectValues(options);
-	optionSelected.selectItemAtIndex(0);
-	return optionSelected;
-}
-
-function proceed(selection, symbolMaster) {
-	if (selection.class() == SYMBOL_MASTER) {
-		selection.allInstances().forEach(function (instance) {
-			instance.changeInstanceToSymbol(symbolMaster);
-			instance.setName(symbolMaster.name());
-		});
-		selection.removeFromParent();
-		selection.setName(symbolMaster.name());
-	}
-}
-
-function getSymbolMaster(symbol, library) {
-	var symbolMaster;
-	if (library != 0) {
-		symbolMaster = importForeignSymbol(symbol, library).symbolMaster();
-	} else {
-		symbolMaster = symbol;
-	}
-	return symbolMaster;
-}
-
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 // Replace all symbols in the document wich match their names with selected theme library
+/* harmony default export */ __webpack_exports__["default"] = (function (document, library) {
+  var docSymbols = document.getSymbols();
+  var docSymbolInstances = [];
+  var symbolsMap = {};
 
-var replaceSymbols = function(context, chosenLibrary) {
-	var docSymbols = context.document.documentData().allSymbols();
-	var	predicate = NSPredicate.predicateWithFormat("className == %@ || className == %@", SYMBOL_MASTER, SYMBOL_INSTANCE);
-	var	selection = docSymbols.filteredArrayUsingPredicate(predicate);
+  if (!docSymbols.length) {
+    return {
+      symbolsMap: symbolsMap,
+      docSymbolInstances: docSymbolInstances
+    };
+  }
 
-	if (selection.length) {
-		var librarySort = NSSortDescriptor.sortDescriptorWithKey_ascending("name", 1);
-		var	libraries = AppController.sharedInstance().librariesController().libraries().sortedArrayUsingDescriptors([librarySort]);
-		var	libraryLoop = libraries.objectEnumerator();
-		var	libraryNames = ["Current Document"];
-		var	library;
+  var librarySymbols = library.getImportableSymbolReferencesForDocument(document);
+  docSymbols.forEach(function (symbolMaster) {
+    var instances = symbolMaster.getAllInstances();
+    docSymbolInstances = docSymbolInstances.concat(instances);
+    var matchingSymbolInLib = librarySymbols.find(function (s) {
+      return s.name === symbolMaster.name;
+    });
 
-		while (library = libraryLoop.nextObject()) {
-			libraryNames.push(String(library.name()));
-		}
+    if (!matchingSymbolInLib) {
+      return;
+    } // import the matching symbol
 
-		var librarySettings = getLibrary(context, chosenLibrary, libraries, libraryNames);
 
-		if (librarySettings) {
-			var selectedLibrary = (librarySettings.selectedLibrary != 0) ? libraries[librarySettings.selectedLibrary - 1] : 0;
-			var librarySymbols = librarySettings.librarySymbols;
-			var symbolArray = librarySettings.symbolArray;
-			//var	selectedMaster = librarySettings.selectedMaster;
-			var	selectionLoop = selection.objectEnumerator();
-			var	selection;
-			var	symbolMaster;
-			var	instanceMap = {};
+    var importedSymbolMaster = matchingSymbolInLib.import(); // store the mapping so that we can update the overrides later on
 
-			while (selection = selectionLoop.nextObject()) {
-				
-					var symbolName = (selection.class() == SYMBOL_MASTER) ? 
-						selection.name() : 
-						selection.symbolMaster().name();
+    symbolsMap[symbolMaster.symbolId] = importedSymbolMaster.symbolId; // update all the instances
 
-					if (symbolArray.containsObject(symbolName)) {
-						var symbolIndex = symbolArray.indexOfObject(symbolName);
-						symbolMaster = getSymbolMaster(librarySymbols[symbolIndex], selectedLibrary);
-						instanceMap[selection.symbolID().toString()] = symbolMaster.symbolID().toString();
-						proceed(selection, symbolMaster);
-					}
-				
-			}
+    instances.forEach(function (symbolInstance) {
+      // eslint-disable-next-line no-param-reassign
+      symbolInstance.symbolId = importedSymbolMaster.symbolId; // eslint-disable-next-line no-param-reassign
 
-			getInstances(context).forEach(function (instance) {
-				if (!MSLayerPaster.updateOverridesOnInstance_withIDMap_) {
-					instance.updateOverridesWithObjectIDMap(instanceMap);
-				} else {
-					MSLayerPaster.updateOverridesOnInstance_withIDMap_(instance, instanceMap);
-				}
-			});
-			context.document.reloadInspector();			
-		}
-	} else {
-		displayDialog("Please select at least one symbol master or instance.");
-		googleAnalytics(context, 'legacy displayDialog shown', 'legacy', 'legacy');
-	}
+      symbolInstance.name = importedSymbolMaster.name;
+    }); // now that we replaced all the instances, we remove the master
+    // eslint-disable-next-line no-param-reassign
+
+    symbolMaster.parent = null;
+  });
+  return {
+    symbolsMap: symbolsMap,
+    docSymbolInstances: docSymbolInstances
+  };
+});
+
+/***/ }),
+
+/***/ "./src/script.js":
+/*!***********************!*\
+  !*** ./src/script.js ***!
+  \***********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var sketch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sketch */ "sketch");
+/* harmony import */ var sketch__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sketch__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _analytics__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./analytics */ "./src/analytics.js");
+/* harmony import */ var _sync_library__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./sync-library */ "./src/sync-library.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+ // Replace layerStyles and textLayerStyles in the document with selected theme library
+
+/* harmony default export */ __webpack_exports__["default"] = (function () {
+  var libraries = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.getLibraries().filter(function (l) {
+    return l.valid && l.enabled;
+  });
+
+  var _sketch$UI$getSelecti = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.UI.getSelectionFromUser("Select a theme library to replace magically document's layer styles and symbols 🎉", libraries.map(function (l) {
+    return l.name;
+  })),
+      _sketch$UI$getSelecti2 = _slicedToArray(_sketch$UI$getSelecti, 3),
+      selectionIndex = _sketch$UI$getSelecti2[1],
+      ok = _sketch$UI$getSelecti2[2];
+
+  Object(_analytics__WEBPACK_IMPORTED_MODULE_1__["default"])('Open Camilo', 'Alert', 'UI'); // Depending selected control, current document will sync with predefined brand
+
+  if (ok) {
+    var doc = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.getSelectedDocument();
+    var chosenLibrary = libraries[selectionIndex];
+    Object(_analytics__WEBPACK_IMPORTED_MODULE_1__["default"])('Camilo replacement with', chosenLibrary.name, 'Library');
+    Object(_sync_library__WEBPACK_IMPORTED_MODULE_2__["default"])(doc, chosenLibrary);
+    sketch__WEBPACK_IMPORTED_MODULE_0___default.a.UI.message("\uD83C\uDF89 \uD83C\uDF88 \uD83D\uDE4C\uD83C\uDFFC  Applied theme from ".concat(chosenLibrary.name, "  \uD83D\uDE4C\uD83C\uDFFC \uD83C\uDF89 \uD83C\uDF88"));
+  }
+});
+
+/***/ }),
+
+/***/ "./src/sync-library.js":
+/*!*****************************!*\
+  !*** ./src/sync-library.js ***!
+  \*****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _map_shared_styles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./map-shared-styles */ "./src/map-shared-styles.js");
+/* harmony import */ var _replace_symbols__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./replace-symbols */ "./src/replace-symbols.js");
+/* harmony import */ var _replace_overrides__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./replace-overrides */ "./src/replace-overrides.js");
+/* harmony import */ var _replace_shared_styles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./replace-shared-styles */ "./src/replace-shared-styles.js");
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function (document, library) {
+  var lookups = Object(_map_shared_styles__WEBPACK_IMPORTED_MODULE_0__["default"])(document); // replace the styles
+
+  var layerStylesMap = Object(_replace_shared_styles__WEBPACK_IMPORTED_MODULE_3__["default"])(library.getImportableLayerStyleReferencesForDocument(document), lookups.layer);
+  var textStylesMap = Object(_replace_shared_styles__WEBPACK_IMPORTED_MODULE_3__["default"])(library.getImportableTextStyleReferencesForDocument(document), lookups.text); // replace the symbols
+
+  var _replaceSymbols = Object(_replace_symbols__WEBPACK_IMPORTED_MODULE_1__["default"])(document, library),
+      symbolsMap = _replaceSymbols.symbolsMap,
+      docSymbolInstances = _replaceSymbols.docSymbolInstances;
+
+  Object(_replace_overrides__WEBPACK_IMPORTED_MODULE_2__["default"])(docSymbolInstances, {
+    symbolsMap: symbolsMap,
+    layerStylesMap: layerStylesMap,
+    textStylesMap: textStylesMap
+  }); // reload the inspector to make sure we show the latest changes
+
+  document.sketchObject.reloadInspector();
+});
+
+/***/ }),
+
+/***/ "sketch":
+/*!*************************!*\
+  !*** external "sketch" ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("sketch");
+
+/***/ })
+
+/******/ });
+  if (key === 'default' && typeof exports === 'function') {
+    exports(context);
+  } else {
+    exports[key](context);
+  }
 }
+that['onRun'] = __skpm_run.bind(this, 'default')
 
-// Replace layerStyles and textLayerStyles in the document with selected theme library
-
-var replaceStyles = function (context) {
-	var doc = context.document.documentData();
-	var lookups = {
-    	layer: createLookup(doc.layerStyles()),
-    	text: createLookup(doc.layerTextStyles())
-  	};
-	var alert = COSAlertWindow.new();
-	  
-  	alert.setMessageText(PLUGIN_NAME);
-  	alert.setInformativeText("Select a theme library to replace magically document's layer styles and symbols 🎉")
-  	// add new logo
-  	alert.setIcon(NSImage.alloc().initByReferencingFile(context.plugin.urlForResourceNamed(PLUGIN_LOGO).path()));
-  	alert.addAccessoryView(getOptionSelected());
-  	alert.addButtonWithTitle('Sync');
-	alert.addButtonWithTitle('Cancel');
-	googleAnalytics(context, "Open Camilo", "Alert", "UI");
-
-	// Depending selected control, current document will sync with predefined brand 
-	if (alert.runModal() == NSAlertFirstButtonReturn) {
-		var chosenLibrary = alert.viewAtIndex(0).stringValue();
-		AppController.sharedInstance().librariesController().libraries().forEach(function (lib) {
-			if (lib.name() == chosenLibrary) {
-				syncLibraryStyles(lib.document().layerStyles(), doc.layerStyles(), lookups.layer);
-				syncLibraryStyles(lib.document().layerTextStyles(), doc.layerTextStyles(), lookups.text);
-				replaceSymbols(context, String(chosenLibrary));
-				googleAnalytics(context, "Camilo replacement with", chosenLibrary, "Library");
-				var doce = lib.document();
-        		var lookupse = {
-            		layer: createIncomingStylesLookup(doce.layerStyles()),
-            		text: createIncomingStylesLookup(doce.layerTextStyles())
-        		}
-        		findSourceLibraries(lib, context, lookupse.layer, lookupse.text);
-				}
-				context.document.showMessage('🎉 🎈 🙌🏼  Applied theme from ' + chosenLibrary + '  🙌🏼 🎉 🎈');
-		});
-	}
-};
+//# sourceMappingURL=script.js.map

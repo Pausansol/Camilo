@@ -1,0 +1,17 @@
+{
+  "commands": [
+    {
+      "name": "Camilo",
+      "identifier": "camilo.replaceStyles",
+      "shortcut": "ctrl command c",
+      "script": "script.js"
+    }
+  ],
+  "menu": {
+    "isRoot": true,
+    "items": ["camilo.replaceStyles"]
+  },
+  "icon": "icon.png",
+  "appcast": "https://raw.githubusercontent.com/pausansol/camilo/master/appcast.xml",
+  "compatibleVersion": "52"
+}

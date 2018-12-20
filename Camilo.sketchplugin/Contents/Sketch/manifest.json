@@ -1,25 +1,27 @@
 {
-  "author": "Pablo Sánchez",
   "commands": [
     {
       "name": "Camilo",
-      "identifier": "replaceStyles",
+      "identifier": "camilo.replaceStyles",
       "shortcut": "ctrl command c",
-      "script": "script.js",
-      "handler": "replaceStyles",     
-    },
+      "script": "script.js"
+    }
   ],
   "menu": {
     "isRoot": true,
     "items": [
-      "replaceStyles"
+      "camilo.replaceStyles"
     ]
   },
-  "name": "Camilo",
-  "version": "1.2",
-  "description": "Replace symbol instances foreignStyles overrides, localStyles, symbols from selected library.",
-  "icon" : "icon.png",
-  "authorEmail": "pausansol@gmail.com",
+  "icon": "icon.png",
   "appcast": "https://raw.githubusercontent.com/pausansol/camilo/master/appcast.xml",
   "compatibleVersion": "52",
+  "version": "1.2.0",
+  "description": "Replace symbol instances foreignStyles overrides, localStyles, symbols from selected library.",
+  "homepage": "https://github.com/Pausansol/Camilo#readme",
+  "name": "Camilo",
+  "identifier": "Camilo",
+  "disableCocoaScriptPreprocessor": true,
+  "author": "Pablo Sánchez",
+  "authorEmail": "pausansol@gmail.com"
 }

@@ -1,0 +1,15 @@
+root: true
+extends:
+  - airbnb-base
+  - plugin:import/errors
+  - prettier
+plugins:
+  - prettier
+env:
+  node: true
+rules:
+  'import/prefer-default-export': 0
+  'import/no-unresolved': 0
+  'global-require': 0
+  'no-underscore-dangle': 0
+  'no-await-in-loop': 0
