@@ -1,0 +1,44 @@
+{
+  "name": "camilo",
+  "version": "1.2.0",
+  "description": "Replace symbol instances foreignStyles overrides, localStyles, symbols from selected library.",
+  "skpm": {
+    "name": "Camilo",
+    "manifest": "src/manifest.json",
+    "main": "Camilo.sketchplugin",
+    "assets": [
+      "assets/**/*"
+    ]
+  },
+  "scripts": {
+    "build": "skpm-build",
+    "watch": "skpm-build --watch",
+    "postinstall": "skpm-link",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pausansol/Camilo.git"
+  },
+  "author": "Pablo Sánchez <pausansol@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Pausansol/Camilo/issues"
+  },
+  "homepage": "https://github.com/Pausansol/Camilo#readme",
+  "devDependencies": {
+    "@skpm/builder": "^0.5.13",
+    "eslint": "^5.10.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-prettier": "^3.0.0",
+    "prettier": "^1.15.3"
+  },
+  "prettier": {
+    "proseWrap": "never",
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "semi": false
+  }
+}
