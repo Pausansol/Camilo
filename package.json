@@ -1,7 +1,7 @@
 {
   "name": "camilo",
-  "version": "1.2.0",
-  "description": "Replace symbol instances foreignStyles overrides, localStyles, symbols from selected library.",
+  "version": "1.3.0",
+  "description": "Swap theme from selected library.",
   "skpm": {
     "name": "Camilo",
     "manifest": "src/manifest.json",
@@ -20,7 +20,7 @@
     "type": "git",
     "url": "git+https://github.com/Pausansol/Camilo.git"
   },
-  "author": "Pablo Sánchez <pausansol@gmail.com>",
+  "author": "Pausansol <pausansol@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Pausansol/Camilo/issues"

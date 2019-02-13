@@ -1,0 +1,26 @@
+{
+  "commands": [
+    {
+      "name": "Camilo",
+      "identifier": "camilo.replaceStyles",
+      "shortcut": "ctrl command c",
+      "script": "script.js"
+    }
+  ],
+  "menu": {
+    "isRoot": true,
+    "items": [
+      "camilo.replaceStyles"
+    ]
+  },
+  "icon": "icon.png",
+  "appcast": "https://raw.githubusercontent.com/pausansol/camilo/master/appcast.xml",
+  "compatibleVersion": "53",
+  "version": "1.3.0",
+  "description": "Swap theme from selected library.",
+  "homepage": "https://github.com/Pausansol/Camilo#readme",
+  "name": "Camilo",
+  "disableCocoaScriptPreprocessor": true,
+  "author": "Pausansol",
+  "authorEmail": "pausansol@gmail.com"
+}

@@ -3,28 +3,29 @@
 ## Overview
 One click theme change for [Sketch app](https://www.sketchapp.com/). It replaces layer styles, text styles and symbols from a Sketch library with the current document. Read the history of this plugin [here](https://medium.com/makingtuenti/camilo-our-tool-and-technique-for-one-click-brand-change-in-sketch-52-2060ae4161ae). 
 
-## `🙌 New in 1.2 🙌 `
+## 🙌 New in 1.3 🙌
 
-Now Camilo replaces symbol style overrides pointing to an external library with another set of styles from another library. This means that it is no longer necessary to have the styles in the document where you work. The styles remain linked to an external library and Camilo will take care of replacing them with another external library. 
-
-For example, it replaces layer style override "primaryColor" from theme1 Library with "primaryColor" from theme2 Library. Works with text and layer styles.
+- Improvements for Sketch v53
+- Switch to Sketch API (thanks to mathieudutour)
+- Fixed bug not replacing layer and text styles from libraries in shapes or layers
+- Added symbol instances swaping improvements. 
 
 Download the `example` zip file [here](https://github.com/Pausansol/Camilo/releases/download/v1.2/Camilo_overrides_example.zip).
 
+## Install
+
+* Download and install the `camilo.sketchplugin` zip file [here](https://github.com/Pausansol/Camilo/releases/download/v1.3/Camilo.sketchplugin.zip).
+* If you don't have Sketch v53 yet, download the version compatible with Sketch v52 [here](https://github.com/Pausansol/Camilo/releases/download/v1.2/Camilo.sketchplugin.zip). 
 
 ## How it works?
 
-It replaces symbol style overrides by name
+It replaces styles overrides and local shared styles (texts and layers) by name
 
 * if the style doesn't exist, nothing happens
 * if it does exist, it's overwritten
 
-It replaces styles by name
 
-* if the style doesn't exist, nothing happens
-* if it does exist, it's overwritten
-
-It replaces symbols by name
+It replaces symbols (symbols and/or nested symbols) by name
 
 * if the symbol doesn't exist, nothing happens
 * if it does exist, it's overwritten
@@ -33,9 +34,6 @@ It replaces symbols by name
 
 <img src='https://raw.githubusercontent.com/pausansol/camilo/master/images/twitter_dark.gif'>
 
-## Install
-
-* Download and install the `camilo.sketchplugin` zip file [here](https://github.com/Pausansol/Camilo/releases/download/v1.2/Camilo.sketchplugin.zip). 
 
 ## Usage
 
@@ -63,6 +61,6 @@ pausansol@gmail.com
 </a>
 
 ## License
-Copyright (c) 2018 Pablo Sánchez. Camilo is a simplified, modified and adapted mixture of Library Styles Sync by Zero Height and Symbol Swapper by Jason Burns. Camilo logo by Hector Sancho.
+Copyright (c) 2018 Pablo Sánchez (Pausansol) Camilo logo by Hector Sancho.
 
 See [LICENSE.md](https://github.com/pausansol/camilo/blob/master/LICENSE.md) for further details.

@@ -13,5 +13,5 @@
   },
   "icon": "icon.png",
   "appcast": "https://raw.githubusercontent.com/pausansol/camilo/master/appcast.xml",
-  "compatibleVersion": "52"
+  "compatibleVersion": "53"
 }
