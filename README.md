@@ -5,7 +5,7 @@ One click theme change for [Sketch app](https://www.sketchapp.com/). It replaces
 
 ## 🙌 New in 1.3 🙌
 
-- Improvements for Sketch v53
+- Improvements for Sketch v53 (Camilo now is much faster)
 - Switch to Sketch API (thanks to mathieudutour)
 - Fixed bug not replacing layer and text styles from libraries in shapes or layers
 - Added symbol instances swaping improvements. 
