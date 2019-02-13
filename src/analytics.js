@@ -1,59 +1,41 @@
-/* globals NSUUID, __command, NSURLSession, NSURL, NSString, NSUserDefaults */
 
-import { version, Settings } from 'sketch'
+export default function googleAnalytics(context, category, action, label, value) {
+  var trackingID = "UA-128191866-1";
+  var uuidKey = "google.analytics.uuid";
+  var url = "https://www.google-analytics.com/collect?v=1";
+  var uuid = NSUserDefaults.standardUserDefaults().objectForKey(uuidKey);
 
-const trackingID = 'UA-128191866-1'
-const uuidKey = 'google.analytics.uuid'
-const baseURL = 'https://www.google-analytics.com/collect?v=1'
-let uuid
-try {
-  uuid = Settings.globalSettingForKey(uuidKey)
-} catch (err) {
-  // this shouldn't be needed if we'd use Settings from the beginning
-  const value = NSUserDefaults.standardUserDefaults().objectForKey(uuidKey)
-  if (typeof value === 'string') {
-    uuid = value
-  } else {
-    uuid = NSUUID.UUID().UUIDString()
+  if (!uuid) {
+    uuid = NSUUID.UUID().UUIDString();
+    NSUserDefaults.standardUserDefaults().setObject_forKey(uuid,uuidKey);
   }
-  Settings.setGlobalSettingForKey(uuid, uuidKey)
-}
 
-if (!uuid) {
-  uuid = NSUUID.UUID().UUIDString()
-  Settings.setGlobalSettingForKey(uuid, uuidKey)
-}
-
-export default function googleAnalytics(category, action, label, value) {
-  let url = baseURL
   // Tracking ID
-  url += `&tid=${trackingID}`
+  url += "&tid=" + trackingID;
   // Source
-  url += `&ds=sketch${version.sketch}`
+  url += "&ds=sketch" + MSApplicationMetadata.metadata().appVersion;
   // Client ID
-  url += `&cid=${uuid}`
+  url += "&cid=" + uuid;
   // pageview, screenview, event, transaction, item, social, exception, timing
-  url += '&t=event'
+  url += "&t=event";
   // App Name
-  url += `&an=${encodeURI(__command.pluginBundle().name())}`
+  url += "&an=" + encodeURI(context.plugin.name());
   // App Version
-  url += `&av=${__command.pluginBundle().version()}`
+  url += "&av=" + context.plugin.version();
   // Event category
-  url += `&ec=${encodeURI(category)}`
+  url += "&ec=" + encodeURI(category);
   // Event action
-  url += `&ea=${encodeURI(action)}`
+  url += "&ea=" + encodeURI(action);
   // Event label
   if (label) {
-    url += `&el=${encodeURI(label)}`
+    url += "&el=" + encodeURI(label);
   }
   // Event value
   if (value) {
-    url += `&ev=${encodeURI(value)}`
+    url += "&ev=" + encodeURI(value);
   }
 
-  const session = NSURLSession.sharedSession()
-  const task = session.dataTaskWithURL(
-    NSURL.URLWithString(NSString.stringWithString(url))
-  )
-  task.resume()
+  var session = NSURLSession.sharedSession(),
+  task = session.dataTaskWithURL(NSURL.URLWithString(NSString.stringWithString(url)));
+  task.resume();
 }

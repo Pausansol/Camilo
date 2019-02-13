@@ -6,7 +6,7 @@ export function createLookup(styles) {
   }, {})
 }
 
-export default document => ({
-  layer: createLookup(document.getSharedLayerStyles()),
-  text: createLookup(document.getSharedTextStyles()),
+export default (document, library) => ({
+  layer: createLookup(library.getImportableLayerStyleReferencesForDocument(document)),
+  text: createLookup(library.getImportableTextStyleReferencesForDocument(document))
 })
