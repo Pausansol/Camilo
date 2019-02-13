@@ -6,7 +6,7 @@ import syncLibrary from './sync-library'
 function getOptionSelected(libraries) {
   
   const options = []
-  var optionSelected = NSComboBox.alloc().initWithFrame(NSMakeRect(0, 0, 200, 25))
+  const optionSelected = NSComboBox.alloc().initWithFrame(NSMakeRect(0, 0, 200, 25))
   
   libraries.forEach(function (lib) {
     options.push(lib.name)
@@ -22,7 +22,7 @@ function getOptionSelected(libraries) {
 // Replace layerStyles and textLayerStyles in the document with selected theme library
 export default function(context) {
   const libraries = sketch.getLibraries().filter(l => l.valid && l.enabled)
-  let alert = COSAlertWindow.new()
+  const alert = COSAlertWindow.new()
   alert.setMessageText('Camilo')
   alert.setInformativeText("Select a theme library to replace magically document's layer styles and symbols 🎉")
   alert.setIcon(NSImage.alloc().initByReferencingFile(context.plugin.urlForResourceNamed('icon.png').path()))
