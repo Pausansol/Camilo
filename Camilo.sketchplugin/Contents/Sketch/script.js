@@ -75,9 +75,9 @@ var exports =
 /* WEBPACK VAR INJECTION */(function(console) {/* globals log */
 
 if (true) {
-  var sketchUtils = __webpack_require__(15)
-  var sketchDebugger = __webpack_require__(17)
-  var actions = __webpack_require__(19)
+  var sketchUtils = __webpack_require__(17)
+  var sketchDebugger = __webpack_require__(19)
+  var actions = __webpack_require__(21)
 
   function getStack() {
     return sketchUtils.prepareStackTrace(new Error().stack)
@@ -414,11 +414,11 @@ var _switchSelection = __webpack_require__(12);
 
 var _switchSelection2 = _interopRequireDefault(_switchSelection);
 
-var _getOptionSelected = __webpack_require__(20);
+var _getOptionSelected = __webpack_require__(23);
 
 var _getOptionSelected2 = _interopRequireDefault(_getOptionSelected);
 
-var _createAlertWindow = __webpack_require__(21);
+var _createAlertWindow = __webpack_require__(24);
 
 var _createAlertWindow2 = _interopRequireDefault(_createAlertWindow);
 
@@ -803,21 +803,28 @@ exports["default"] = function (document, library) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(console) {
+
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports['default'] = overridesFromPagesTree;
-function overridesFromPagesTree(layers, lookup, documentSymbols, documentLayerStyles, documentTextStyles) {
 
-  // iterate layers tree to find:
-  // 1 - symbols
-  // 2 - symbol overrides
-  //     2.1 - symbolID
-  //     2.2 - layerStyle
-  //     2.3 - textStyle
-  // 3 - shared styles
+var _replaceSelectedSharedStyles = __webpack_require__(15);
+
+var _replaceSelectedSharedStyles2 = _interopRequireDefault(_replaceSelectedSharedStyles);
+
+var _replaceSelectedSymbols = __webpack_require__(16);
+
+var _replaceSelectedSymbols2 = _interopRequireDefault(_replaceSelectedSymbols);
+
+var _replaceSelectedOverrides = __webpack_require__(22);
+
+var _replaceSelectedOverrides2 = _interopRequireDefault(_replaceSelectedOverrides);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+function overridesFromPagesTree(layers, lookup, documentSymbols, documentLayerStyles, documentTextStyles) {
 
   layers.forEach(function (layers) {
     if (layers.layers != undefined) {
@@ -825,40 +832,94 @@ function overridesFromPagesTree(layers, lookup, documentSymbols, documentLayerSt
     }
     if (layers.layers == undefined) {
       if (layers.type == 'SymbolInstance') {
-        // replaceSelectedSymbols(layers, librarysymbols)
-        console.log('found symbol');
+        (0, _replaceSelectedSymbols2['default'])(layers, lookup.symbol);
       }
       if (layers.overrides != undefined) {
         layers.overrides.forEach(function (overrides) {
           if (overrides.property == 'symbolID') {
-            // replaceLayerOverrides(overrides.value, overrides, documentSymbols, lookup.symbol, 'symbolId')
-            console.log('found symbol override');
+            (0, _replaceSelectedOverrides2['default'])(overrides.value, overrides, documentSymbols, lookup.symbol, 'symbolId');
           }
           if (overrides.property == 'layerStyle') {
-            // replaceLayerOverrides(overrides.value, overrides, documentLayerStyles, lookup.layer, 'id')
-            console.log('found layerStyle override');
+            (0, _replaceSelectedOverrides2['default'])(overrides.value, overrides, documentLayerStyles, lookup.layer, 'id');
           }
           if (overrides.property == 'textStyle') {
-            // replaceLayerOverrides(overrides.value, overrides, documentTextStyles, lookup.text, 'id')
-            console.log('found textStyle override');
+            (0, _replaceSelectedOverrides2['default'])(overrides.value, overrides, documentTextStyles, lookup.text, 'id');
           }
         });
       } else {
         if (layers.sharedStyleId != null) {
-          // replaceLayerSharedStyles(layers, layers.sharedStyleId, documentlayerstyles, librarylayerstyles, documenttextstyles, librarytextstyles)
-          console.log('found layer with style');
+          (0, _replaceSelectedSharedStyles2['default'])(layers, layers.sharedStyleId, documentLayerStyles, lookup.layer, documentTextStyles, lookup.text);
         }
       }
     }
   });
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
 /* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var prepareValue = __webpack_require__(16)
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports["default"] = function (layer, sharedStyleId, documentLayerStyles, libraryLayerStyles, documentTextStyles, libraryTextStyles) {
+
+  documentLayerStyles.forEach(function (style) {
+    if (style.id == sharedStyleId) {
+      var styleToImport = libraryLayerStyles[style.name];
+
+      if (styleToImport) {
+        var importedStyle = styleToImport["import"]();
+        var importedStyleId = importedStyle.id;
+        layer.sharedStyleId = importedStyleId;
+      }
+    }
+  });
+  documentTextStyles.forEach(function (style) {
+    if (style.id == sharedStyleId) {
+      var styleToImport = libraryTextStyles[style.name];
+
+      if (styleToImport) {
+        var importedStyle = styleToImport["import"]();
+        var importedStyleId = importedStyle.id;
+        layer.sharedStyleId = importedStyleId;
+      }
+    }
+  });
+};
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(console) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports["default"] = function (selectedSymbols, librarySymbols) {
+
+  var symbolToImport = librarySymbols[selectedSymbols.name];
+  if (symbolToImport) {
+    console.log(symbolToImport);
+    var imported = symbolToImport["import"]();
+    selectedSymbols.symbolId = imported.symbolId;
+    selectedSymbols.name = imported.name;
+  }
+};
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var prepareValue = __webpack_require__(18)
 
 module.exports.toArray = __webpack_require__(2)
 module.exports.prepareStackTrace = __webpack_require__(1)
@@ -868,7 +929,7 @@ module.exports.prepareArray = prepareValue.prepareArray
 
 
 /***/ }),
-/* 16 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint-disable no-not-accumulator-reassign/no-not-accumulator-reassign, no-var, vars-on-top, prefer-template, prefer-arrow-callback, func-names, prefer-destructuring, object-shorthand */
@@ -1045,11 +1106,11 @@ module.exports.prepareArray = prepareArray
 
 
 /***/ }),
-/* 17 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint-disable no-not-accumulator-reassign/no-not-accumulator-reassign, no-var, vars-on-top, prefer-template, prefer-arrow-callback, func-names, prefer-destructuring, object-shorthand */
-var remoteWebview = __webpack_require__(18)
+var remoteWebview = __webpack_require__(20)
 
 module.exports.identifier = 'skpm.debugger'
 
@@ -1072,7 +1133,7 @@ module.exports.sendToDebugger = function sendToDebugger(name, payload) {
 
 
 /***/ }),
-/* 18 */
+/* 20 */
 /***/ (function(module, exports) {
 
 /* globals NSThread */
@@ -1098,7 +1159,7 @@ module.exports.sendToWebview = function sendToWebview (identifier, evalString) {
 
 
 /***/ }),
-/* 19 */
+/* 21 */
 /***/ (function(module, exports) {
 
 module.exports.SET_TREE = 'elements/SET_TREE'
@@ -1117,7 +1178,32 @@ module.exports.SET_SCRIPT_RESULT = 'playground/SET_SCRIPT_RESULT'
 
 
 /***/ }),
-/* 20 */
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports["default"] = function (overrideValue, overrides, documentStyles, libraryStyles, key) {
+
+  documentStyles.forEach(function (style) {
+    if (style[key] == overrideValue) {
+      var styleToImport = libraryStyles[style.name];
+      if (styleToImport) {
+        var imported = styleToImport["import"]();
+        var importedId = imported[key];
+        overrides.value = importedId;
+      }
+    }
+  });
+};
+
+/***/ }),
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1145,7 +1231,7 @@ function getOptionSelected(libraries) {
 }
 
 /***/ }),
-/* 21 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

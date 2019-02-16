@@ -1,5 +1,5 @@
 import mapSymbolsAndStyles from './map-symbols-and-styles'
-import overridesFromPagesTree from './overrides-from-pages-tree'
+import inspectSelection from './inspect-selection'
 
 export default function(document, library) {
   
@@ -7,7 +7,7 @@ export default function(document, library) {
   const lookup = mapSymbolsAndStyles(document, library)
   const docSymbols = document.getSymbols()
 
-  overridesFromPagesTree(
+  inspectSelection(
     selection,
     lookup,
     docSymbols,
