@@ -83,45 +83,22 @@ exports['default'] = function (context) {
   var libraries = _sketch2['default'].getLibraries().filter(function (l) {
     return l.valid && l.enabled;
   });
-  var alert = COSAlertWindow['new']();
-  alert.setMessageText('Camilo');
-  alert.setInformativeText("Select a theme library to switch 🎉 with");
-  alert.setIcon(NSImage.alloc().initByReferencingFile(context.plugin.urlForResourceNamed('icon.png').path()));
-  alert.addAccessoryView(getOptionSelected(libraries));
-  alert.addButtonWithTitle('Switch');
-  alert.addButtonWithTitle('Cancel');
-  var swapType = createRadioButtons(["Apply to document", "Apply to selection"], 0);
-  alert.addAccessoryView(swapType);
+  var alertWindow = (0, _createAlertWindow2['default'])(context);
+  alertWindow.addAccessoryView((0, _getOptionSelected2['default'])(libraries));
+  alertWindow.addButtonWithTitle('Switch');
+  alertWindow.addButtonWithTitle('Cancel');
+  var swapType = (0, _createRadioButtons2['default'])(["Apply to document", "Apply to selection"], 0);
+  alertWindow.addAccessoryView(swapType);
   (0, _analytics2['default'])(context, "Open Camilo", "Alert", "UI");
 
   swapType.cells().objectAtIndex(0).setAction("callAction:");
   swapType.cells().objectAtIndex(0).setCOSJSTargetFunction(function (sender) {
-    if (context.selection.length == 1) {
-      var symbolName = context.selection[0]['class']() == "MSSymbolMaster" ? context.selection[0].name() : context.selection[0].symbolMaster().name();
-
-      if (symbolArray.containsObject(symbolName)) {
-        selectSymbol = symbolArray.indexOfObject(symbolName);
-      }
-
-      symbolMaster.selectItemAtIndex(selectSymbol);
-    }
-
-    symbolMaster.setEnabled(0);
+    //do something
   });
 
   swapType.cells().objectAtIndex(1).setAction("callAction:");
   swapType.cells().objectAtIndex(1).setCOSJSTargetFunction(function (sender) {
-    if (context.selection.length == 1) {
-      var symbolID = context.selection[0]['class']() == "MSSymbolMaster" ? context.selection[0].symbolID() : context.selection[0].symbolMaster().symbolID();
-
-      if (symbolArray.containsObject(symbolID)) {
-        selectSymbol = symbolArray.indexOfObject(symbolID);
-      }
-
-      symbolMaster.selectItemAtIndex(selectSymbol);
-    }
-
-    symbolMaster.setEnabled(0);
+    //do something
   });
 
   // Depending selected control, current document will sync with predefined brand 
@@ -145,65 +122,23 @@ var _analytics = __webpack_require__(2);
 
 var _analytics2 = _interopRequireDefault(_analytics);
 
-var _syncLibrary = __webpack_require__(3);
+var _createRadioButtons = __webpack_require__(3);
+
+var _createRadioButtons2 = _interopRequireDefault(_createRadioButtons);
+
+var _syncLibrary = __webpack_require__(4);
 
 var _syncLibrary2 = _interopRequireDefault(_syncLibrary);
 
+var _getOptionSelected = __webpack_require__(9);
+
+var _getOptionSelected2 = _interopRequireDefault(_getOptionSelected);
+
+var _createAlertWindow = __webpack_require__(10);
+
+var _createAlertWindow2 = _interopRequireDefault(_createAlertWindow);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function createRadioButtons(options, selected, format, x, y) {
-  var rows = options.length,
-      columns = 1,
-      buttonMatrixWidth = 300,
-      buttonCellWidth = buttonMatrixWidth,
-      x = x ? x : 0,
-      y = y ? y : 0;
-
-  if (format && format != 0) {
-    rows = options.length / 2;
-    columns = 2;
-    buttonMatrixWidth = 300;
-    buttonCellWidth = buttonMatrixWidth / columns;
-  }
-
-  var buttonCell = NSButtonCell.alloc().init();
-
-  buttonCell.setButtonType(NSRadioButton);
-
-  var buttonMatrix = NSMatrix.alloc().initWithFrame_mode_prototype_numberOfRows_numberOfColumns(NSMakeRect(x, y, buttonMatrixWidth, rows * 24), NSRadioModeMatrix, buttonCell, rows, columns);
-
-  buttonMatrix.setCellSize(NSMakeSize(buttonCellWidth, 24));
-
-  var i = 0;
-
-  for (i = 0; i < options.length; i++) {
-    buttonMatrix.cells().objectAtIndex(i).setTitle(options[i]);
-    buttonMatrix.cells().objectAtIndex(i).setTag(i);
-  }
-
-  buttonMatrix.selectCellAtRow_column(selected, 0);
-
-  return buttonMatrix;
-}
-
-function getOptionSelected(libraries) {
-
-  var options = [];
-  var optionSelected = NSComboBox.alloc().initWithFrame(NSMakeRect(0, 0, 240, 28));
-
-  libraries.forEach(function (lib) {
-    options.push(lib.name);
-  });
-
-  optionSelected.i18nObjectValues = options;
-  optionSelected.setEditable(false);
-  optionSelected.addItemsWithObjectValues(options);
-  optionSelected.selectItemAtIndex(0);
-
-  return optionSelected;
-}
-
-// Replace layerStyles and textLayerStyles in the document with selected theme library
 
 /***/ }),
 /* 1 */
@@ -273,6 +208,52 @@ function googleAnalytics(context, category, action, label, value) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports["default"] = createRadioButtons;
+function createRadioButtons(options, selected, format, x, y) {
+  var rows = options.length,
+      columns = 1,
+      buttonMatrixWidth = 300,
+      buttonCellWidth = buttonMatrixWidth,
+      x = x ? x : 0,
+      y = y ? y : 0;
+
+  if (format && format != 0) {
+    rows = options.length / 2;
+    columns = 2;
+    buttonMatrixWidth = 300;
+    buttonCellWidth = buttonMatrixWidth / columns;
+  }
+
+  var buttonCell = NSButtonCell.alloc().init();
+
+  buttonCell.setButtonType(NSRadioButton);
+
+  var buttonMatrix = NSMatrix.alloc().initWithFrame_mode_prototype_numberOfRows_numberOfColumns(NSMakeRect(x, y, buttonMatrixWidth, rows * 24), NSRadioModeMatrix, buttonCell, rows, columns);
+
+  buttonMatrix.setCellSize(NSMakeSize(buttonCellWidth, 24));
+
+  var i = 0;
+
+  for (i = 0; i < options.length; i++) {
+    buttonMatrix.cells().objectAtIndex(i).setTitle(options[i]);
+    buttonMatrix.cells().objectAtIndex(i).setTag(i);
+  }
+
+  buttonMatrix.selectCellAtRow_column(selected, 0);
+
+  return buttonMatrix;
+}
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 exports['default'] = function (document, library) {
   var lookups = (0, _mapSharedStyles2['default'])(document, library);
@@ -299,26 +280,26 @@ exports['default'] = function (document, library) {
   document.sketchObject.reloadInspector();
 };
 
-var _mapSharedStyles = __webpack_require__(4);
+var _mapSharedStyles = __webpack_require__(5);
 
 var _mapSharedStyles2 = _interopRequireDefault(_mapSharedStyles);
 
-var _replaceSymbols2 = __webpack_require__(5);
+var _replaceSymbols2 = __webpack_require__(6);
 
 var _replaceSymbols3 = _interopRequireDefault(_replaceSymbols2);
 
-var _replaceOverrides = __webpack_require__(6);
+var _replaceOverrides = __webpack_require__(7);
 
 var _replaceOverrides2 = _interopRequireDefault(_replaceOverrides);
 
-var _replaceSharedStyles = __webpack_require__(7);
+var _replaceSharedStyles = __webpack_require__(8);
 
 var _replaceSharedStyles2 = _interopRequireDefault(_replaceSharedStyles);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -344,7 +325,7 @@ exports["default"] = function (document, library) {
 };
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -398,7 +379,7 @@ exports["default"] = function (document, library) {
 };
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -432,7 +413,7 @@ exports['default'] = function (docSymbolInstances, _ref) {
 };
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -472,6 +453,55 @@ exports["default"] = function (libraryStyles, lookup, library) {
   });
   return map;
 };
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = getOptionSelected;
+function getOptionSelected(libraries) {
+
+  var options = [];
+  var optionSelected = NSComboBox.alloc().initWithFrame(NSMakeRect(0, 0, 240, 28));
+
+  libraries.forEach(function (lib) {
+    options.push(lib.name);
+  });
+
+  optionSelected.i18nObjectValues = options;
+  optionSelected.setEditable(false);
+  optionSelected.addItemsWithObjectValues(options);
+  optionSelected.selectItemAtIndex(0);
+
+  return optionSelected;
+}
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports['default'] = createAlertWindow;
+function createAlertWindow(context) {
+  var alertWindow = COSAlertWindow['new']();
+
+  alertWindow.setIcon(NSImage.alloc().initByReferencingFile(context.plugin.urlForResourceNamed('icon.png').path()));
+  alertWindow.setMessageText('Camilo');
+  alertWindow.setInformativeText("Select a theme library to switch 🎉 with");
+
+  return alertWindow;
+}
 
 /***/ })
 /******/ ]);
