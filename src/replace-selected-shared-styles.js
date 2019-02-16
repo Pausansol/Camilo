@@ -15,6 +15,7 @@ export default function (
         const importedStyle = styleToImport.import()
         const importedStyleId = importedStyle.id
         layer.sharedStyleId = importedStyleId
+        layer.style.syncWithSharedStyle(importedStyle)
       }
     }
   })
@@ -26,6 +27,7 @@ export default function (
         const importedStyle = styleToImport.import()
         const importedStyleId = importedStyle.id
         layer.sharedStyleId = importedStyleId
+        layer.style.syncWithSharedStyle(importedStyle)
       }
     }
   })

@@ -755,7 +755,7 @@ exports['default'] = function (document, library) {
   var lookup = (0, _mapSymbolsAndStyles2['default'])(document, library);
   var docSymbols = document.getSymbols();
 
-  (0, _overridesFromPagesTree2['default'])(selection, lookup, docSymbols, document.getSharedLayerStyles(), document.getSharedTextStyles());
+  (0, _inspectSelection2['default'])(selection, lookup, docSymbols, document.getSharedLayerStyles(), document.getSharedTextStyles());
 
   // reload the inspector to make sure we show the latest changes
   document.sketchObject.reloadInspector();
@@ -765,9 +765,9 @@ var _mapSymbolsAndStyles = __webpack_require__(13);
 
 var _mapSymbolsAndStyles2 = _interopRequireDefault(_mapSymbolsAndStyles);
 
-var _overridesFromPagesTree = __webpack_require__(14);
+var _inspectSelection = __webpack_require__(14);
 
-var _overridesFromPagesTree2 = _interopRequireDefault(_overridesFromPagesTree);
+var _inspectSelection2 = _interopRequireDefault(_inspectSelection);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -808,7 +808,7 @@ exports["default"] = function (document, library) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports['default'] = overridesFromPagesTree;
+exports['default'] = inspectSelection;
 
 var _replaceSelectedSharedStyles = __webpack_require__(15);
 
@@ -824,11 +824,11 @@ var _replaceSelectedOverrides2 = _interopRequireDefault(_replaceSelectedOverride
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-function overridesFromPagesTree(layers, lookup, documentSymbols, documentLayerStyles, documentTextStyles) {
+function inspectSelection(layers, lookup, documentSymbols, documentLayerStyles, documentTextStyles) {
 
   layers.forEach(function (layers) {
     if (layers.layers != undefined) {
-      overridesFromPagesTree(layers.layers, lookup, documentSymbols, documentLayerStyles, documentTextStyles);
+      inspectSelection(layers.layers, lookup, documentSymbols, documentLayerStyles, documentTextStyles);
     }
     if (layers.layers == undefined) {
       if (layers.type == 'SymbolInstance') {
@@ -876,6 +876,7 @@ exports["default"] = function (layer, sharedStyleId, documentLayerStyles, librar
         var importedStyle = styleToImport["import"]();
         var importedStyleId = importedStyle.id;
         layer.sharedStyleId = importedStyleId;
+        layer.style.syncWithSharedStyle(importedStyle);
       }
     }
   });
@@ -887,6 +888,7 @@ exports["default"] = function (layer, sharedStyleId, documentLayerStyles, librar
         var importedStyle = styleToImport["import"]();
         var importedStyleId = importedStyle.id;
         layer.sharedStyleId = importedStyleId;
+        layer.style.syncWithSharedStyle(importedStyle);
       }
     }
   });
