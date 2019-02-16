@@ -4,7 +4,7 @@ import replaceOverrides from './replace-overrides'
 import replaceSharedStyles from './replace-shared-styles'
 
 export default function(document, library) {
-  const lookups = mapSharedStyles(document, library)
+  const lookup = mapSharedStyles(document, library)
 
   // replace the symbols
   const { symbolsMap, docSymbolInstances } = replaceSymbols(document, library)
@@ -12,12 +12,12 @@ export default function(document, library) {
   // replace the styles
   const layerStylesMap = replaceSharedStyles(
     document.getSharedLayerStyles(),
-    lookups.layer,
+    lookup.layer,
     library
   )
   const textStylesMap = replaceSharedStyles(
     document.getSharedTextStyles(),
-    lookups.text,
+    lookup.text,
     library
   )
 
