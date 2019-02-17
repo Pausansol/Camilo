@@ -75,9 +75,9 @@ var exports =
 /* WEBPACK VAR INJECTION */(function(console) {/* globals log */
 
 if (true) {
-  var sketchUtils = __webpack_require__(17)
-  var sketchDebugger = __webpack_require__(19)
-  var actions = __webpack_require__(21)
+  var sketchUtils = __webpack_require__(18)
+  var sketchDebugger = __webpack_require__(20)
+  var actions = __webpack_require__(22)
 
   function getStack() {
     return sketchUtils.prepareStackTrace(new Error().stack)
@@ -357,6 +357,7 @@ exports['default'] = function (context) {
   var libraries = _sketch2['default'].getLibraries().filter(function (l) {
     return l.valid && l.enabled;
   });
+  var lastSelected = _settings2['default'].sessionVariable('Selected');
 
   // create the alertWindow UI
   var alertWindow = (0, _createAlertWindow2['default'])(context);
@@ -365,7 +366,7 @@ exports['default'] = function (context) {
   alertWindow.addButtonWithTitle('Cancel');
 
   // create the radioButtons
-  var swapType = (0, _createRadioButtons2['default'])(["Apply to document", "Apply to selection"], 0);
+  var swapType = (0, _createRadioButtons2['default'])(["Apply to document", "Apply to selection"], lastSelected);
   alertWindow.addAccessoryView(swapType);
 
   (0, _analytics2['default'])(context, "Open Camilo", "Alert", "UI");
@@ -381,11 +382,13 @@ exports['default'] = function (context) {
     // - if 0 selected it will apply to document
     // - if 1 selected it will apply to selection
     if (swapType.selectedCell().tag() == 0) {
+      _settings2['default'].setSessionVariable('Selected', 0);
       (0, _switchLibrary2['default'])(doc, lib);
       (0, _analytics2['default'])(context, 'Replace document with', lib.name, 'Library');
     }
 
     if (swapType.selectedCell().tag() == 1) {
+      _settings2['default'].setSessionVariable('Selected', 1);
       (0, _switchSelection2['default'])(doc, lib);
       (0, _analytics2['default'])(context, 'Replace selected with', lib.name, 'Library');
     }
@@ -398,27 +401,31 @@ var _sketch = __webpack_require__(4);
 
 var _sketch2 = _interopRequireDefault(_sketch);
 
-var _analytics = __webpack_require__(5);
+var _settings = __webpack_require__(5);
+
+var _settings2 = _interopRequireDefault(_settings);
+
+var _analytics = __webpack_require__(6);
 
 var _analytics2 = _interopRequireDefault(_analytics);
 
-var _createRadioButtons = __webpack_require__(6);
+var _createRadioButtons = __webpack_require__(7);
 
 var _createRadioButtons2 = _interopRequireDefault(_createRadioButtons);
 
-var _switchLibrary = __webpack_require__(7);
+var _switchLibrary = __webpack_require__(8);
 
 var _switchLibrary2 = _interopRequireDefault(_switchLibrary);
 
-var _switchSelection = __webpack_require__(12);
+var _switchSelection = __webpack_require__(13);
 
 var _switchSelection2 = _interopRequireDefault(_switchSelection);
 
-var _getOptionSelected = __webpack_require__(23);
+var _getOptionSelected = __webpack_require__(24);
 
 var _getOptionSelected2 = _interopRequireDefault(_getOptionSelected);
 
-var _createAlertWindow = __webpack_require__(24);
+var _createAlertWindow = __webpack_require__(25);
 
 var _createAlertWindow2 = _interopRequireDefault(_createAlertWindow);
 
@@ -432,6 +439,12 @@ module.exports = require("sketch");
 
 /***/ }),
 /* 5 */
+/***/ (function(module, exports) {
+
+module.exports = require("sketch/settings");
+
+/***/ }),
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -483,7 +496,7 @@ function googleAnalytics(context, category, action, label, value) {
 }
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -529,7 +542,7 @@ function createRadioButtons(options, selected, format, x, y) {
 }
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -564,26 +577,26 @@ exports['default'] = function (document, library) {
   document.sketchObject.reloadInspector();
 };
 
-var _mapSharedStyles = __webpack_require__(8);
+var _mapSharedStyles = __webpack_require__(9);
 
 var _mapSharedStyles2 = _interopRequireDefault(_mapSharedStyles);
 
-var _replaceSymbols2 = __webpack_require__(9);
+var _replaceSymbols2 = __webpack_require__(10);
 
 var _replaceSymbols3 = _interopRequireDefault(_replaceSymbols2);
 
-var _replaceOverrides = __webpack_require__(10);
+var _replaceOverrides = __webpack_require__(11);
 
 var _replaceOverrides2 = _interopRequireDefault(_replaceOverrides);
 
-var _replaceSharedStyles = __webpack_require__(11);
+var _replaceSharedStyles = __webpack_require__(12);
 
 var _replaceSharedStyles2 = _interopRequireDefault(_replaceSharedStyles);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -609,7 +622,7 @@ exports["default"] = function (document, library) {
 };
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -663,7 +676,7 @@ exports["default"] = function (document, library) {
 };
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -697,7 +710,7 @@ exports['default'] = function (docSymbolInstances, _ref) {
 };
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -739,7 +752,7 @@ exports["default"] = function (libraryStyles, lookup, library) {
 };
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -761,18 +774,18 @@ exports['default'] = function (document, library) {
   document.sketchObject.reloadInspector();
 };
 
-var _mapSymbolsAndStyles = __webpack_require__(13);
+var _mapSymbolsAndStyles = __webpack_require__(14);
 
 var _mapSymbolsAndStyles2 = _interopRequireDefault(_mapSymbolsAndStyles);
 
-var _inspectSelection = __webpack_require__(14);
+var _inspectSelection = __webpack_require__(15);
 
 var _inspectSelection2 = _interopRequireDefault(_inspectSelection);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -799,7 +812,7 @@ exports["default"] = function (document, library) {
 };
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -810,15 +823,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports['default'] = inspectSelection;
 
-var _replaceSelectedSharedStyles = __webpack_require__(15);
+var _replaceSelectedSharedStyles = __webpack_require__(16);
 
 var _replaceSelectedSharedStyles2 = _interopRequireDefault(_replaceSelectedSharedStyles);
 
-var _replaceSelectedSymbols = __webpack_require__(16);
+var _replaceSelectedSymbols = __webpack_require__(17);
 
 var _replaceSelectedSymbols2 = _interopRequireDefault(_replaceSelectedSymbols);
 
-var _replaceSelectedOverrides = __webpack_require__(22);
+var _replaceSelectedOverrides = __webpack_require__(23);
 
 var _replaceSelectedOverrides2 = _interopRequireDefault(_replaceSelectedOverrides);
 
@@ -856,7 +869,7 @@ function inspectSelection(layers, lookup, documentSymbols, documentLayerStyles, 
 }
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -895,7 +908,7 @@ exports["default"] = function (layer, sharedStyleId, documentLayerStyles, librar
 };
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -918,10 +931,10 @@ exports["default"] = function (selectedSymbols, librarySymbols) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var prepareValue = __webpack_require__(18)
+var prepareValue = __webpack_require__(19)
 
 module.exports.toArray = __webpack_require__(2)
 module.exports.prepareStackTrace = __webpack_require__(1)
@@ -931,7 +944,7 @@ module.exports.prepareArray = prepareValue.prepareArray
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint-disable no-not-accumulator-reassign/no-not-accumulator-reassign, no-var, vars-on-top, prefer-template, prefer-arrow-callback, func-names, prefer-destructuring, object-shorthand */
@@ -1108,11 +1121,11 @@ module.exports.prepareArray = prepareArray
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint-disable no-not-accumulator-reassign/no-not-accumulator-reassign, no-var, vars-on-top, prefer-template, prefer-arrow-callback, func-names, prefer-destructuring, object-shorthand */
-var remoteWebview = __webpack_require__(20)
+var remoteWebview = __webpack_require__(21)
 
 module.exports.identifier = 'skpm.debugger'
 
@@ -1135,7 +1148,7 @@ module.exports.sendToDebugger = function sendToDebugger(name, payload) {
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports) {
 
 /* globals NSThread */
@@ -1161,7 +1174,7 @@ module.exports.sendToWebview = function sendToWebview (identifier, evalString) {
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports) {
 
 module.exports.SET_TREE = 'elements/SET_TREE'
@@ -1180,7 +1193,7 @@ module.exports.SET_SCRIPT_RESULT = 'playground/SET_SCRIPT_RESULT'
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1205,7 +1218,7 @@ exports["default"] = function (overrideValue, overrides, documentStyles, library
 };
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1233,7 +1246,7 @@ function getOptionSelected(libraries) {
 }
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

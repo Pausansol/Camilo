@@ -1,4 +1,5 @@
 import sketch from 'sketch'
+import settings from 'sketch/settings'
 import googleAnalytics from './analytics'
 import createRadioButtons from './create-radio-buttons'
 import switchLibrary from './switch-library'
@@ -8,6 +9,7 @@ import createAlertWindow from './create-alert-window'
 
 export default function(context) {
   const libraries = sketch.getLibraries().filter(l => l.valid && l.enabled)
+  const lastSelected = settings.sessionVariable('Selected')
   
   // create the alertWindow UI
   const alertWindow = createAlertWindow(context);
@@ -16,7 +18,7 @@ export default function(context) {
   alertWindow.addButtonWithTitle('Cancel')
   
   // create the radioButtons
-  const swapType = createRadioButtons(["Apply to document", "Apply to selection"],0)
+  const swapType = createRadioButtons(["Apply to document", "Apply to selection"],lastSelected)
   alertWindow.addAccessoryView(swapType)
   
   googleAnalytics(context, "Open Camilo", "Alert", "UI")
@@ -30,11 +32,13 @@ export default function(context) {
     // - if 0 selected it will apply to document
     // - if 1 selected it will apply to selection
     if (swapType.selectedCell().tag() == 0) {
+      settings.setSessionVariable('Selected', 0)
       switchLibrary(doc, lib)
       googleAnalytics(context, 'Replace document with', lib.name, 'Library')
     }
     
     if (swapType.selectedCell().tag() == 1) {
+      settings.setSessionVariable('Selected', 1)
       switchSelection(doc, lib)
       googleAnalytics(context, 'Replace selected with', lib.name, 'Library')
     }
