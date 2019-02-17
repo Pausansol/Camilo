@@ -35,16 +35,25 @@ export default function(context) {
       settings.setSessionVariable('Selected', 0)
       switchLibrary(doc, lib)
       googleAnalytics(context, 'Replace document with', lib.name, 'Library')
+      sketch.UI.message(
+      `🎉 🎈 🙌🏼  Applied theme from ${lib.name}  🙌🏼 🎉 🎈`
+      )
     }
     
     if (swapType.selectedCell().tag() == 1) {
       settings.setSessionVariable('Selected', 1)
       switchSelection(doc, lib)
       googleAnalytics(context, 'Replace selected with', lib.name, 'Library')
+      const selectedLayers = doc.selectedLayers.layers
+      if(selectedLayers.length < 1){
+        sketch.UI.message(
+        `Select a layer`
+        )
+      } else {
+        sketch.UI.message(
+        `🎉 🎈 🙌🏼  Applied theme from ${lib.name}  🙌🏼 🎉 🎈`
+        )
+      }
     }
-    
-    sketch.UI.message(
-    `🎉 🎈 🙌🏼  Applied theme from ${lib.name}  🙌🏼 🎉 🎈`
-    )
   }
 }

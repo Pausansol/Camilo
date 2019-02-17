@@ -385,15 +385,20 @@ exports['default'] = function (context) {
       _settings2['default'].setSessionVariable('Selected', 0);
       (0, _switchLibrary2['default'])(doc, lib);
       (0, _analytics2['default'])(context, 'Replace document with', lib.name, 'Library');
+      _sketch2['default'].UI.message('\uD83C\uDF89 \uD83C\uDF88 \uD83D\uDE4C\uD83C\uDFFC  Applied theme from ' + String(lib.name) + '  \uD83D\uDE4C\uD83C\uDFFC \uD83C\uDF89 \uD83C\uDF88');
     }
 
     if (swapType.selectedCell().tag() == 1) {
       _settings2['default'].setSessionVariable('Selected', 1);
       (0, _switchSelection2['default'])(doc, lib);
       (0, _analytics2['default'])(context, 'Replace selected with', lib.name, 'Library');
+      var selectedLayers = doc.selectedLayers.layers;
+      if (selectedLayers.length < 1) {
+        _sketch2['default'].UI.message('Select a layer');
+      } else {
+        _sketch2['default'].UI.message('\uD83C\uDF89 \uD83C\uDF88 \uD83D\uDE4C\uD83C\uDFFC  Applied theme from ' + String(lib.name) + '  \uD83D\uDE4C\uD83C\uDFFC \uD83C\uDF89 \uD83C\uDF88');
+      }
     }
-
-    _sketch2['default'].UI.message('\uD83C\uDF89 \uD83C\uDF88 \uD83D\uDE4C\uD83C\uDFFC  Applied theme from ' + String(lib.name) + '  \uD83D\uDE4C\uD83C\uDFFC \uD83C\uDF89 \uD83C\uDF88');
   }
 };
 
@@ -1261,7 +1266,7 @@ function createAlertWindow(context) {
 
   alertWindow.setIcon(NSImage.alloc().initByReferencingFile(context.plugin.urlForResourceNamed('icon.png').path()));
   alertWindow.setMessageText('Camilo');
-  alertWindow.setInformativeText("Select a theme library to switch 🎉 with");
+  alertWindow.setInformativeText("Select a theme library to switch magically document's layerStyles, textStyles and symbols 🎉");
 
   return alertWindow;
 }

@@ -3,7 +3,7 @@ import inspectSelection from './inspect-selection'
 
 export default function(document, library) {
   
-  var selection = document.selectedLayers.layers
+  const selection = document.selectedLayers.layers
   const lookup = mapSymbolsAndStyles(document, library)
   const docSymbols = document.getSymbols()
 
