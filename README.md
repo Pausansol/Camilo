@@ -15,7 +15,7 @@ New in 1.3
 
 ## Install
 
-* Download and install the `camilo.sketchplugin` zip file [here](https://github.com/Pausansol/Camilo/releases/download/v1.3/Camilo.sketchplugin.zip).
+* Download and install the `camilo.sketchplugin` zip file [here](https://github.com/Pausansol/Camilo/releases/download/v1.4/Camilo.sketchplugin.zip).
 
 * Or you can install it with Sketch Runner, just go to the `install` command and search for `Camilo`. Runner allows you to manage plugins and do much more to speed up your workflow in Sketch.
 
@@ -35,7 +35,7 @@ It replaces symbols by name
 
 ## Usage
 
-* Download the `example` zip file [here](https://github.com/Pausansol/Camilo/releases/download/v1.4/Example.zip).
+* Download the `example` zip file [here](https://github.com/Pausansol/Camilo/releases/download/v1.4/Camilo_example.zip).
 
 * Install the main library and the brand libraries
 
@@ -44,6 +44,8 @@ It replaces symbols by name
 * Press `Control + Command + C` or use the `Plugins` menu and choose brand_2 (uiKit comes with brand_1 styles applied) 
 
 * 🎉 🎈 🙌🏼 🎈 🎉
+
+
 
 <img src='https://raw.githubusercontent.com/pausansol/camilo/master/images/brand_change.gif'>
 
