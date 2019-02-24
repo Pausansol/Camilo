@@ -845,28 +845,33 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 function inspectSelection(layers, lookup, documentSymbols, documentLayerStyles, documentTextStyles) {
 
   layers.forEach(function (layers) {
-    if (layers.layers != undefined) {
-      inspectSelection(layers.layers, lookup, documentSymbols, documentLayerStyles, documentTextStyles);
-    }
-    if (layers.layers == undefined) {
-      if (layers.type == 'SymbolInstance') {
-        (0, _replaceSelectedSymbols2['default'])(layers, lookup.symbol);
+    if (layers.sharedStyleId != null) {
+      (0, _replaceSelectedSharedStyles2['default'])(layers, layers.sharedStyleId, documentLayerStyles, lookup.layer, documentTextStyles, lookup.text);
+    } else {
+
+      if (layers.layers != undefined) {
+        inspectSelection(layers.layers, lookup, documentSymbols, documentLayerStyles, documentTextStyles);
       }
-      if (layers.overrides != undefined) {
-        layers.overrides.forEach(function (overrides) {
-          if (overrides.property == 'symbolID') {
-            (0, _replaceSelectedOverrides2['default'])(overrides.value, overrides, documentSymbols, lookup.symbol, 'symbolId');
+      if (layers.layers == undefined) {
+        if (layers.type == 'SymbolInstance') {
+          (0, _replaceSelectedSymbols2['default'])(layers, lookup.symbol);
+        }
+        if (layers.overrides != undefined) {
+          layers.overrides.forEach(function (overrides) {
+            if (overrides.property == 'symbolID') {
+              (0, _replaceSelectedOverrides2['default'])(overrides.value, overrides, documentSymbols, lookup.symbol, 'symbolId');
+            }
+            if (overrides.property == 'layerStyle') {
+              (0, _replaceSelectedOverrides2['default'])(overrides.value, overrides, documentLayerStyles, lookup.layer, 'id');
+            }
+            if (overrides.property == 'textStyle') {
+              (0, _replaceSelectedOverrides2['default'])(overrides.value, overrides, documentTextStyles, lookup.text, 'id');
+            }
+          });
+        } else {
+          if (layers.sharedStyleId != null) {
+            (0, _replaceSelectedSharedStyles2['default'])(layers, layers.sharedStyleId, documentLayerStyles, lookup.layer, documentTextStyles, lookup.text);
           }
-          if (overrides.property == 'layerStyle') {
-            (0, _replaceSelectedOverrides2['default'])(overrides.value, overrides, documentLayerStyles, lookup.layer, 'id');
-          }
-          if (overrides.property == 'textStyle') {
-            (0, _replaceSelectedOverrides2['default'])(overrides.value, overrides, documentTextStyles, lookup.text, 'id');
-          }
-        });
-      } else {
-        if (layers.sharedStyleId != null) {
-          (0, _replaceSelectedSharedStyles2['default'])(layers, layers.sharedStyleId, documentLayerStyles, lookup.layer, documentTextStyles, lookup.text);
         }
       }
     }
