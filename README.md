@@ -1,43 +1,41 @@
 <img src='https://raw.githubusercontent.com/pausansol/camilo/master/images/cover.png'>
 
 ## Overview
-One click theme change for [Sketch app](https://www.sketchapp.com/). It replaces layer styles, text styles and symbols from a Sketch library with the current document. Read the history of this plugin [here](https://medium.com/makingtuenti/camilo-our-tool-and-technique-for-one-click-brand-change-in-sketch-52-2060ae4161ae). 
+One click theme change for [Sketch app](https://www.sketchapp.com/). It replaces layer styles, text styles and symbols from a Sketch library with the current document or selected layers. Read the history of the beginning of Camilo [here](https://medium.com/makingtuenti/camilo-our-tool-and-technique-for-one-click-brand-change-in-sketch-52-2060ae4161ae). 
 
-## 🙌 New in 1.3 🙌
+## New in 1.4 🙌
+
+- Now you can apply Camilo only to selected layers
+
+New in 1.3
 
 - Improvements for Sketch v53 (Camilo now is much faster)
 - Switch to Sketch API (thanks to mathieudutour)
 - Fixed bug not replacing layer and text styles from libraries in shapes or layers
-- Added symbol instances swaping improvements. 
-
-Download the `example` zip file [here](https://github.com/Pausansol/Camilo/releases/download/v1.2/Camilo_overrides_example.zip).
 
 ## Install
 
 * Download and install the `camilo.sketchplugin` zip file [here](https://github.com/Pausansol/Camilo/releases/download/v1.3/Camilo.sketchplugin.zip).
-* If you don't have Sketch v53 yet, download the version compatible with Sketch v52 [here](https://github.com/Pausansol/Camilo/releases/download/v1.2/Camilo.sketchplugin.zip). 
+
+* Or you can install it with Sketch Runner, just go to the `install` command and search for `Camilo`. Runner allows you to manage plugins and do much more to speed up your workflow in Sketch.
+
+<img src='https://raw.githubusercontent.com/pausansol/camilo/master/images/InstallwithRunner.png' width="500">
 
 ## How it works?
 
-It replaces styles overrides and local shared styles (texts and layers) by name
+It replaces styles and symbols by name. It doesn't matter if the symbols are nested or not, if the styles are local or pointing an external library or if they are applied to shapes or symbol overrides, Camilo will replace all of them by name 🙌🏼 🎈 🎉
 
 * if the style doesn't exist, nothing happens
 * if it does exist, it's overwritten
 
-
-It replaces symbols (symbols and/or nested symbols) by name
+It replaces symbols by name
 
 * if the symbol doesn't exist, nothing happens
 * if it does exist, it's overwritten
 
-![](https://raw.githubusercontent.com/pausansol/camilo/master/images/brand_change.gif)
-
-<img src='https://raw.githubusercontent.com/pausansol/camilo/master/images/twitter_dark.gif'>
-
-
 ## Usage
 
-* Download the `example` zip file [here](https://github.com/Pausansol/Camilo/releases/download/1.0/Example.zip).
+* Download the `example` zip file [here](https://github.com/Pausansol/Camilo/releases/download/v1.4/Example.zip).
 
 * Install the main library and the brand libraries
 
@@ -47,6 +45,7 @@ It replaces symbols (symbols and/or nested symbols) by name
 
 * 🎉 🎈 🙌🏼 🎈 🎉
 
+<img src='https://raw.githubusercontent.com/pausansol/camilo/master/images/brand_change.gif'>
 
 ## Contact
 

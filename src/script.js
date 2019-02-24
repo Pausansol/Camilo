@@ -1,45 +1,59 @@
 import sketch from 'sketch'
+import settings from 'sketch/settings'
 import googleAnalytics from './analytics'
-import syncLibrary from './sync-library'
+import createRadioButtons from './create-radio-buttons'
+import switchLibrary from './switch-library'
+import switchSelection from './switch-selection'
+import getOptionSelected from './get-option-selected'
+import createAlertWindow from './create-alert-window'
 
-
-function getOptionSelected(libraries) {
-  
-  const options = []
-  const optionSelected = NSComboBox.alloc().initWithFrame(NSMakeRect(0, 0, 200, 25))
-  
-  libraries.forEach(function (lib) {
-    options.push(lib.name)
-  })
-  
-  optionSelected.i18nObjectValues = options
-  optionSelected.setEditable(false)
-  optionSelected.addItemsWithObjectValues(options)
-  optionSelected.selectItemAtIndex(0)
-  return optionSelected
-}
-
-// Replace layerStyles and textLayerStyles in the document with selected theme library
 export default function(context) {
   const libraries = sketch.getLibraries().filter(l => l.valid && l.enabled)
-  const alert = COSAlertWindow.new()
-  alert.setMessageText('Camilo')
-  alert.setInformativeText("Select a theme library to replace magically document's layer styles and symbols 🎉")
-  alert.setIcon(NSImage.alloc().initByReferencingFile(context.plugin.urlForResourceNamed('icon.png').path()))
-  alert.addAccessoryView(getOptionSelected(libraries))
-  alert.addButtonWithTitle('Sync')
-  alert.addButtonWithTitle('Cancel')
-  googleAnalytics(context, "Open Camilo", "Alert", "UI")
+  const lastSelected = settings.sessionVariable('Selected')
   
-  // Depending selected control, current document will sync with predefined brand 
-  if (alert.runModal() == NSAlertFirstButtonReturn) {
-    const chosenLibraryName = String(alert.viewAtIndex(0).stringValue())
+  // create the alertWindow UI
+  const alertWindow = createAlertWindow(context);
+  alertWindow.addAccessoryView(getOptionSelected(libraries))
+  alertWindow.addButtonWithTitle('Switch')
+  alertWindow.addButtonWithTitle('Cancel')
+  
+  // create the radioButtons
+  const swapType = createRadioButtons(["Apply to document", "Apply to selection"],lastSelected)
+  alertWindow.addAccessoryView(swapType)
+  
+  googleAnalytics(context, "Open Camilo", "Alert", "UI")
+
+  if (alertWindow.runModal() == NSAlertFirstButtonReturn) {
+    const chosenLibraryName = String(alertWindow.viewAtIndex(0).stringValue())
     const lib = libraries.find(l => l.name === chosenLibraryName)
     const doc = sketch.getSelectedDocument()
-    googleAnalytics(context, 'Camilo replacement with', lib.name, 'Library')
-    syncLibrary(doc, lib)
-    sketch.UI.message(
-    `🎉 🎈 🙌🏼  Applied theme from ${lib.name}  🙌🏼 🎉 🎈`
-    )
+    
+    // get the info from radioButtons
+    // - if 0 selected it will apply to document
+    // - if 1 selected it will apply to selection
+    if (swapType.selectedCell().tag() == 0) {
+      settings.setSessionVariable('Selected', 0)
+      switchLibrary(doc, lib)
+      googleAnalytics(context, 'Replace document with', lib.name, 'Library')
+      sketch.UI.message(
+      `🎉 🎈 🙌🏼  Applied theme from ${lib.name}  🙌🏼 🎉 🎈`
+      )
+    }
+    
+    if (swapType.selectedCell().tag() == 1) {
+      settings.setSessionVariable('Selected', 1)
+      switchSelection(doc, lib)
+      googleAnalytics(context, 'Replace selected with', lib.name, 'Library')
+      const selectedLayers = doc.selectedLayers.layers
+      if(selectedLayers.length < 1){
+        sketch.UI.message(
+        `Select a layer`
+        )
+      } else {
+        sketch.UI.message(
+        `🎉 🎈 🙌🏼  Applied theme from ${lib.name}  🙌🏼 🎉 🎈`
+        )
+      }
+    }
   }
 }
