@@ -19,7 +19,7 @@ New in 1.3
 
 * Or you can install it with Sketch Runner, just go to the `install` command and search for `Camilo`. Runner allows you to manage plugins and do much more to speed up your workflow in Sketch.
 
-<img src='https://raw.githubusercontent.com/pausansol/escriba/master/images/InstallwithRunner.png' width="500">
+<img src='https://raw.githubusercontent.com/pausansol/camilo/master/images/InstallwithRunner.png' width="500">
 
 ## How it works?
 
