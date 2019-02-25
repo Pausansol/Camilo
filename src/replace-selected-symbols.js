@@ -1,13 +1,16 @@
 export default function (
-  selectedSymbols, 
-  librarySymbols) {
+	selectedSymbols, 
+	librarySymbols,
+	documentSymbols) {
   
-    
-      const symbolToImport = librarySymbols[selectedSymbols.name]
-      if(symbolToImport){
-        console.log(symbolToImport)
-        const imported = symbolToImport.import()
-        selectedSymbols.symbolId = imported.symbolId
-        selectedSymbols.name = imported.name
-      }
+  const symbolMasterName = documentSymbols[selectedSymbols.symbolId]
+  
+  if(symbolMasterName){
+	const symbolToImport = librarySymbols[symbolMasterName.name]
+		if(symbolToImport){
+			const imported = symbolToImport.import()
+			selectedSymbols.symbolId = imported.symbolId
+			selectedSymbols.name = imported.name
+		}
+	}
 }
