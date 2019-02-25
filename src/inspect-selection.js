@@ -24,7 +24,7 @@ export default function inspectSelection(
       )}
       if(layers.layers == undefined){
         if(layers.type == 'SymbolInstance'){
-          replaceSelectedSymbols(layers, lookup.symbol)
+          replaceSelectedSymbols(layers, lookup.symbol, lookup.documentsymbol)
         }
         if(layers.overrides != undefined){
           layers.overrides.forEach(function(overrides){
