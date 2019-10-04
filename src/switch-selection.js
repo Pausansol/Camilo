@@ -2,7 +2,6 @@ import mapSymbolsAndStyles from './map-symbols-and-styles'
 import inspectSelection from './inspect-selection'
 
 export default function(document, library) {
-  
   const selection = document.selectedLayers.layers
   const lookup = mapSymbolsAndStyles(document, library)
   const docSymbols = document.getSymbols()
@@ -14,7 +13,7 @@ export default function(document, library) {
     document.getSharedLayerStyles(),
     document.getSharedTextStyles()
   )
-  
+
   // reload the inspector to make sure we show the latest changes
   document.sketchObject.reloadInspector()
 }

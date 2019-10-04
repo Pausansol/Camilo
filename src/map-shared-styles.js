@@ -7,6 +7,10 @@ export function createLookup(styles) {
 }
 
 export default (document, library) => ({
-  layer: createLookup(library.getImportableLayerStyleReferencesForDocument(document)),
-  text: createLookup(library.getImportableTextStyleReferencesForDocument(document))
+  layer: createLookup(
+    library.getImportableLayerStyleReferencesForDocument(document)
+  ),
+  text: createLookup(
+    library.getImportableTextStyleReferencesForDocument(document)
+  ),
 })

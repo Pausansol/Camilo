@@ -24,7 +24,7 @@ export default function(document, library) {
     }
     // import the matching symbol
     const importedSymbolMaster = matchingSymbolInLib.import()
-    
+
     // store the mapping so that we can update the overrides later on
     symbolsMap[symbolMaster.symbolId] = importedSymbolMaster.symbolId
 
