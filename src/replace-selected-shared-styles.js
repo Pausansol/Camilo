@@ -6,8 +6,8 @@ export default function(
   documentTextStyles,
   libraryTextStyles
 ) {
-  documentLayerStyles.forEach(function(style) {
-    if (style.id == sharedStyleId) {
+  documentLayerStyles.forEach((style) => {
+    if (style.id === sharedStyleId) {
       const styleToImport = libraryLayerStyles[style.name]
 
       if (styleToImport) {
@@ -18,8 +18,8 @@ export default function(
       }
     }
   })
-  documentTextStyles.forEach(function(style) {
-    if (style.id == sharedStyleId) {
+  documentTextStyles.forEach((style) => {
+    if (style.id === sharedStyleId) {
       const styleToImport = libraryTextStyles[style.name]
 
       if (styleToImport) {

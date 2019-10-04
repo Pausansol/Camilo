@@ -4,7 +4,7 @@ export default function getOptionSelected(libraries) {
     NSMakeRect(0, 0, 240, 28)
   )
 
-  libraries.forEach(function(lib) {
+  libraries.forEach((lib) => {
     options.push(lib.name)
   })
 

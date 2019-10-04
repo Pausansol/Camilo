@@ -7,6 +7,23 @@ plugins:
   - prettier
 env:
   node: true
+globals:
+  COSAlertWindow: true
+  MSApplicationMetadata: true
+  NSAlertFirstButtonReturn: true
+  NSButtonCell: true
+  NSComboBox: true
+  NSImage: true
+  NSMakeRect: true
+  NSMakeSize: true
+  NSMatrix: true
+  NSRadioButton: true
+  NSRadioModeMatrix: true
+  NSString: true
+  NSURL: true
+  NSURLSession: true
+  NSUserDefaults: true
+  NSUUID: true
 rules:
   'import/prefer-default-export': 0
   'import/no-unresolved': 0

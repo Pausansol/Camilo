@@ -26,7 +26,7 @@ export default function(context) {
 
   googleAnalytics(context, 'Open Camilo', 'Alert', 'UI')
 
-  if (alertWindow.runModal() == NSAlertFirstButtonReturn) {
+  if (alertWindow.runModal() === NSAlertFirstButtonReturn) {
     const chosenLibraryName = String(alertWindow.viewAtIndex(0).stringValue())
     const lib = libraries.find(l => l.name === chosenLibraryName)
     const doc = sketch.getSelectedDocument()
@@ -34,14 +34,14 @@ export default function(context) {
     // get the info from radioButtons
     // - if 0 selected it will apply to document
     // - if 1 selected it will apply to selection
-    if (swapType.selectedCell().tag() == 0) {
+    if (swapType.selectedCell().tag() === 0) {
       settings.setSessionVariable('Selected', 0)
       switchLibrary(doc, lib)
       googleAnalytics(context, 'Replace document with', lib.name, 'Library')
       sketch.UI.message(`🎉 🎈 🙌🏼  Applied theme from ${lib.name}  🙌🏼 🎉 🎈`)
     }
 
-    if (swapType.selectedCell().tag() == 1) {
+    if (swapType.selectedCell().tag() === 1) {
       settings.setSessionVariable('Selected', 1)
       switchSelection(doc, lib)
       googleAnalytics(context, 'Replace selected with', lib.name, 'Library')

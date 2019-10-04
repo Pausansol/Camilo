@@ -1,23 +1,21 @@
-export default function createRadioButtons(options, selected, format, x, y) {
-  var rows = options.length,
-    columns = 1,
-    buttonMatrixWidth = 300,
-    buttonCellWidth = buttonMatrixWidth,
-    x = x ? x : 0,
-    y = y ? y : 0
+export default function createRadioButtons(options, selected, format, x = 0, y = 0) {
+  let rows = options.length;
+    let columns = 1;
+    let buttonMatrixWidth = 300;
+    let buttonCellWidth = buttonMatrixWidth;
 
-  if (format && format != 0) {
+  if (format && format !== 0) {
     rows = options.length / 2
     columns = 2
     buttonMatrixWidth = 300
     buttonCellWidth = buttonMatrixWidth / columns
   }
 
-  var buttonCell = NSButtonCell.alloc().init()
+  const buttonCell = NSButtonCell.alloc().init()
 
   buttonCell.setButtonType(NSRadioButton)
 
-  var buttonMatrix = NSMatrix.alloc().initWithFrame_mode_prototype_numberOfRows_numberOfColumns(
+  const buttonMatrix = NSMatrix.alloc().initWithFrame_mode_prototype_numberOfRows_numberOfColumns(
     NSMakeRect(x, y, buttonMatrixWidth, rows * 24),
     NSRadioModeMatrix,
     buttonCell,
@@ -27,9 +25,9 @@ export default function createRadioButtons(options, selected, format, x, y) {
 
   buttonMatrix.setCellSize(NSMakeSize(buttonCellWidth, 24))
 
-  var i = 0
+  let i = 0
 
-  for (i = 0; i < options.length; i++) {
+  for (i = 0; i < options.length; i +=1 ) {
     buttonMatrix
       .cells()
       .objectAtIndex(i)

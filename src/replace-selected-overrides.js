@@ -5,8 +5,8 @@ export default function(
   libraryStyles,
   key
 ) {
-  documentStyles.forEach(function(style) {
-    if (style[key] == overrideValue) {
+  documentStyles.forEach((style) => {
+    if (style[key] === overrideValue) {
       const styleToImport = libraryStyles[style.name]
       if (styleToImport) {
         const imported = styleToImport.import()

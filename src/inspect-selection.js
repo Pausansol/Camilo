@@ -9,33 +9,33 @@ export default function inspectSelection(
   documentLayerStyles,
   documentTextStyles
 ) {
-  layers.forEach(function(layers) {
-    if (layers.sharedStyleId != null) {
+  layers.forEach((layer) => {
+  if (layer.sharedStyleId != null) {
       replaceSelectedSharedStyles(
-        layers,
-        layers.sharedStyleId,
+        layer,
+        layer.sharedStyleId,
         documentLayerStyles,
         lookup.layer,
         documentTextStyles,
         lookup.text
       )
     } else {
-      if (layers.layers != undefined) {
+      if (layer.layers !== undefined) {
         inspectSelection(
-          layers.layers,
+          layer.layers,
           lookup,
           documentSymbols,
           documentLayerStyles,
           documentTextStyles
         )
       }
-      if (layers.layers == undefined) {
-        if (layers.type == 'SymbolInstance') {
-          replaceSelectedSymbols(layers, lookup.symbol, lookup.documentsymbol)
+      if (layer.layers === undefined) {
+        if (layer.type === 'SymbolInstance') {
+          replaceSelectedSymbols(layer, lookup.symbol, lookup.documentsymbol)
         }
-        if (layers.overrides != undefined) {
-          layers.overrides.forEach(function(overrides) {
-            if (overrides.property == 'symbolID') {
+        if (layer.overrides !== undefined) {
+          layer.overrides.forEach((overrides) => {
+            if (overrides.property === 'symbolID') {
               replaceSelectedOverrides(
                 overrides.value,
                 overrides,
@@ -44,7 +44,7 @@ export default function inspectSelection(
                 'symbolId'
               )
             }
-            if (overrides.property == 'layerStyle') {
+            if (overrides.property === 'layerStyle') {
               replaceSelectedOverrides(
                 overrides.value,
                 overrides,
@@ -53,7 +53,7 @@ export default function inspectSelection(
                 'id'
               )
             }
-            if (overrides.property == 'textStyle') {
+            if (overrides.property === 'textStyle') {
               replaceSelectedOverrides(
                 overrides.value,
                 overrides,
@@ -63,18 +63,16 @@ export default function inspectSelection(
               )
             }
           })
-        } else {
-          if (layers.sharedStyleId != null) {
+        } else if (layer.sharedStyleId !== null) {
             replaceSelectedSharedStyles(
-              layers,
-              layers.sharedStyleId,
+              layer,
+              layer.sharedStyleId,
               documentLayerStyles,
               lookup.layer,
               documentTextStyles,
               lookup.text
             )
           }
-        }
       }
     }
   })
