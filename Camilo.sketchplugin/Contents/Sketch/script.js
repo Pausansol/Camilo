@@ -296,11 +296,17 @@ function inspectSelection(layers, lookup, documentSymbols, documentLayerStyles, 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createLookup", function() { return createLookup; });
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function createLookup(styles) {
   return styles.reduce(function (prev, s) {
-    // eslint-disable-next-line no-param-reassign
-    prev[s.name] = s;
-    return prev;
+    return _objectSpread({}, prev, {
+      [s.name]: s
+    });
   }, {});
 }
 /* harmony default export */ __webpack_exports__["default"] = (function (document, library) {
@@ -480,17 +486,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /* harmony default export */ __webpack_exports__["default"] = (function (libraryStyles, lookup) {
   var map = {};
-  libraryStyles.forEach(function (libraryStyle) {
-    var librarySharedStyle = _objectSpread({}, libraryStyle);
-
+  libraryStyles.forEach(function (librarySharedStyle) {
     var currentSharedStyle = lookup[librarySharedStyle.name];
 
     if (currentSharedStyle) {
@@ -510,6 +508,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         // if the shared style is local, then we just want to:
         // - import the matching style to update the local one
         // - update all the instances to point to the imported style
+        // eslint-disable-next-line no-param-reassign
         librarySharedStyle.style = imported.style;
         librarySharedStyle.getAllInstances().forEach(function (s) {
           return s.syncWithSharedStyle(librarySharedStyle);
@@ -679,8 +678,8 @@ __webpack_require__.r(__webpack_exports__);
       docSymbolInstances = _replaceSymbols.docSymbolInstances; // replace the styles
 
 
-  var layerStylesMap = Object(_replace_shared_styles__WEBPACK_IMPORTED_MODULE_3__["default"])(document.getSharedLayerStyles(), lookup.layer, library);
-  var textStylesMap = Object(_replace_shared_styles__WEBPACK_IMPORTED_MODULE_3__["default"])(document.getSharedTextStyles(), lookup.text, library);
+  var layerStylesMap = Object(_replace_shared_styles__WEBPACK_IMPORTED_MODULE_3__["default"])(document.getSharedLayerStyles(), lookup.layer);
+  var textStylesMap = Object(_replace_shared_styles__WEBPACK_IMPORTED_MODULE_3__["default"])(document.getSharedTextStyles(), lookup.text);
   Object(_replace_overrides__WEBPACK_IMPORTED_MODULE_2__["default"])(docSymbolInstances, {
     symbolsMap: symbolsMap,
     layerStylesMap: layerStylesMap,

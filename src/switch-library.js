@@ -12,13 +12,11 @@ export default function(document, library) {
   // replace the styles
   const layerStylesMap = replaceSharedStyles(
     document.getSharedLayerStyles(),
-    lookup.layer,
-    library
+    lookup.layer
   )
   const textStylesMap = replaceSharedStyles(
     document.getSharedTextStyles(),
-    lookup.text,
-    library
+    lookup.text
   )
 
   replaceOverrides(docSymbolInstances, {
