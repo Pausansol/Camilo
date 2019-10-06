@@ -20,6 +20,7 @@
   "description": "Swap theme from selected library.",
   "homepage": "https://github.com/Pausansol/Camilo#readme",
   "name": "Camilo",
+  "identifier": "Camilo",
   "disableCocoaScriptPreprocessor": true,
   "author": "Pausansol",
   "authorEmail": "pausansol@gmail.com"
