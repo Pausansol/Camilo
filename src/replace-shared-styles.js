@@ -1,4 +1,4 @@
-export default function(libraryStyles, lookup, library) {
+export default function(libraryStyles, lookup) {
   const map = {}
   libraryStyles.forEach(librarySharedStyle => {
     const currentSharedStyle = lookup[librarySharedStyle.name]
@@ -19,6 +19,7 @@ export default function(libraryStyles, lookup, library) {
         // if the shared style is local, then we just want to:
         // - import the matching style to update the local one
         // - update all the instances to point to the imported style
+        // eslint-disable-next-line no-param-reassign
         librarySharedStyle.style = imported.style
         librarySharedStyle
           .getAllInstances()

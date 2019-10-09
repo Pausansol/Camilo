@@ -1,9 +1,5 @@
 export function createLookup(styles) {
-  return styles.reduce((prev, s) => {
-    // eslint-disable-next-line no-param-reassign
-    prev[s.name] = s
-    return prev
-  }, {})
+  return styles.reduce((prev, s) => ({ ...prev, [s.name]: s }), {})
 }
 
 export default (document, library) => ({
