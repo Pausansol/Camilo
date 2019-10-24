@@ -1,3 +1,7 @@
+# Camilo
+
+[![CircleCI](https://circleci.com/gh/Pausansol/Camilo.svg?style=svg)](https://circleci.com/gh/Pausansol/Camilo)
+
 <img src='https://raw.githubusercontent.com/pausansol/camilo/master/images/cover.png'>
 
 ## Overview
