@@ -4,12 +4,15 @@
 
 <img src='https://raw.githubusercontent.com/pausansol/camilo/master/images/cover.png'>
 
-<a href="https://www.paypal.me/pausansol">
-	<img width="160" height="41" src="https://raw.githubusercontent.com/pausansol/camilo/master/images/donate.png">
-</a>
 
 ## Overview
 One click theme change for [Sketch app](https://www.sketchapp.com/). It replaces layer styles, text styles and symbols from a Sketch library with the current document or selected layers. Read the history of the beginning of Camilo [here](https://medium.com/makingtuenti/camilo-our-tool-and-technique-for-one-click-brand-change-in-sketch-52-2060ae4161ae). 
+
+## Support Camilo development
+
+<a href="https://www.paypal.me/pausansol">
+	<img width="160" height="41" src="https://raw.githubusercontent.com/pausansol/camilo/master/images/donate.png">
+</a>
 
 ## New in 1.4 🙌
 
