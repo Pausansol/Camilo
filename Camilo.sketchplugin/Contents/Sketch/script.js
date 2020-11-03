@@ -574,7 +574,7 @@ var whiteText = NSColor.colorWithCalibratedRed_green_blue_alpha(1, 1, 1, 1);
   });
   var panelContent = Object(_ui_create_view__WEBPACK_IMPORTED_MODULE_7__["default"])(NSMakeRect(0, 0, panelWidth, panelHeight - panelHeader));
   var swapType = Object(_ui_create_radio_buttons__WEBPACK_IMPORTED_MODULE_16__["default"])(['Apply to selection', 'Apply to document'], lastSelected);
-  var themesTitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, blackText, whiteText, sectionFont, 'Themes', NSMakeRect(20, 40, 100, 18));
+  var themesTitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, blackText, whiteText, sectionFont, 'Libraries', NSMakeRect(20, 40, 100, 18));
   var optionsTitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, blackText, whiteText, sectionFont, 'Options', NSMakeRect(20, 334, 100, 18));
   var scrollViewMask = Object(_ui_set_scroll_view_mask__WEBPACK_IMPORTED_MODULE_9__["default"])(theme, NSMakeRect(20, 75, 338, 239), 'scrollViewMask.png', 'scrollViewMaskDark.png');
   var libraryList = Object(_ui_create_scroll_view__WEBPACK_IMPORTED_MODULE_6__["default"])(theme, NSMakeRect(20, 75, 338, 239));
@@ -596,7 +596,7 @@ var whiteText = NSColor.colorWithCalibratedRed_green_blue_alpha(1, 1, 1, 1);
     var artboardTitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, blackText, whiteText, titleFont, String(library.name), NSMakeRect(rightColX, 20, rightColWidth - 88, 18));
     var divider = Object(_ui_create_divider__WEBPACK_IMPORTED_MODULE_12__["default"])(theme, NSMakeRect(20, itemHeight - 1, itemWidth - 40, 0.5));
     var button = NSButton.alloc().initWithFrame(NSMakeRect(237, 18, 88, 36));
-    button.setTitle('Apply');
+    button.setTitle('Swap');
     button.setBezelStyle(NSRoundedBezelStyle);
     button.setAction('callAction:');
     button.setCOSJSTargetFunction(function () {

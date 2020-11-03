@@ -68,7 +68,7 @@ export default function() {
     lastSelected
   )
   
-  let themesTitle = createText(theme,blackText,whiteText,sectionFont,'Themes',NSMakeRect(20,40,100,18))
+  let themesTitle = createText(theme,blackText,whiteText,sectionFont,'Libraries',NSMakeRect(20,40,100,18))
   let optionsTitle = createText(theme,blackText,whiteText,sectionFont,'Options',NSMakeRect(20,334,100,18))
   let scrollViewMask = setScrollViewMask(theme,NSMakeRect(20,75,338,239),'scrollViewMask.png','scrollViewMaskDark.png')
   let libraryList = createScrollView(theme,NSMakeRect(20,75,338,239))
@@ -91,7 +91,7 @@ export default function() {
     let divider = createDivider(theme,NSMakeRect(20,itemHeight - 1,itemWidth - 40,0.5))
 
     let button = NSButton.alloc().initWithFrame(NSMakeRect(237,18,88,36)) 
-    button.setTitle('Apply')
+    button.setTitle('Swap')
     button.setBezelStyle(NSRoundedBezelStyle)
     button.setAction('callAction:')
 
