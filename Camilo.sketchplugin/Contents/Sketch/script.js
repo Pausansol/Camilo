@@ -506,16 +506,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ui_create_scroll_view__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ui/create-scroll-view */ "./src/ui/create-scroll-view.js");
 /* harmony import */ var _ui_create_view__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./ui/create-view */ "./src/ui/create-view.js");
 /* harmony import */ var _ui_create_button__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./ui/create-button */ "./src/ui/create-button.js");
-/* harmony import */ var _ui_set_scroll_view_mask__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./ui/set-scroll-view-mask */ "./src/ui/set-scroll-view-mask.js");
+/* harmony import */ var _ui_create_image__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./ui/create-image */ "./src/ui/create-image.js");
 /* harmony import */ var _ui_create_help_button__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./ui/create-help-button */ "./src/ui/create-help-button.js");
 /* harmony import */ var _ui_create_text__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./ui/create-text */ "./src/ui/create-text.js");
 /* harmony import */ var _ui_create_divider__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./ui/create-divider */ "./src/ui/create-divider.js");
-/* harmony import */ var _ui_create_image__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./ui/create-image */ "./src/ui/create-image.js");
-/* harmony import */ var _ui_get_library_preview__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./ui/get-library-preview */ "./src/ui/get-library-preview.js");
-/* harmony import */ var _ui_set_mask__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./ui/set-mask */ "./src/ui/set-mask.js");
-/* harmony import */ var _ui_create_radio_buttons__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./ui/create-radio-buttons */ "./src/ui/create-radio-buttons.js");
-
-
+/* harmony import */ var _ui_create_library_preview__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./ui/create-library-preview */ "./src/ui/create-library-preview.js");
+/* harmony import */ var _ui_create_radio_buttons__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./ui/create-radio-buttons */ "./src/ui/create-radio-buttons.js");
 
 
 
@@ -573,10 +569,10 @@ var whiteText = NSColor.colorWithCalibratedRed_green_blue_alpha(1, 1, 1, 1);
     fiber.cleanup();
   });
   var panelContent = Object(_ui_create_view__WEBPACK_IMPORTED_MODULE_7__["default"])(NSMakeRect(0, 0, panelWidth, panelHeight - panelHeader));
-  var swapType = Object(_ui_create_radio_buttons__WEBPACK_IMPORTED_MODULE_16__["default"])(['Apply to selection', 'Apply to document'], lastSelected);
+  var swapType = Object(_ui_create_radio_buttons__WEBPACK_IMPORTED_MODULE_14__["default"])(['Apply to selection', 'Apply to document'], lastSelected);
   var themesTitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, blackText, whiteText, sectionFont, 'Libraries', NSMakeRect(20, 40, 100, 18));
   var optionsTitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, blackText, whiteText, sectionFont, 'Options', NSMakeRect(20, 334, 100, 18));
-  var scrollViewMask = Object(_ui_set_scroll_view_mask__WEBPACK_IMPORTED_MODULE_9__["default"])(theme, NSMakeRect(20, 75, 338, 239), 'scrollViewMask.png', 'scrollViewMaskDark.png');
+  var scrollViewMask = Object(_ui_create_image__WEBPACK_IMPORTED_MODULE_9__["default"])(theme, NSMakeRect(20, 75, 338, 239), 'scrollViewMask.png', 'scrollViewMaskDark.png');
   var libraryList = Object(_ui_create_scroll_view__WEBPACK_IMPORTED_MODULE_6__["default"])(theme, NSMakeRect(20, 75, 338, 239));
   var addComponentsToPanel = [themesTitle, optionsTitle, swapType, libraryList, scrollViewMask].forEach(function (i) {
     return panelContent.addSubview(i);
@@ -587,11 +583,9 @@ var whiteText = NSColor.colorWithCalibratedRed_green_blue_alpha(1, 1, 1, 1);
     var lib = library;
     var nativeLibrary = lib.sketchObject;
     var nativeLibraryLayers = library.sketchObject.document().documentData().pages();
-    var libraryPreviewLayer = Object(_ui_get_library_preview__WEBPACK_IMPORTED_MODULE_14__["default"])(nativeLibraryLayers);
-    console.log(libraryPreviewLayer);
     var listItem = Object(_ui_create_view__WEBPACK_IMPORTED_MODULE_7__["default"])(NSMakeRect(0, itemHeight * count, itemWidth, itemHeight));
-    var imageMask = Object(_ui_set_mask__WEBPACK_IMPORTED_MODULE_15__["default"])(theme, NSMakeRect(20, 15, 40, 40));
-    var imageArea = Object(_ui_create_image__WEBPACK_IMPORTED_MODULE_13__["default"])(theme, libraryPreviewLayer, NSMakeRect(20, 15, 40, 40));
+    var imageMask = Object(_ui_create_image__WEBPACK_IMPORTED_MODULE_9__["default"])(theme, NSMakeRect(20, 15, 40, 40), 'mask.png', 'maskDark.png');
+    var imageArea = Object(_ui_create_library_preview__WEBPACK_IMPORTED_MODULE_13__["default"])(theme, nativeLibraryLayers, NSMakeRect(20, 15, 40, 40));
     var artboardSubtitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, darkTextGrey, lightTextGrey, subtitleFont, String(library.libraryType), NSMakeRect(rightColX, 38, rightColWidth - 88, 14));
     var artboardTitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, blackText, whiteText, titleFont, String(library.name), NSMakeRect(rightColX, 20, rightColWidth - 88, 18));
     var divider = Object(_ui_create_divider__WEBPACK_IMPORTED_MODULE_12__["default"])(theme, NSMakeRect(20, itemHeight - 1, itemWidth - 40, 0.5));
@@ -802,10 +796,54 @@ function createHelpButton(label, frame) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return createImage; });
-/* harmony import */ var _set_scroll_view_mask__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./set-scroll-view-mask */ "./src/ui/set-scroll-view-mask.js");
-
-function createImage(theme, libraryPreviewLayer, frame) {
+function createImage(theme, frame, imagePath, imagePathDark) {
   var image = NSImageView.alloc().initWithFrame(frame);
+
+  if (theme === 'dark') {
+    var mask = NSImage.alloc().initByReferencingFile(context.plugin.urlForResourceNamed(String(imagePathDark)).path());
+    image.setImage(mask);
+    image.setImageScaling(0);
+  } else {
+    var _mask = NSImage.alloc().initByReferencingFile(context.plugin.urlForResourceNamed(String(imagePath)).path());
+
+    image.setImage(_mask);
+    image.setImageScaling(0);
+  }
+
+  return image;
+}
+
+/***/ }),
+
+/***/ "./src/ui/create-library-preview.js":
+/*!******************************************!*\
+  !*** ./src/ui/create-library-preview.js ***!
+  \******************************************/
+/*! exports provided: getLibraryPreview, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLibraryPreview", function() { return getLibraryPreview; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return createLibraryPreview; });
+/* harmony import */ var _create_image__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./create-image */ "./src/ui/create-image.js");
+
+function getLibraryPreview(source) {
+  var artboardGroups = NSMutableArray.array();
+  source.forEach(function (page) {
+    var predicate = NSPredicate.predicateWithFormat('className == %@ && name == %@', 'MSArtboardGroup', 'Library Preview');
+    page.children().filteredArrayUsingPredicate(predicate).forEach(function (instance) {
+      return artboardGroups.addObject(instance);
+    });
+  });
+
+  if (artboardGroups.length > 0) {
+    return artboardGroups[0];
+  }
+}
+function createLibraryPreview(theme, source, frame) {
+  var image = NSImageView.alloc().initWithFrame(frame);
+  var libraryPreviewLayer = getLibraryPreview(source);
 
   if (libraryPreviewLayer != undefined || null) {
     var exportRequest = MSExportRequest.exportRequestsFromExportableLayer_inRect_useIDForName_(libraryPreviewLayer, libraryPreviewLayer.absoluteInfluenceRect(), false).firstObject();
@@ -819,7 +857,7 @@ function createImage(theme, libraryPreviewLayer, frame) {
     image.setImageScaling(3);
     return image;
   } else {
-    var _libraryPreviewImage = Object(_set_scroll_view_mask__WEBPACK_IMPORTED_MODULE_0__["default"])(theme, frame, 'library.png', 'library.png');
+    var _libraryPreviewImage = setScrollViewMask(theme, frame, 'library.png', 'library.png');
 
     return _libraryPreviewImage;
   }
@@ -937,93 +975,6 @@ function createView(frame) {
   var view = NSView.alloc().initWithFrame(frame);
   view.setFlipped(1);
   return view;
-}
-
-/***/ }),
-
-/***/ "./src/ui/get-library-preview.js":
-/*!***************************************!*\
-  !*** ./src/ui/get-library-preview.js ***!
-  \***************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return getLibraryPreview; });
-function getLibraryPreview(source) {
-  var artboardGroups = NSMutableArray.array();
-  source.forEach(function (page) {
-    var predicate = NSPredicate.predicateWithFormat('className == %@ && name == %@', 'MSArtboardGroup', 'Library Preview');
-    page.children().filteredArrayUsingPredicate(predicate).forEach(function (instance) {
-      return artboardGroups.addObject(instance);
-    });
-  });
-
-  if (artboardGroups.length > 0) {
-    return artboardGroups[0];
-  }
-}
-
-/***/ }),
-
-/***/ "./src/ui/set-mask.js":
-/*!****************************!*\
-  !*** ./src/ui/set-mask.js ***!
-  \****************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return setMask; });
-function setMask(theme, frame) {
-  var image = NSButton.alloc().initWithFrame(frame);
-  image.setBordered(0);
-  image.setWantsLayer(1);
-  image.layer().setBackgroundColor(NSColor.colorWithCalibratedRed_green_blue_alpha(2, 2, 2, 0));
-
-  if (theme === 'dark') {
-    var mask = NSImage.alloc().initByReferencingFile(context.plugin.urlForResourceNamed('maskDark.png').path());
-    image.setImage(mask);
-    image.setImageScaling(0);
-  } else {
-    var _mask = NSImage.alloc().initByReferencingFile(context.plugin.urlForResourceNamed('mask.png').path());
-
-    image.setImage(_mask);
-    image.setImageScaling(0);
-  }
-
-  return image;
-}
-
-/***/ }),
-
-/***/ "./src/ui/set-scroll-view-mask.js":
-/*!****************************************!*\
-  !*** ./src/ui/set-scroll-view-mask.js ***!
-  \****************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return setScrollViewMask; });
-function setScrollViewMask(theme, frame, imagePath, imagePathDark) {
-  var image = NSImageView.alloc().initWithFrame(frame);
-
-  if (theme === 'dark') {
-    var mask = NSImage.alloc().initByReferencingFile(context.plugin.urlForResourceNamed(String(imagePathDark)).path());
-    image.setImage(mask);
-    image.setImageScaling(0);
-  } else {
-    var _mask = NSImage.alloc().initByReferencingFile(context.plugin.urlForResourceNamed(String(imagePath)).path());
-
-    image.setImage(_mask);
-    image.setImageScaling(0);
-  }
-
-  return image;
 }
 
 /***/ }),

@@ -7,13 +7,11 @@ import createFloatingPanel from './ui/create-floating-panel'
 import createScrollView from './ui/create-scroll-view'
 import createView from './ui/create-view'
 import createButton from './ui/create-button'
-import setScrollViewMask from './ui/set-scroll-view-mask'
+import createImage from './ui/create-image'
 import createHelpButton from './ui/create-help-button'
 import createText from './ui/create-text'
 import createDivider from './ui/create-divider'
-import createImage from './ui/create-image'
-import getLibraryPreview from './ui/get-library-preview'
-import setMask from './ui/set-mask'
+import createLibraryPreview from './ui/create-library-preview'
 import createRadioButtons from './ui/create-radio-buttons'
 
 const theme = sketch.UI.getTheme()
@@ -70,7 +68,7 @@ export default function() {
   
   let themesTitle = createText(theme,blackText,whiteText,sectionFont,'Libraries',NSMakeRect(20,40,100,18))
   let optionsTitle = createText(theme,blackText,whiteText,sectionFont,'Options',NSMakeRect(20,334,100,18))
-  let scrollViewMask = setScrollViewMask(theme,NSMakeRect(20,75,338,239),'scrollViewMask.png','scrollViewMaskDark.png')
+  let scrollViewMask = createImage(theme,NSMakeRect(20,75,338,239),'scrollViewMask.png','scrollViewMaskDark.png')
   let libraryList = createScrollView(theme,NSMakeRect(20,75,338,239))
   
   let addComponentsToPanel = [themesTitle,optionsTitle,swapType,libraryList,scrollViewMask].forEach(i => panelContent.addSubview(i))
@@ -81,11 +79,9 @@ export default function() {
     let lib = library
     let nativeLibrary = lib.sketchObject
     let nativeLibraryLayers = library.sketchObject.document().documentData().pages()
-    let libraryPreviewLayer = getLibraryPreview(nativeLibraryLayers)
-    console.log(libraryPreviewLayer)
     let listItem = createView(NSMakeRect(0,itemHeight*count,itemWidth,itemHeight))
-    let imageMask = setMask(theme,NSMakeRect(20,15,40,40))
-    let imageArea = createImage(theme,libraryPreviewLayer,NSMakeRect(20,15,40,40))
+    let imageMask = createImage(theme,NSMakeRect(20,15,40,40),'mask.png','maskDark.png')
+    let imageArea = createLibraryPreview(theme,nativeLibraryLayers,NSMakeRect(20,15,40,40))
     let artboardSubtitle = createText(theme,darkTextGrey,lightTextGrey,subtitleFont,String(library.libraryType),NSMakeRect(rightColX,38,rightColWidth-88,14))
     let artboardTitle = createText(theme,blackText,whiteText,titleFont,String(library.name),NSMakeRect(rightColX,20,rightColWidth-88,18))
     let divider = createDivider(theme,NSMakeRect(20,itemHeight - 1,itemWidth - 40,0.5))
