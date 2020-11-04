@@ -201,6 +201,108 @@ function inspectSelection(layers, lookup, documentSymbols, documentLayerStyles, 
 
 /***/ }),
 
+/***/ "./src/main.js":
+/*!*********************!*\
+  !*** ./src/main.js ***!
+  \*********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var sketch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sketch */ "sketch");
+/* harmony import */ var sketch__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sketch__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var sketch_settings__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! sketch/settings */ "sketch/settings");
+/* harmony import */ var sketch_settings__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(sketch_settings__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _analytics__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./analytics */ "./src/analytics.js");
+/* harmony import */ var _switch_library__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./switch-library */ "./src/switch-library.js");
+/* harmony import */ var _switch_selection__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./switch-selection */ "./src/switch-selection.js");
+/* harmony import */ var _ui_create_floating_panel__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ui/create-floating-panel */ "./src/ui/create-floating-panel.js");
+/* harmony import */ var _ui_create_scroll_view__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ui/create-scroll-view */ "./src/ui/create-scroll-view.js");
+/* harmony import */ var _ui_create_view__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./ui/create-view */ "./src/ui/create-view.js");
+/* harmony import */ var _ui_create_button__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./ui/create-button */ "./src/ui/create-button.js");
+/* harmony import */ var _ui_create_image__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./ui/create-image */ "./src/ui/create-image.js");
+/* harmony import */ var _ui_create_help_button__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./ui/create-help-button */ "./src/ui/create-help-button.js");
+/* harmony import */ var _ui_create_text__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./ui/create-text */ "./src/ui/create-text.js");
+/* harmony import */ var _ui_create_divider__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./ui/create-divider */ "./src/ui/create-divider.js");
+/* harmony import */ var _ui_create_library_preview__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./ui/create-library-preview */ "./src/ui/create-library-preview.js");
+/* harmony import */ var _ui_create_radio_buttons__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./ui/create-radio-buttons */ "./src/ui/create-radio-buttons.js");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function (panelStyles, theme, doc, libraries) {
+  //Settings
+  var lastSelected = sketch_settings__WEBPACK_IMPORTED_MODULE_1___default.a.sessionVariable('Selected');
+  var panelContent = Object(_ui_create_view__WEBPACK_IMPORTED_MODULE_7__["default"])(NSMakeRect(0, 0, panelStyles.panelWidth, panelStyles.panelHeight - panelStyles.panelHeader));
+  var swapType = Object(_ui_create_radio_buttons__WEBPACK_IMPORTED_MODULE_14__["default"])(['Apply to selection', 'Apply to document'], lastSelected);
+  var themesTitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, panelStyles.blackText, panelStyles.whiteText, panelStyles.sectionFont, 'Libraries', NSMakeRect(20, 40, 100, 18));
+  var optionsTitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, panelStyles.blackText, panelStyles.whiteText, panelStyles.sectionFont, 'Options', NSMakeRect(20, 334, 100, 18));
+  var scrollViewMask = Object(_ui_create_image__WEBPACK_IMPORTED_MODULE_9__["default"])(theme, NSMakeRect(20, 75, 338, 239), 'scrollViewMask.png', 'scrollViewMaskDark.png');
+  var libraryList = Object(_ui_create_scroll_view__WEBPACK_IMPORTED_MODULE_6__["default"])(theme, NSMakeRect(20, 75, 338, 239));
+  var addComponentsToPanel = [themesTitle, optionsTitle, swapType, libraryList, scrollViewMask].forEach(function (i) {
+    return panelContent.addSubview(i);
+  });
+  var itemContent = Object(_ui_create_view__WEBPACK_IMPORTED_MODULE_7__["default"])(NSMakeRect(0, 0, panelStyles.itemWidth, panelStyles.itemHeight * libraries.length));
+  var count = 0;
+  libraries.forEach(function (library, i) {
+    var lib = library;
+    var nativeLibrary = lib.sketchObject;
+    var nativeLibraryLayers = library.sketchObject.document().documentData().pages();
+    var listItem = Object(_ui_create_view__WEBPACK_IMPORTED_MODULE_7__["default"])(NSMakeRect(0, panelStyles.itemHeight * count, panelStyles.itemWidth, panelStyles.itemHeight));
+    var imageMask = Object(_ui_create_image__WEBPACK_IMPORTED_MODULE_9__["default"])(theme, NSMakeRect(20, 15, 40, 40), 'mask.png', 'maskDark.png');
+    var imageArea = Object(_ui_create_library_preview__WEBPACK_IMPORTED_MODULE_13__["default"])(theme, nativeLibraryLayers, NSMakeRect(20, 15, 40, 40));
+    var artboardSubtitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, panelStyles.darkTextGrey, panelStyles.lightTextGrey, panelStyles.subtitleFont, String(library.libraryType), NSMakeRect(panelStyles.rightColX, 38, panelStyles.rightColWidth - 88, 14));
+    var artboardTitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, panelStyles.blackText, panelStyles.whiteText, panelStyles.titleFont, String(library.name), NSMakeRect(panelStyles.rightColX, 20, panelStyles.rightColWidth - 88, 18));
+    var divider = Object(_ui_create_divider__WEBPACK_IMPORTED_MODULE_12__["default"])(theme, NSMakeRect(20, panelStyles.itemHeight - 1, panelStyles.itemWidth - 40, 0.5));
+    var button = NSButton.alloc().initWithFrame(NSMakeRect(237, 18, 88, 36));
+    button.setTitle('Swap');
+    button.setBezelStyle(NSRoundedBezelStyle);
+    button.setAction('callAction:');
+    button.setCOSJSTargetFunction(function () {
+      if (swapType.selectedCell().tag() === 0) {
+        sketch_settings__WEBPACK_IMPORTED_MODULE_1___default.a.setSessionVariable('Selected', 0);
+        Object(_switch_selection__WEBPACK_IMPORTED_MODULE_4__["default"])(doc, lib);
+        Object(_analytics__WEBPACK_IMPORTED_MODULE_2__["default"])(context, 'Replace selected with', lib.name, 'Library');
+        var selectedLayers = doc.selectedLayers.layers;
+
+        if (selectedLayers.length < 1) {
+          sketch__WEBPACK_IMPORTED_MODULE_0___default.a.UI.message("Select a layer");
+        } else {
+          sketch__WEBPACK_IMPORTED_MODULE_0___default.a.UI.message("\uD83C\uDF89 \uD83C\uDF88 \uD83D\uDE4C\uD83C\uDFFC  Applied theme from ".concat(lib.name, "  \uD83D\uDE4C\uD83C\uDFFC \uD83C\uDF89 \uD83C\uDF88"));
+        }
+      }
+
+      if (swapType.selectedCell().tag() === 1) {
+        sketch_settings__WEBPACK_IMPORTED_MODULE_1___default.a.setSessionVariable('Selected', 1);
+        Object(_switch_library__WEBPACK_IMPORTED_MODULE_3__["default"])(doc, lib);
+        Object(_analytics__WEBPACK_IMPORTED_MODULE_2__["default"])(context, 'Replace document with', lib.name, 'Library');
+        sketch__WEBPACK_IMPORTED_MODULE_0___default.a.UI.message("\uD83C\uDF89 \uD83C\uDF88 \uD83D\uDE4C\uD83C\uDFFC  Applied theme from ".concat(lib.name, "  \uD83D\uDE4C\uD83C\uDFFC \uD83C\uDF89 \uD83C\uDF88"));
+      }
+    });
+    var addComponentsToList = [imageArea, imageMask, artboardSubtitle, artboardTitle, button, divider].forEach(function (i) {
+      return listItem.addSubview(i);
+    });
+    itemContent.addSubview(listItem);
+    count++;
+  });
+  libraryList.setDocumentView(itemContent);
+  return panelContent;
+});
+
+/***/ }),
+
 /***/ "./src/map-shared-styles.js":
 /*!**********************************!*\
   !*** ./src/map-shared-styles.js ***!
@@ -497,33 +599,10 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var sketch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sketch */ "sketch");
 /* harmony import */ var sketch__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sketch__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var sketch_settings__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! sketch/settings */ "sketch/settings");
-/* harmony import */ var sketch_settings__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(sketch_settings__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _analytics__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./analytics */ "./src/analytics.js");
-/* harmony import */ var _switch_library__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./switch-library */ "./src/switch-library.js");
-/* harmony import */ var _switch_selection__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./switch-selection */ "./src/switch-selection.js");
-/* harmony import */ var _ui_create_floating_panel__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ui/create-floating-panel */ "./src/ui/create-floating-panel.js");
-/* harmony import */ var _ui_create_scroll_view__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ui/create-scroll-view */ "./src/ui/create-scroll-view.js");
-/* harmony import */ var _ui_create_view__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./ui/create-view */ "./src/ui/create-view.js");
-/* harmony import */ var _ui_create_button__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./ui/create-button */ "./src/ui/create-button.js");
-/* harmony import */ var _ui_create_image__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./ui/create-image */ "./src/ui/create-image.js");
-/* harmony import */ var _ui_create_help_button__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./ui/create-help-button */ "./src/ui/create-help-button.js");
-/* harmony import */ var _ui_create_text__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./ui/create-text */ "./src/ui/create-text.js");
-/* harmony import */ var _ui_create_divider__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./ui/create-divider */ "./src/ui/create-divider.js");
-/* harmony import */ var _ui_create_library_preview__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./ui/create-library-preview */ "./src/ui/create-library-preview.js");
-/* harmony import */ var _ui_create_radio_buttons__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./ui/create-radio-buttons */ "./src/ui/create-radio-buttons.js");
-/* harmony import */ var _ui_styles__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./ui/styles */ "./src/ui/styles.js");
-
-
-
-
-
-
-
-
-
-
-
+/* harmony import */ var _analytics__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./analytics */ "./src/analytics.js");
+/* harmony import */ var _ui_create_floating_panel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ui/create-floating-panel */ "./src/ui/create-floating-panel.js");
+/* harmony import */ var _ui_styles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ui/styles */ "./src/ui/styles.js");
+/* harmony import */ var _main__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./main */ "./src/main.js");
 
 
 
@@ -537,74 +616,18 @@ var libraries = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.getLibraries().fil
 var pluginName = __command.pluginBundle().name();
 
 var doc = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.getSelectedDocument();
-var panelItems = []; //Settings
-
-var lastSelected = sketch_settings__WEBPACK_IMPORTED_MODULE_1___default.a.sessionVariable('Selected');
 /* harmony default export */ __webpack_exports__["default"] = (function () {
-  var panelStyles = Object(_ui_styles__WEBPACK_IMPORTED_MODULE_15__["default"])();
-  console.log(panelStyles);
+  var panelStyles = Object(_ui_styles__WEBPACK_IMPORTED_MODULE_3__["default"])();
+  var panelContent = Object(_main__WEBPACK_IMPORTED_MODULE_4__["default"])(panelStyles, theme, doc, libraries);
   var fiber = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.Async.createFiber();
-  var panel = Object(_ui_create_floating_panel__WEBPACK_IMPORTED_MODULE_5__["default"])(theme, pluginName, NSMakeRect(0, 0, panelStyles.panelWidth, panelStyles.panelHeight));
+  var panel = Object(_ui_create_floating_panel__WEBPACK_IMPORTED_MODULE_2__["default"])(theme, pluginName, NSMakeRect(0, 0, panelStyles.panelWidth, panelStyles.panelHeight));
   var panelClose = panel.standardWindowButton(NSWindowCloseButton);
   panelClose.setCOSJSTargetFunction(function () {
     panel.close();
     fiber.cleanup();
   });
-  var panelContent = Object(_ui_create_view__WEBPACK_IMPORTED_MODULE_7__["default"])(NSMakeRect(0, 0, panelStyles.panelWidth, panelStyles.panelHeight - panelStyles.panelHeader));
-  var swapType = Object(_ui_create_radio_buttons__WEBPACK_IMPORTED_MODULE_14__["default"])(['Apply to selection', 'Apply to document'], lastSelected);
-  var themesTitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, panelStyles.blackText, panelStyles.whiteText, panelStyles.sectionFont, 'Libraries', NSMakeRect(20, 40, 100, 18));
-  var optionsTitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, panelStyles.blackText, panelStyles.whiteText, panelStyles.sectionFont, 'Options', NSMakeRect(20, 334, 100, 18));
-  var scrollViewMask = Object(_ui_create_image__WEBPACK_IMPORTED_MODULE_9__["default"])(theme, NSMakeRect(20, 75, 338, 239), 'scrollViewMask.png', 'scrollViewMaskDark.png');
-  var libraryList = Object(_ui_create_scroll_view__WEBPACK_IMPORTED_MODULE_6__["default"])(theme, NSMakeRect(20, 75, 338, 239));
-  var addComponentsToPanel = [themesTitle, optionsTitle, swapType, libraryList, scrollViewMask].forEach(function (i) {
-    return panelContent.addSubview(i);
-  });
-  var itemContent = Object(_ui_create_view__WEBPACK_IMPORTED_MODULE_7__["default"])(NSMakeRect(0, 0, panelStyles.itemWidth, panelStyles.itemHeight * libraries.length));
-  var count = 0;
-  libraries.forEach(function (library, i) {
-    var lib = library;
-    var nativeLibrary = lib.sketchObject;
-    var nativeLibraryLayers = library.sketchObject.document().documentData().pages();
-    var listItem = Object(_ui_create_view__WEBPACK_IMPORTED_MODULE_7__["default"])(NSMakeRect(0, panelStyles.itemHeight * count, panelStyles.itemWidth, panelStyles.itemHeight));
-    var imageMask = Object(_ui_create_image__WEBPACK_IMPORTED_MODULE_9__["default"])(theme, NSMakeRect(20, 15, 40, 40), 'mask.png', 'maskDark.png');
-    var imageArea = Object(_ui_create_library_preview__WEBPACK_IMPORTED_MODULE_13__["default"])(theme, nativeLibraryLayers, NSMakeRect(20, 15, 40, 40));
-    var artboardSubtitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, panelStyles.darkTextGrey, panelStyles.lightTextGrey, panelStyles.subtitleFont, String(library.libraryType), NSMakeRect(panelStyles.rightColX, 38, panelStyles.rightColWidth - 88, 14));
-    var artboardTitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, panelStyles.blackText, panelStyles.whiteText, panelStyles.titleFont, String(library.name), NSMakeRect(panelStyles.rightColX, 20, panelStyles.rightColWidth - 88, 18));
-    var divider = Object(_ui_create_divider__WEBPACK_IMPORTED_MODULE_12__["default"])(theme, NSMakeRect(20, panelStyles.itemHeight - 1, panelStyles.itemWidth - 40, 0.5));
-    var button = NSButton.alloc().initWithFrame(NSMakeRect(237, 18, 88, 36));
-    button.setTitle('Swap');
-    button.setBezelStyle(NSRoundedBezelStyle);
-    button.setAction('callAction:');
-    button.setCOSJSTargetFunction(function () {
-      if (swapType.selectedCell().tag() === 0) {
-        sketch_settings__WEBPACK_IMPORTED_MODULE_1___default.a.setSessionVariable('Selected', 0);
-        Object(_switch_selection__WEBPACK_IMPORTED_MODULE_4__["default"])(doc, lib);
-        Object(_analytics__WEBPACK_IMPORTED_MODULE_2__["default"])(context, 'Replace selected with', lib.name, 'Library');
-        var selectedLayers = doc.selectedLayers.layers;
-
-        if (selectedLayers.length < 1) {
-          sketch__WEBPACK_IMPORTED_MODULE_0___default.a.UI.message("Select a layer");
-        } else {
-          sketch__WEBPACK_IMPORTED_MODULE_0___default.a.UI.message("\uD83C\uDF89 \uD83C\uDF88 \uD83D\uDE4C\uD83C\uDFFC  Applied theme from ".concat(lib.name, "  \uD83D\uDE4C\uD83C\uDFFC \uD83C\uDF89 \uD83C\uDF88"));
-        }
-      }
-
-      if (swapType.selectedCell().tag() === 1) {
-        sketch_settings__WEBPACK_IMPORTED_MODULE_1___default.a.setSessionVariable('Selected', 1);
-        Object(_switch_library__WEBPACK_IMPORTED_MODULE_3__["default"])(doc, lib);
-        Object(_analytics__WEBPACK_IMPORTED_MODULE_2__["default"])(context, 'Replace document with', lib.name, 'Library');
-        sketch__WEBPACK_IMPORTED_MODULE_0___default.a.UI.message("\uD83C\uDF89 \uD83C\uDF88 \uD83D\uDE4C\uD83C\uDFFC  Applied theme from ".concat(lib.name, "  \uD83D\uDE4C\uD83C\uDFFC \uD83C\uDF89 \uD83C\uDF88"));
-      }
-    });
-    var addComponentsToList = [imageArea, imageMask, artboardSubtitle, artboardTitle, button, divider].forEach(function (i) {
-      return listItem.addSubview(i);
-    });
-    itemContent.addSubview(listItem);
-    count++;
-  });
-  libraryList.setDocumentView(itemContent);
   panel.contentView().addSubview(panelContent);
-  Object(_analytics__WEBPACK_IMPORTED_MODULE_2__["default"])(context, 'Open Camilo', 'Alert', 'UI');
+  Object(_analytics__WEBPACK_IMPORTED_MODULE_1__["default"])(context, 'Open Camilo', 'Alert', 'UI');
 });
 
 /***/ }),
