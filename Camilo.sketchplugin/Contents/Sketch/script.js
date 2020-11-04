@@ -927,6 +927,7 @@ function createScrollView(theme, frame) {
   }
 
   view.setHasVerticalScroller(1);
+  view.pagingEnabled(1);
   return view;
 }
 
