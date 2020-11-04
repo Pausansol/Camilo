@@ -512,6 +512,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ui_create_divider__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./ui/create-divider */ "./src/ui/create-divider.js");
 /* harmony import */ var _ui_create_library_preview__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./ui/create-library-preview */ "./src/ui/create-library-preview.js");
 /* harmony import */ var _ui_create_radio_buttons__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./ui/create-radio-buttons */ "./src/ui/create-radio-buttons.js");
+/* harmony import */ var _ui_styles__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./ui/styles */ "./src/ui/styles.js");
+
 
 
 
@@ -534,61 +536,41 @@ var libraries = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.getLibraries().fil
 
 var pluginName = __command.pluginBundle().name();
 
-var doc = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.getSelectedDocument(); //Settings
+var doc = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.getSelectedDocument();
+var panelItems = []; //Settings
 
-var lastSelected = sketch_settings__WEBPACK_IMPORTED_MODULE_1___default.a.sessionVariable('Selected'); // Panel dimens
-
-var panelHeader = 20;
-var panelFooter = 38;
-var panelHeight = panelHeader + 410 + panelFooter;
-var panelWidth = 378;
-var panelGutter = 15;
-var panelItems = []; // List
-
-var itemHeight = 72;
-var itemWidth = 338;
-var leftColWidth = 60;
-var rightColPad = 8;
-var rightColWidth = itemWidth - leftColWidth - rightColPad;
-var rightColX = rightColPad + leftColWidth; // Fonts
-
-var sectionFont = NSFont.boldSystemFontOfSize(15);
-var titleFont = NSFont.boldSystemFontOfSize(12);
-var subtitleFont = NSFont.systemFontOfSize(10); //Colors
-
-var darkTextGrey = NSColor.colorWithCalibratedRed_green_blue_alpha(0, 0, 0, 0.4);
-var lightTextGrey = NSColor.colorWithCalibratedRed_green_blue_alpha(1, 1, 1, 0.4);
-var blackText = NSColor.colorWithCalibratedRed_green_blue_alpha(0, 0, 0, 1);
-var whiteText = NSColor.colorWithCalibratedRed_green_blue_alpha(1, 1, 1, 1);
+var lastSelected = sketch_settings__WEBPACK_IMPORTED_MODULE_1___default.a.sessionVariable('Selected');
 /* harmony default export */ __webpack_exports__["default"] = (function () {
+  var panelStyles = Object(_ui_styles__WEBPACK_IMPORTED_MODULE_15__["default"])();
+  console.log(panelStyles);
   var fiber = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.Async.createFiber();
-  var panel = Object(_ui_create_floating_panel__WEBPACK_IMPORTED_MODULE_5__["default"])(theme, pluginName, NSMakeRect(0, 0, panelWidth, panelHeight));
+  var panel = Object(_ui_create_floating_panel__WEBPACK_IMPORTED_MODULE_5__["default"])(theme, pluginName, NSMakeRect(0, 0, panelStyles.panelWidth, panelStyles.panelHeight));
   var panelClose = panel.standardWindowButton(NSWindowCloseButton);
   panelClose.setCOSJSTargetFunction(function () {
     panel.close();
     fiber.cleanup();
   });
-  var panelContent = Object(_ui_create_view__WEBPACK_IMPORTED_MODULE_7__["default"])(NSMakeRect(0, 0, panelWidth, panelHeight - panelHeader));
+  var panelContent = Object(_ui_create_view__WEBPACK_IMPORTED_MODULE_7__["default"])(NSMakeRect(0, 0, panelStyles.panelWidth, panelStyles.panelHeight - panelStyles.panelHeader));
   var swapType = Object(_ui_create_radio_buttons__WEBPACK_IMPORTED_MODULE_14__["default"])(['Apply to selection', 'Apply to document'], lastSelected);
-  var themesTitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, blackText, whiteText, sectionFont, 'Libraries', NSMakeRect(20, 40, 100, 18));
-  var optionsTitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, blackText, whiteText, sectionFont, 'Options', NSMakeRect(20, 334, 100, 18));
+  var themesTitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, panelStyles.blackText, panelStyles.whiteText, panelStyles.sectionFont, 'Libraries', NSMakeRect(20, 40, 100, 18));
+  var optionsTitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, panelStyles.blackText, panelStyles.whiteText, panelStyles.sectionFont, 'Options', NSMakeRect(20, 334, 100, 18));
   var scrollViewMask = Object(_ui_create_image__WEBPACK_IMPORTED_MODULE_9__["default"])(theme, NSMakeRect(20, 75, 338, 239), 'scrollViewMask.png', 'scrollViewMaskDark.png');
   var libraryList = Object(_ui_create_scroll_view__WEBPACK_IMPORTED_MODULE_6__["default"])(theme, NSMakeRect(20, 75, 338, 239));
   var addComponentsToPanel = [themesTitle, optionsTitle, swapType, libraryList, scrollViewMask].forEach(function (i) {
     return panelContent.addSubview(i);
   });
-  var itemContent = Object(_ui_create_view__WEBPACK_IMPORTED_MODULE_7__["default"])(NSMakeRect(0, 0, itemWidth, itemHeight * libraries.length));
+  var itemContent = Object(_ui_create_view__WEBPACK_IMPORTED_MODULE_7__["default"])(NSMakeRect(0, 0, panelStyles.itemWidth, panelStyles.itemHeight * libraries.length));
   var count = 0;
   libraries.forEach(function (library, i) {
     var lib = library;
     var nativeLibrary = lib.sketchObject;
     var nativeLibraryLayers = library.sketchObject.document().documentData().pages();
-    var listItem = Object(_ui_create_view__WEBPACK_IMPORTED_MODULE_7__["default"])(NSMakeRect(0, itemHeight * count, itemWidth, itemHeight));
+    var listItem = Object(_ui_create_view__WEBPACK_IMPORTED_MODULE_7__["default"])(NSMakeRect(0, panelStyles.itemHeight * count, panelStyles.itemWidth, panelStyles.itemHeight));
     var imageMask = Object(_ui_create_image__WEBPACK_IMPORTED_MODULE_9__["default"])(theme, NSMakeRect(20, 15, 40, 40), 'mask.png', 'maskDark.png');
     var imageArea = Object(_ui_create_library_preview__WEBPACK_IMPORTED_MODULE_13__["default"])(theme, nativeLibraryLayers, NSMakeRect(20, 15, 40, 40));
-    var artboardSubtitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, darkTextGrey, lightTextGrey, subtitleFont, String(library.libraryType), NSMakeRect(rightColX, 38, rightColWidth - 88, 14));
-    var artboardTitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, blackText, whiteText, titleFont, String(library.name), NSMakeRect(rightColX, 20, rightColWidth - 88, 18));
-    var divider = Object(_ui_create_divider__WEBPACK_IMPORTED_MODULE_12__["default"])(theme, NSMakeRect(20, itemHeight - 1, itemWidth - 40, 0.5));
+    var artboardSubtitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, panelStyles.darkTextGrey, panelStyles.lightTextGrey, panelStyles.subtitleFont, String(library.libraryType), NSMakeRect(panelStyles.rightColX, 38, panelStyles.rightColWidth - 88, 14));
+    var artboardTitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, panelStyles.blackText, panelStyles.whiteText, panelStyles.titleFont, String(library.name), NSMakeRect(panelStyles.rightColX, 20, panelStyles.rightColWidth - 88, 18));
+    var divider = Object(_ui_create_divider__WEBPACK_IMPORTED_MODULE_12__["default"])(theme, NSMakeRect(20, panelStyles.itemHeight - 1, panelStyles.itemWidth - 40, 0.5));
     var button = NSButton.alloc().initWithFrame(NSMakeRect(237, 18, 88, 36));
     button.setTitle('Swap');
     button.setBezelStyle(NSRoundedBezelStyle);
@@ -927,7 +909,6 @@ function createScrollView(theme, frame) {
   }
 
   view.setHasVerticalScroller(1);
-  view.pagingEnabled(1);
   return view;
 }
 
@@ -976,6 +957,47 @@ function createView(frame) {
   var view = NSView.alloc().initWithFrame(frame);
   view.setFlipped(1);
   return view;
+}
+
+/***/ }),
+
+/***/ "./src/ui/styles.js":
+/*!**************************!*\
+  !*** ./src/ui/styles.js ***!
+  \**************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return styles; });
+function styles() {
+  var styles = {
+    // Panel dimens
+    panelHeader: 20,
+    panelHeight: 468,
+    panelWidth: 378,
+    panelGutter: 15,
+    // List
+    itemHeight: 72,
+    itemWidth: 338,
+    leftColWidth: 60,
+    rightColPad: 8,
+    rightColWidth: 270,
+    //itemWidth - leftColWidth - rightColPad
+    rightColX: 68,
+    //rightColPad + leftColWidth
+    // Fonts
+    sectionFont: NSFont.boldSystemFontOfSize(15),
+    titleFont: NSFont.boldSystemFontOfSize(12),
+    subtitleFont: NSFont.systemFontOfSize(10),
+    //Colors
+    darkTextGrey: NSColor.colorWithCalibratedRed_green_blue_alpha(0, 0, 0, 0.4),
+    lightTextGrey: NSColor.colorWithCalibratedRed_green_blue_alpha(1, 1, 1, 0.4),
+    blackText: NSColor.colorWithCalibratedRed_green_blue_alpha(0, 0, 0, 1),
+    whiteText: NSColor.colorWithCalibratedRed_green_blue_alpha(1, 1, 1, 1)
+  };
+  return styles;
 }
 
 /***/ }),
