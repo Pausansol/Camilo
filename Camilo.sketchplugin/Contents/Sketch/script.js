@@ -201,10 +201,10 @@ function inspectSelection(layers, lookup, documentSymbols, documentLayerStyles, 
 
 /***/ }),
 
-/***/ "./src/main.js":
-/*!*********************!*\
-  !*** ./src/main.js ***!
-  \*********************/
+/***/ "./src/main-view.js":
+/*!**************************!*\
+  !*** ./src/main-view.js ***!
+  \**************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -273,13 +273,13 @@ __webpack_require__.r(__webpack_exports__);
     button.setCOSJSTargetFunction(function () {
       if (swapType.selectedCell().tag() === 0) {
         sketch_settings__WEBPACK_IMPORTED_MODULE_1___default.a.setSessionVariable('Selected', 0);
-        Object(_switch_selection__WEBPACK_IMPORTED_MODULE_4__["default"])(doc, lib);
-        Object(_analytics__WEBPACK_IMPORTED_MODULE_2__["default"])(context, 'Replace selected with', lib.name, 'Library');
-        var selectedLayers = doc.selectedLayers.layers;
 
         if (selectedLayers.length < 1) {
           sketch__WEBPACK_IMPORTED_MODULE_0___default.a.UI.message("Select a layer");
         } else {
+          Object(_switch_selection__WEBPACK_IMPORTED_MODULE_4__["default"])(doc, lib);
+          Object(_analytics__WEBPACK_IMPORTED_MODULE_2__["default"])(context, 'Replace selected with', lib.name, 'Library');
+          var _selectedLayers = doc.selectedLayers.layers;
           sketch__WEBPACK_IMPORTED_MODULE_0___default.a.UI.message("\uD83C\uDF89 \uD83C\uDF88 \uD83D\uDE4C\uD83C\uDFFC  Applied theme from ".concat(lib.name, "  \uD83D\uDE4C\uD83C\uDFFC \uD83C\uDF89 \uD83C\uDF88"));
         }
       }
@@ -602,7 +602,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _analytics__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./analytics */ "./src/analytics.js");
 /* harmony import */ var _ui_create_floating_panel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ui/create-floating-panel */ "./src/ui/create-floating-panel.js");
 /* harmony import */ var _ui_styles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ui/styles */ "./src/ui/styles.js");
-/* harmony import */ var _main__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./main */ "./src/main.js");
+/* harmony import */ var _main_view__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./main-view */ "./src/main-view.js");
 
 
 
@@ -618,7 +618,7 @@ var pluginName = __command.pluginBundle().name();
 var doc = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.getSelectedDocument();
 /* harmony default export */ __webpack_exports__["default"] = (function () {
   var panelStyles = Object(_ui_styles__WEBPACK_IMPORTED_MODULE_3__["default"])();
-  var panelContent = Object(_main__WEBPACK_IMPORTED_MODULE_4__["default"])(panelStyles, theme, doc, libraries);
+  var panelContent = Object(_main_view__WEBPACK_IMPORTED_MODULE_4__["default"])(panelStyles, theme, doc, libraries);
   var fiber = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.Async.createFiber();
   var panel = Object(_ui_create_floating_panel__WEBPACK_IMPORTED_MODULE_2__["default"])(theme, pluginName, NSMakeRect(0, 0, panelStyles.panelWidth, panelStyles.panelHeight));
   var panelClose = panel.standardWindowButton(NSWindowCloseButton);
