@@ -273,13 +273,13 @@ __webpack_require__.r(__webpack_exports__);
     button.setCOSJSTargetFunction(function () {
       if (swapType.selectedCell().tag() === 0) {
         sketch_settings__WEBPACK_IMPORTED_MODULE_1___default.a.setSessionVariable('Selected', 0);
+        var selectedLayers = doc.selectedLayers.layers;
 
         if (selectedLayers.length < 1) {
           sketch__WEBPACK_IMPORTED_MODULE_0___default.a.UI.message("Select a layer");
         } else {
           Object(_switch_selection__WEBPACK_IMPORTED_MODULE_4__["default"])(doc, lib);
           Object(_analytics__WEBPACK_IMPORTED_MODULE_2__["default"])(context, 'Replace selected with', lib.name, 'Library');
-          var _selectedLayers = doc.selectedLayers.layers;
           sketch__WEBPACK_IMPORTED_MODULE_0___default.a.UI.message("\uD83C\uDF89 \uD83C\uDF88 \uD83D\uDE4C\uD83C\uDFFC  Applied theme from ".concat(lib.name, "  \uD83D\uDE4C\uD83C\uDFFC \uD83C\uDF89 \uD83C\uDF88"));
         }
       }
@@ -953,7 +953,8 @@ function createText(theme, color, colorDark, font, string, frame) {
   field.setFont(font);
   field.setBezeled(0);
   field.setEditable(0);
-  field.setDrawsBackground(false); //Themes colors
+  field.setDrawsBackground(false);
+  field.setLineBreakMode(NSLineBreakByTruncatingTail); //Themes colors
 
   if (theme === 'dark') {
     field.setTextColor(colorDark);

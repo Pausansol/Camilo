@@ -55,13 +55,12 @@ export default function(panelStyles, theme, doc, libraries) {
 
       if (swapType.selectedCell().tag() === 0) {
         settings.setSessionVariable('Selected', 0)
-      
+      const selectedLayers = doc.selectedLayers.layers
         if (selectedLayers.length < 1) {
           sketch.UI.message(`Select a layer`)
-        } else {
-          switchSelection(doc, lib)
+        } else {         
+          switchSelection(doc, lib)          
           googleAnalytics(context, 'Replace selected with', lib.name, 'Library')
-          const selectedLayers = doc.selectedLayers.layers
           sketch.UI.message(`🎉 🎈 🙌🏼  Applied theme from ${lib.name}  🙌🏼 🎉 🎈`)
         }
       }

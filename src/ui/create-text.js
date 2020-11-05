@@ -7,6 +7,7 @@ export default function createText(theme,color,colorDark,font,string,frame) {
 	field.setBezeled(0)
 	field.setEditable(0)
 	field.setDrawsBackground(false)
+	field.setLineBreakMode(NSLineBreakByTruncatingTail);
 
 	//Themes colors
 	if (theme === 'dark') {
