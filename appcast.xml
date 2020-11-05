@@ -6,8 +6,8 @@
     <description>Camilo Plugin</description>
     <language>en</language>
     <item>
-      <title>Version 2.0.0</title>
-      <enclosure url="https://github.com/Pausansol/Camilo/archive/master.zip" sparkle:version="2.0.0"/>
+      <title>Version 2.0.1</title>
+      <enclosure url="https://github.com/Pausansol/Camilo/archive/master.zip" sparkle:version="2.0.1"/>
     </item>
   </channel>
 </rss>

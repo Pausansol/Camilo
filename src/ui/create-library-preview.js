@@ -37,7 +37,7 @@ export default function createLibraryPreview(theme,source,frame) {
 
 	} else {
 
-		let libraryPreviewImage = setScrollViewMask(theme,frame,'library.png','library.png');
+		let libraryPreviewImage = createImage(theme,frame,'library.png','library.png');
 		return libraryPreviewImage;
 	}
 }

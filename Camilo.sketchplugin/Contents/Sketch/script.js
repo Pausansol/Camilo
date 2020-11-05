@@ -862,7 +862,7 @@ function createLibraryPreview(theme, source, frame) {
     image.setImageScaling(3);
     return image;
   } else {
-    var _libraryPreviewImage = setScrollViewMask(theme, frame, 'library.png', 'library.png');
+    var _libraryPreviewImage = Object(_create_image__WEBPACK_IMPORTED_MODULE_0__["default"])(theme, frame, 'library.png', 'library.png');
 
     return _libraryPreviewImage;
   }

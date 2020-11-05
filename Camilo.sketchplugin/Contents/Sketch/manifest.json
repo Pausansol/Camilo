@@ -16,7 +16,7 @@
   "icon": "icon.png",
   "appcast": "https://raw.githubusercontent.com/pausansol/camilo/master/appcast.xml",
   "compatibleVersion": "53",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Swap theme from selected library.",
   "homepage": "https://github.com/Pausansol/Camilo#readme",
   "name": "Camilo",
