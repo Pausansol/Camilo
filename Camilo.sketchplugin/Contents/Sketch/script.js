@@ -531,6 +531,32 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/replace-swatches.js":
+/*!*********************************!*\
+  !*** ./src/replace-swatches.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (function (docData, librarySwatches, docSwatches) {
+  docSwatches.forEach(function (swatch) {
+    var importableSwatch = librarySwatches.find(function (sw) {
+      return sw.name == swatch.name();
+    });
+
+    if (!importableSwatch) {
+      return;
+    } else {
+      var newSwatch = importableSwatch.import();
+      docData.replaceInstancesOfColor_withColor_ignoreAlphaWhenMatching_replaceAlphaOfOriginalColor(swatch.makeReferencingColor(), newSwatch.referencingColor, false, false);
+    }
+  });
+});
+
+/***/ }),
+
 /***/ "./src/replace-symbols.js":
 /*!********************************!*\
   !*** ./src/replace-symbols.js ***!
@@ -645,25 +671,35 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _replace_symbols__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./replace-symbols */ "./src/replace-symbols.js");
 /* harmony import */ var _replace_overrides__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./replace-overrides */ "./src/replace-overrides.js");
 /* harmony import */ var _replace_shared_styles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./replace-shared-styles */ "./src/replace-shared-styles.js");
+/* harmony import */ var _replace_swatches__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./replace-swatches */ "./src/replace-swatches.js");
+
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = (function (document, library) {
-  var lookup = Object(_map_shared_styles__WEBPACK_IMPORTED_MODULE_0__["default"])(document, library); // replace the symbols
+  var lookup = Object(_map_shared_styles__WEBPACK_IMPORTED_MODULE_0__["default"])(document, library);
+  var librarySwatches = library.getImportableSwatchReferencesForDocument(document); // to be replaced when API exposes foreignSwatches
+
+  var docData = document.sketchObject.documentData();
+  var docSwatches = docData.allSwatches(); // replace the symbols
 
   var _replaceSymbols = Object(_replace_symbols__WEBPACK_IMPORTED_MODULE_1__["default"])(document, library),
       symbolsMap = _replaceSymbols.symbolsMap,
       docSymbolInstances = _replaceSymbols.docSymbolInstances; // replace the styles
 
 
-  var layerStylesMap = Object(_replace_shared_styles__WEBPACK_IMPORTED_MODULE_3__["default"])(document.getSharedLayerStyles(), lookup.layer, library);
-  var textStylesMap = Object(_replace_shared_styles__WEBPACK_IMPORTED_MODULE_3__["default"])(document.getSharedTextStyles(), lookup.text, library);
+  var layerStylesMap = Object(_replace_shared_styles__WEBPACK_IMPORTED_MODULE_3__["default"])(document.getSharedLayerStyles(), lookup.layer, library); // replace the textStyles
+
+  var textStylesMap = Object(_replace_shared_styles__WEBPACK_IMPORTED_MODULE_3__["default"])(document.getSharedTextStyles(), lookup.text, library); // replace the overrides
+
   Object(_replace_overrides__WEBPACK_IMPORTED_MODULE_2__["default"])(docSymbolInstances, {
     symbolsMap: symbolsMap,
     layerStylesMap: layerStylesMap,
     textStylesMap: textStylesMap
-  }); // reload the inspector to make sure we show the latest changes
+  }); // replace the swatches
+
+  Object(_replace_swatches__WEBPACK_IMPORTED_MODULE_4__["default"])(docData, librarySwatches, docSwatches); // reload the inspector to make sure we show the latest changes
 
   document.sketchObject.reloadInspector();
 });
