@@ -871,8 +871,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var theme = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.UI.getTheme();
-var libraries = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.getLibraries().filter(function (l) {
+var librariesArray = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.getLibraries().filter(function (l) {
   return l.valid && l.enabled;
+});
+var libraries = librariesArray.sort(function (a, b) {
+  return a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1;
 });
 
 var pluginName = __command.pluginBundle().name();

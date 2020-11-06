@@ -5,7 +5,8 @@ import styles from './ui/styles'
 import mainView from './main-view'
 
 const theme = sketch.UI.getTheme()
-const libraries = sketch.getLibraries().filter(l => l.valid && l.enabled)
+const librariesArray = sketch.getLibraries().filter(l => l.valid && l.enabled)
+const libraries = librariesArray.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1)
 const pluginName = __command.pluginBundle().name()
 const doc = sketch.getSelectedDocument()
 
