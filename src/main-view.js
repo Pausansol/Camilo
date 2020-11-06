@@ -13,9 +13,11 @@ import createText from './ui/create-text'
 import createDivider from './ui/create-divider'
 import createLibraryPreview from './ui/create-library-preview'
 import createRadioButtons from './ui/create-radio-buttons'
+import replaceSelectedSwatches from './replace-selected-swatches'
+import mapLibrarySwatches from './map-library-swatches'
 
 
-export default function(panelStyles, theme, doc, libraries) {
+export default function(context,panelStyles, theme, doc, libraries) {
 
   //Settings
   let lastSelected = settings.sessionVariable('Selected')
@@ -55,11 +57,14 @@ export default function(panelStyles, theme, doc, libraries) {
 
       if (swapType.selectedCell().tag() === 0) {
         settings.setSessionVariable('Selected', 0)
-      const selectedLayers = doc.selectedLayers.layers
+        let selectedLayers = doc.selectedLayers.layers
+        
         if (selectedLayers.length < 1) {
           sketch.UI.message(`Select a layer`)
-        } else {         
-          switchSelection(doc, lib)          
+        } else {    
+          let nativeDocSwatches = mapLibrarySwatches(nativeLibrary.document().documentData())     
+          switchSelection(doc, lib)
+          replaceSelectedSwatches(selectedLayers, nativeDocSwatches, nativeLibrary)          
           googleAnalytics(context, 'Replace selected with', lib.name, 'Library')
           sketch.UI.message(`🎉 🎈 🙌🏼  Applied theme from ${lib.name}  🙌🏼 🎉 🎈`)
         }
