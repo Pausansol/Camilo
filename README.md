@@ -14,15 +14,19 @@ One click theme change for [Sketch app](https://www.sketchapp.com/). It replaces
 
 ## What's new?
 
-New in 2.0
+New in 2.0.3
+
+- Sort library list by alphabetical order
+
+New in 2.0.0
 
 - New User Interface. Coming soon: color variables
 
-New in 1.4
+New in 1.4.0
 
 - Now you can apply Camilo only to selected layers
 
-New in 1.3
+New in 1.3.0
 
 - Improvements for Sketch v53 (Camilo now is much faster)
 - Switch to Sketch API (thanks to mathieudutour)
@@ -30,7 +34,7 @@ New in 1.3
 
 ## Install
 
-* Download and install the `camilo.sketchplugin` zip file [here](https://github.com/Pausansol/Camilo/releases/download/v2.0.2/Camilo.sketchplugin.zip).
+* Download and install the `camilo.sketchplugin` zip file [here](https://github.com/Pausansol/Camilo/releases/download/v2.0.3/Camilo.sketchplugin.zip).
 
 * Or you can install it with Sketch Runner, just go to the `install` command and search for `Camilo`. Runner allows you to manage plugins and do much more to speed up your workflow in Sketch.
 

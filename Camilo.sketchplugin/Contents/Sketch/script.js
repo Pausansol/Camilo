@@ -609,8 +609,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var theme = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.UI.getTheme();
-var libraries = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.getLibraries().filter(function (l) {
+var librariesArray = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.getLibraries().filter(function (l) {
   return l.valid && l.enabled;
+});
+var libraries = librariesArray.sort(function (a, b) {
+  return a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1;
 });
 
 var pluginName = __command.pluginBundle().name();
@@ -657,13 +660,16 @@ __webpack_require__.r(__webpack_exports__);
       docSymbolInstances = _replaceSymbols.docSymbolInstances; // replace the styles
 
 
-  var layerStylesMap = Object(_replace_shared_styles__WEBPACK_IMPORTED_MODULE_3__["default"])(document.getSharedLayerStyles(), lookup.layer, library);
-  var textStylesMap = Object(_replace_shared_styles__WEBPACK_IMPORTED_MODULE_3__["default"])(document.getSharedTextStyles(), lookup.text, library);
+  var layerStylesMap = Object(_replace_shared_styles__WEBPACK_IMPORTED_MODULE_3__["default"])(document.getSharedLayerStyles(), lookup.layer, library); // replace the textStyles
+
+  var textStylesMap = Object(_replace_shared_styles__WEBPACK_IMPORTED_MODULE_3__["default"])(document.getSharedTextStyles(), lookup.text, library); // replace the overrides
+
   Object(_replace_overrides__WEBPACK_IMPORTED_MODULE_2__["default"])(docSymbolInstances, {
     symbolsMap: symbolsMap,
     layerStylesMap: layerStylesMap,
     textStylesMap: textStylesMap
-  }); // reload the inspector to make sure we show the latest changes
+  }); // replace the swatches
+  // reload the inspector to make sure we show the latest changes
 
   document.sketchObject.reloadInspector();
 });
