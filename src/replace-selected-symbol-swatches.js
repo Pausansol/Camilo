@@ -12,7 +12,7 @@ export default function(jsOverride,nativeLayer, jsLayer, jsSymbolMaster,nativeDo
     let jsOverride = sketch.fromNative(override)
     if(jsOverride.isDefault){
       let currentSwatchID = override.currentValue().swatchID()
-      // If there is a swatc with same ID in current document
+      // If there is a swatch with same ID in current document
       let match = context.document.documentData().swatchWithID(String(currentSwatchID))
       if(match == null){    
       
@@ -22,11 +22,7 @@ export default function(jsOverride,nativeLayer, jsLayer, jsSymbolMaster,nativeDo
         let matchingSwatch = getMatchingSwatch(override.currentValue().swatchID(), nativeLibFromSymbol.document().documentData(), nativeDocSwatches.libraryColorVariables)
         
         if (matchingSwatch === undefined){
-
-          console.log('caso nested')
-          
           let pe = nativeLibFromSymbol.document().documentData().allSymbols()
-          
           pe.forEach(function(p){
             if(sketch.fromNative(p).getLibrary() != null){
               let l = sketch.fromNative(p).getLibrary()
@@ -35,19 +31,13 @@ export default function(jsOverride,nativeLayer, jsLayer, jsSymbolMaster,nativeDo
               
               we.overrides.forEach(function(m){
                 if(String(m.sketchObject.currentValue().class()) == 'MSColor' || String(m.sketchObject.currentValue().class()) == 'MSImmutableColor'){
-                  
                   let matchingSwatch = getMatchingSwatch(m.sketchObject.currentValue().swatchID(), le.document().documentData(), nativeDocSwatches.libraryColorVariables)
                   if (matchingSwatch === undefined){
-                    console.log('meganested')
-                    
                     replaceSelectedSymbolSwatches(jsOverride,nativeLayer, jsLayer, we,nativeDocSwatches, le)
                   } else {
-                    console.log(matchingSwatch)
                     let newSwatch = importSwatchFromLibrary(matchingSwatch, le)
                     let newColor = createColorWithSwatch(newSwatch)
                     nativeLayer.setValue_forOverridePoint(newColor, overrideValue)
-                    console.log(jsLayer.name, newColor, overrideValue,newSwatch)
-                    console.log('cambiado nested!!')
                   }
                 }
               })
