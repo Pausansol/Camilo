@@ -34,11 +34,11 @@ export default function(document, library) {
   })
 
   // replace the swatches
-  replaceSwatches(
-    docData,
-    librarySwatches,
-    docSwatches
-  )
+  // replaceSwatches(
+  //   docData,
+  //   librarySwatches,
+  //   docSwatches
+  // )
 
   // reload the inspector to make sure we show the latest changes
   document.sketchObject.reloadInspector()

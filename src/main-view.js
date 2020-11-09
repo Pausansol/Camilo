@@ -54,15 +54,17 @@ export default function(context,panelStyles, theme, doc, libraries) {
     button.setAction('callAction:')
 
     button.setCOSJSTargetFunction(function() {
+    let nativeDocSwatches = mapLibrarySwatches(nativeLibrary.document().documentData())     
 
       if (swapType.selectedCell().tag() === 0) {
         settings.setSessionVariable('Selected', 0)
-        let selectedLayers = doc.selectedLayers.layers
+        let selectedLayers = doc.selectedLayers
+        
         
         if (selectedLayers.length < 1) {
           sketch.UI.message(`Select a layer`)
         } else {    
-          let nativeDocSwatches = mapLibrarySwatches(nativeLibrary.document().documentData())     
+          
           switchSelection(doc, lib)
           replaceSelectedSwatches(selectedLayers, nativeDocSwatches, nativeLibrary)          
           googleAnalytics(context, 'Replace selected with', lib.name, 'Library')
@@ -72,7 +74,9 @@ export default function(context,panelStyles, theme, doc, libraries) {
 
       if (swapType.selectedCell().tag() === 1) {
         settings.setSessionVariable('Selected', 1)
+        let selectedPages = doc.pages
         switchLibrary(doc, lib)
+        replaceSelectedSwatches(selectedPages, nativeDocSwatches, nativeLibrary)          
         googleAnalytics(context, 'Replace document with', lib.name, 'Library')
         sketch.UI.message(`🎉 🎈 🙌🏼  Applied theme from ${lib.name}  🙌🏼 🎉 🎈`)     
       }

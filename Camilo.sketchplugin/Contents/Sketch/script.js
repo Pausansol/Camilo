@@ -175,10 +175,15 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = (function (swatchID, doc, librarySwatches) {
   var currentSwatch = doc.swatchWithID(String(swatchID));
-  var newSwatch = librarySwatches[currentSwatch.name()];
 
-  if (newSwatch) {
-    return newSwatch;
+  if (currentSwatch === null) {
+    return;
+  } else {
+    var newSwatch = librarySwatches[currentSwatch.name()];
+
+    if (newSwatch) {
+      return newSwatch;
+    }
   }
 });
 
@@ -329,14 +334,15 @@ __webpack_require__.r(__webpack_exports__);
     button.setBezelStyle(NSRoundedBezelStyle);
     button.setAction('callAction:');
     button.setCOSJSTargetFunction(function () {
+      var nativeDocSwatches = Object(_map_library_swatches__WEBPACK_IMPORTED_MODULE_16__["default"])(nativeLibrary.document().documentData());
+
       if (swapType.selectedCell().tag() === 0) {
         sketch_settings__WEBPACK_IMPORTED_MODULE_1___default.a.setSessionVariable('Selected', 0);
-        var selectedLayers = doc.selectedLayers.layers;
+        var selectedLayers = doc.selectedLayers;
 
         if (selectedLayers.length < 1) {
           sketch__WEBPACK_IMPORTED_MODULE_0___default.a.UI.message("Select a layer");
         } else {
-          var nativeDocSwatches = Object(_map_library_swatches__WEBPACK_IMPORTED_MODULE_16__["default"])(nativeLibrary.document().documentData());
           Object(_switch_selection__WEBPACK_IMPORTED_MODULE_4__["default"])(doc, lib);
           Object(_replace_selected_swatches__WEBPACK_IMPORTED_MODULE_15__["default"])(selectedLayers, nativeDocSwatches, nativeLibrary);
           Object(_analytics__WEBPACK_IMPORTED_MODULE_2__["default"])(context, 'Replace selected with', lib.name, 'Library');
@@ -346,7 +352,9 @@ __webpack_require__.r(__webpack_exports__);
 
       if (swapType.selectedCell().tag() === 1) {
         sketch_settings__WEBPACK_IMPORTED_MODULE_1___default.a.setSessionVariable('Selected', 1);
+        var selectedPages = doc.pages;
         Object(_switch_library__WEBPACK_IMPORTED_MODULE_3__["default"])(doc, lib);
+        Object(_replace_selected_swatches__WEBPACK_IMPORTED_MODULE_15__["default"])(selectedPages, nativeDocSwatches, nativeLibrary);
         Object(_analytics__WEBPACK_IMPORTED_MODULE_2__["default"])(context, 'Replace document with', lib.name, 'Library');
         sketch__WEBPACK_IMPORTED_MODULE_0___default.a.UI.message("\uD83C\uDF89 \uD83C\uDF88 \uD83D\uDE4C\uD83C\uDFFC  Applied theme from ".concat(lib.name, "  \uD83D\uDE4C\uD83C\uDFFC \uD83C\uDF89 \uD83C\uDF88"));
       }
@@ -564,6 +572,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _get_matching_swatch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./get-matching-swatch */ "./src/get-matching-swatch.js");
 /* harmony import */ var _import_swatch_from_library__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./import-swatch-from-library */ "./src/import-swatch-from-library.js");
 /* harmony import */ var _create_color_with_swatch__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./create-color-with-swatch */ "./src/create-color-with-swatch.js");
+/* harmony import */ var _replace_selected_symbol_swatches__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./replace-selected-symbol-swatches */ "./src/replace-selected-symbol-swatches.js");
+
 
 
 
@@ -609,55 +619,12 @@ __webpack_require__.r(__webpack_exports__);
         break;
 
       case "MSSymbolInstance":
-        var jsLayer = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.fromNative(nativeLayer);
-        var jsSymbolMaster = jsLayer.master;
+        // let jsLayer = sketch.fromNative(nativeLayer)
+        var jsSymbolMaster = layer.master;
 
         if (jsSymbolMaster.overrides.length > 0) {
           jsSymbolMaster.overrides.forEach(function (jsOverride) {
-            var override = jsOverride.sketchObject;
-
-            if (String(override.currentValue().class()) == 'MSColor' || String(override.currentValue().class()) == 'MSImmutableColor') {
-              var _jsOverride = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.fromNative(override);
-
-              if (_jsOverride.isDefault) {
-                var currentSwatchID = override.currentValue().swatchID();
-                var match = context.document.documentData().swatchWithID(String(currentSwatchID));
-
-                if (match == null) {
-                  var jsLib = jsSymbolMaster.getLibrary();
-                  var nativeLibFromSymbol = jsLib.sketchObject;
-                  var overrideValue = override.overridePoint();
-
-                  var _matchingSwatch3 = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_2__["default"])(override.currentValue().swatchID(), nativeLibFromSymbol.document().documentData(), nativeDocSwatches.libraryColorVariables);
-
-                  var _newSwatch3 = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_3__["default"])(_matchingSwatch3, nativeLibrary);
-
-                  var _newColor = Object(_create_color_with_swatch__WEBPACK_IMPORTED_MODULE_4__["default"])(_newSwatch3);
-
-                  nativeLayer.setValue_forOverridePoint(_newColor, overrideValue);
-                } else {
-                  var _overrideValue = override.overridePoint();
-
-                  var _matchingSwatch4 = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_2__["default"])(override.currentValue().swatchID(), context.document.documentData(), nativeDocSwatches.libraryColorVariables);
-
-                  var _newSwatch4 = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_3__["default"])(_matchingSwatch4, nativeLibrary);
-
-                  var _newColor2 = Object(_create_color_with_swatch__WEBPACK_IMPORTED_MODULE_4__["default"])(_newSwatch4);
-
-                  nativeLayer.setValue_forOverridePoint(_newColor2, _overrideValue);
-                }
-              } else {
-                var _overrideValue2 = override.overridePoint();
-
-                var _matchingSwatch5 = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_2__["default"])(override.currentValue().swatchID(), context.document.documentData(), nativeDocSwatches.libraryColorVariables);
-
-                var _newSwatch5 = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_3__["default"])(_matchingSwatch5, nativeLibrary);
-
-                var _newColor3 = Object(_create_color_with_swatch__WEBPACK_IMPORTED_MODULE_4__["default"])(_newSwatch5);
-
-                nativeLayer.setValue_forOverridePoint(_newColor3, _overrideValue2);
-              }
-            }
+            Object(_replace_selected_symbol_swatches__WEBPACK_IMPORTED_MODULE_5__["default"])(jsOverride, nativeLayer, layer, jsSymbolMaster, nativeDocSwatches, nativeLibrary);
           });
         }
 
@@ -667,11 +634,11 @@ __webpack_require__.r(__webpack_exports__);
         if (nativeLayer.style().fills().length > 0) {
           nativeLayer.style().fills().forEach(function (fill) {
             if (String(fill.color().swatchID()) != 'null') {
-              var _matchingSwatch6 = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_2__["default"])(fill.color().swatchID(), context.document.documentData(), nativeDocSwatches.libraryColorVariables);
+              var _matchingSwatch3 = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_2__["default"])(fill.color().swatchID(), context.document.documentData(), nativeDocSwatches.libraryColorVariables);
 
-              var _newSwatch6 = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_3__["default"])(_matchingSwatch6, nativeLibrary);
+              var _newSwatch3 = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_3__["default"])(_matchingSwatch3, nativeLibrary);
 
-              fill.color().setSwatch(_newSwatch6.localSwatch());
+              fill.color().setSwatch(_newSwatch3.localSwatch());
             }
           });
         }
@@ -679,11 +646,11 @@ __webpack_require__.r(__webpack_exports__);
         if (nativeLayer.style().borders().length > 0) {
           nativeLayer.style().borders().forEach(function (border) {
             if (String(border.color().swatchID()) != 'null') {
-              var _matchingSwatch7 = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_2__["default"])(border.color().swatchID(), context.document.documentData(), nativeDocSwatches.libraryColorVariables);
+              var _matchingSwatch4 = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_2__["default"])(border.color().swatchID(), context.document.documentData(), nativeDocSwatches.libraryColorVariables);
 
-              var _newSwatch7 = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_3__["default"])(_matchingSwatch7, nativeLibrary);
+              var _newSwatch4 = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_3__["default"])(_matchingSwatch4, nativeLibrary);
 
-              border.color().setSwatch(_newSwatch7.localSwatch());
+              border.color().setSwatch(_newSwatch4.localSwatch());
             }
           });
         }
@@ -693,9 +660,105 @@ __webpack_require__.r(__webpack_exports__);
 
 
     if (typeof nativeLayer.layers === 'function') {
-      Object(_replace_selected_swatches__WEBPACK_IMPORTED_MODULE_1__["default"])(nativeLayer.layers(), nativeDocSwatches, nativeLibrary);
+      Object(_replace_selected_swatches__WEBPACK_IMPORTED_MODULE_1__["default"])(layer.layers, nativeDocSwatches, nativeLibrary);
     }
   });
+});
+
+/***/ }),
+
+/***/ "./src/replace-selected-symbol-swatches.js":
+/*!*************************************************!*\
+  !*** ./src/replace-selected-symbol-swatches.js ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var sketch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sketch */ "sketch");
+/* harmony import */ var sketch__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sketch__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _get_matching_swatch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./get-matching-swatch */ "./src/get-matching-swatch.js");
+/* harmony import */ var _import_swatch_from_library__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./import-swatch-from-library */ "./src/import-swatch-from-library.js");
+/* harmony import */ var _create_color_with_swatch__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./create-color-with-swatch */ "./src/create-color-with-swatch.js");
+/* harmony import */ var _replace_selected_symbol_swatches__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./replace-selected-symbol-swatches */ "./src/replace-selected-symbol-swatches.js");
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function (jsOverride, nativeLayer, jsLayer, jsSymbolMaster, nativeDocSwatches, nativeLibrary) {
+  var override = jsOverride.sketchObject;
+
+  if (String(override.currentValue().class()) == 'MSColor' || String(override.currentValue().class()) == 'MSImmutableColor') {
+    var _jsOverride = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.fromNative(override);
+
+    if (_jsOverride.isDefault) {
+      var currentSwatchID = override.currentValue().swatchID(); // If there is a swatc with same ID in current document
+
+      var match = context.document.documentData().swatchWithID(String(currentSwatchID));
+
+      if (match == null) {
+        var jsLib = jsSymbolMaster.getLibrary();
+        var nativeLibFromSymbol = jsLib.sketchObject;
+        var overrideValue = override.overridePoint();
+        var matchingSwatch = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_1__["default"])(override.currentValue().swatchID(), nativeLibFromSymbol.document().documentData(), nativeDocSwatches.libraryColorVariables);
+
+        if (matchingSwatch === undefined) {
+          console.log('caso nested');
+          var pe = nativeLibFromSymbol.document().documentData().allSymbols();
+          pe.forEach(function (p) {
+            if (sketch__WEBPACK_IMPORTED_MODULE_0___default.a.fromNative(p).getLibrary() != null) {
+              var l = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.fromNative(p).getLibrary();
+              var le = l.sketchObject;
+              var we = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.fromNative(p);
+              we.overrides.forEach(function (m) {
+                if (String(m.sketchObject.currentValue().class()) == 'MSColor' || String(m.sketchObject.currentValue().class()) == 'MSImmutableColor') {
+                  var _matchingSwatch = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_1__["default"])(m.sketchObject.currentValue().swatchID(), le.document().documentData(), nativeDocSwatches.libraryColorVariables);
+
+                  if (_matchingSwatch === undefined) {
+                    console.log('meganested');
+                    Object(_replace_selected_symbol_swatches__WEBPACK_IMPORTED_MODULE_4__["default"])(_jsOverride, nativeLayer, jsLayer, we, nativeDocSwatches, le);
+                  } else {
+                    console.log(_matchingSwatch);
+                    var newSwatch = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_2__["default"])(_matchingSwatch, le);
+                    var newColor = Object(_create_color_with_swatch__WEBPACK_IMPORTED_MODULE_3__["default"])(newSwatch);
+                    nativeLayer.setValue_forOverridePoint(newColor, overrideValue);
+                    console.log(jsLayer.name, newColor, overrideValue, newSwatch);
+                    console.log('cambiado nested!!');
+                  }
+                }
+              });
+            }
+          });
+        } else {
+          var newSwatch = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_2__["default"])(matchingSwatch, nativeLibrary);
+          var newColor = Object(_create_color_with_swatch__WEBPACK_IMPORTED_MODULE_3__["default"])(newSwatch);
+          nativeLayer.setValue_forOverridePoint(newColor, overrideValue);
+        }
+      } else {
+        var _overrideValue = override.overridePoint();
+
+        var _matchingSwatch2 = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_1__["default"])(override.currentValue().swatchID(), context.document.documentData(), nativeDocSwatches.libraryColorVariables);
+
+        var _newSwatch = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_2__["default"])(_matchingSwatch2, nativeLibrary);
+
+        var _newColor = Object(_create_color_with_swatch__WEBPACK_IMPORTED_MODULE_3__["default"])(_newSwatch);
+
+        nativeLayer.setValue_forOverridePoint(_newColor, _overrideValue);
+      }
+    } else {
+      var _overrideValue2 = override.overridePoint();
+
+      var _matchingSwatch3 = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_1__["default"])(override.currentValue().swatchID(), context.document.documentData(), nativeDocSwatches.libraryColorVariables);
+
+      var _newSwatch2 = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_2__["default"])(_matchingSwatch3, nativeLibrary);
+
+      var _newColor2 = Object(_create_color_with_swatch__WEBPACK_IMPORTED_MODULE_3__["default"])(_newSwatch2);
+
+      nativeLayer.setValue_forOverridePoint(_newColor2, _overrideValue2);
+    }
+  }
 });
 
 /***/ }),
@@ -937,8 +1000,12 @@ __webpack_require__.r(__webpack_exports__);
     layerStylesMap: layerStylesMap,
     textStylesMap: textStylesMap
   }); // replace the swatches
-
-  Object(_replace_swatches__WEBPACK_IMPORTED_MODULE_4__["default"])(docData, librarySwatches, docSwatches); // reload the inspector to make sure we show the latest changes
+  // replaceSwatches(
+  //   docData,
+  //   librarySwatches,
+  //   docSwatches
+  // )
+  // reload the inspector to make sure we show the latest changes
 
   document.sketchObject.reloadInspector();
 });
