@@ -3,9 +3,7 @@ export default function(swatchID, doc, librarySwatches) {
 	if(currentSwatch === null){
 		return
 	} else {
-		let newSwatch = librarySwatches[currentSwatch.name()]
-		if(newSwatch) {
-			return newSwatch
-		} 
+		let newSwatch = librarySwatches.find(swatch => swatch.name() === currentSwatch.name());
+		return newSwatch	
 	}
 }

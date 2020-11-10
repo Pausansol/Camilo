@@ -14,7 +14,6 @@ import createDivider from './ui/create-divider'
 import createLibraryPreview from './ui/create-library-preview'
 import createRadioButtons from './ui/create-radio-buttons'
 import replaceSelectedSwatches from './replace-selected-swatches'
-import mapLibrarySwatches from './map-library-swatches'
 
 
 export default function(context,panelStyles, theme, doc, libraries) {
@@ -54,7 +53,7 @@ export default function(context,panelStyles, theme, doc, libraries) {
     button.setAction('callAction:')
 
     button.setCOSJSTargetFunction(function() {
-    let nativeDocSwatches = mapLibrarySwatches(nativeLibrary.document().documentData())     
+    let nativeLibSwatches = nativeLibrary.document().documentData().allSwatches()     
 
       if (swapType.selectedCell().tag() === 0) {
         settings.setSessionVariable('Selected', 0)
@@ -66,7 +65,7 @@ export default function(context,panelStyles, theme, doc, libraries) {
         } else {    
           
           switchSelection(doc, lib)
-          replaceSelectedSwatches(selectedLayers, nativeDocSwatches, nativeLibrary)          
+          replaceSelectedSwatches(selectedLayers, nativeLibSwatches, nativeLibrary)          
           googleAnalytics(context, 'Replace selected with', lib.name, 'Library')
           sketch.UI.message(`🎉 🎈 🙌🏼  Applied theme from ${lib.name}  🙌🏼 🎉 🎈`)
         }
@@ -76,7 +75,7 @@ export default function(context,panelStyles, theme, doc, libraries) {
         settings.setSessionVariable('Selected', 1)
         let selectedPages = doc.pages
         switchLibrary(doc, lib)
-        replaceSelectedSwatches(selectedPages, nativeDocSwatches, nativeLibrary)          
+        replaceSelectedSwatches(selectedPages, nativeLibSwatches, nativeLibrary)          
         googleAnalytics(context, 'Replace document with', lib.name, 'Library')
         sketch.UI.message(`🎉 🎈 🙌🏼  Applied theme from ${lib.name}  🙌🏼 🎉 🎈`)     
       }

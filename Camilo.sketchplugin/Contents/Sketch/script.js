@@ -179,11 +179,10 @@ __webpack_require__.r(__webpack_exports__);
   if (currentSwatch === null) {
     return;
   } else {
-    var newSwatch = librarySwatches[currentSwatch.name()];
-
-    if (newSwatch) {
-      return newSwatch;
-    }
+    var newSwatch = librarySwatches.find(function (swatch) {
+      return swatch.name() === currentSwatch.name();
+    });
+    return newSwatch;
   }
 });
 
@@ -287,8 +286,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ui_create_library_preview__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./ui/create-library-preview */ "./src/ui/create-library-preview.js");
 /* harmony import */ var _ui_create_radio_buttons__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./ui/create-radio-buttons */ "./src/ui/create-radio-buttons.js");
 /* harmony import */ var _replace_selected_swatches__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./replace-selected-swatches */ "./src/replace-selected-swatches.js");
-/* harmony import */ var _map_library_swatches__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./map-library-swatches */ "./src/map-library-swatches.js");
-
 
 
 
@@ -334,7 +331,7 @@ __webpack_require__.r(__webpack_exports__);
     button.setBezelStyle(NSRoundedBezelStyle);
     button.setAction('callAction:');
     button.setCOSJSTargetFunction(function () {
-      var nativeDocSwatches = Object(_map_library_swatches__WEBPACK_IMPORTED_MODULE_16__["default"])(nativeLibrary.document().documentData());
+      var nativeLibSwatches = nativeLibrary.document().documentData().allSwatches();
 
       if (swapType.selectedCell().tag() === 0) {
         sketch_settings__WEBPACK_IMPORTED_MODULE_1___default.a.setSessionVariable('Selected', 0);
@@ -344,7 +341,7 @@ __webpack_require__.r(__webpack_exports__);
           sketch__WEBPACK_IMPORTED_MODULE_0___default.a.UI.message("Select a layer");
         } else {
           Object(_switch_selection__WEBPACK_IMPORTED_MODULE_4__["default"])(doc, lib);
-          Object(_replace_selected_swatches__WEBPACK_IMPORTED_MODULE_15__["default"])(selectedLayers, nativeDocSwatches, nativeLibrary);
+          Object(_replace_selected_swatches__WEBPACK_IMPORTED_MODULE_15__["default"])(selectedLayers, nativeLibSwatches, nativeLibrary);
           Object(_analytics__WEBPACK_IMPORTED_MODULE_2__["default"])(context, 'Replace selected with', lib.name, 'Library');
           sketch__WEBPACK_IMPORTED_MODULE_0___default.a.UI.message("\uD83C\uDF89 \uD83C\uDF88 \uD83D\uDE4C\uD83C\uDFFC  Applied theme from ".concat(lib.name, "  \uD83D\uDE4C\uD83C\uDFFC \uD83C\uDF89 \uD83C\uDF88"));
         }
@@ -354,7 +351,7 @@ __webpack_require__.r(__webpack_exports__);
         sketch_settings__WEBPACK_IMPORTED_MODULE_1___default.a.setSessionVariable('Selected', 1);
         var selectedPages = doc.pages;
         Object(_switch_library__WEBPACK_IMPORTED_MODULE_3__["default"])(doc, lib);
-        Object(_replace_selected_swatches__WEBPACK_IMPORTED_MODULE_15__["default"])(selectedPages, nativeDocSwatches, nativeLibrary);
+        Object(_replace_selected_swatches__WEBPACK_IMPORTED_MODULE_15__["default"])(selectedPages, nativeLibSwatches, nativeLibrary);
         Object(_analytics__WEBPACK_IMPORTED_MODULE_2__["default"])(context, 'Replace document with', lib.name, 'Library');
         sketch__WEBPACK_IMPORTED_MODULE_0___default.a.UI.message("\uD83C\uDF89 \uD83C\uDF88 \uD83D\uDE4C\uD83C\uDFFC  Applied theme from ".concat(lib.name, "  \uD83D\uDE4C\uD83C\uDFFC \uD83C\uDF89 \uD83C\uDF88"));
       }
@@ -367,32 +364,6 @@ __webpack_require__.r(__webpack_exports__);
   });
   libraryList.setDocumentView(itemContent);
   return panelContent;
-});
-
-/***/ }),
-
-/***/ "./src/map-library-swatches.js":
-/*!*************************************!*\
-  !*** ./src/map-library-swatches.js ***!
-  \*************************************/
-/*! exports provided: createLookupName, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createLookupName", function() { return createLookupName; });
-function createLookupName(swatches) {
-  return swatches.reduce(function (prev, s) {
-    // eslint-disable-next-line no-param-reassign
-    prev[s.name()] = s;
-    return prev;
-  }, {});
-}
-/* harmony default export */ __webpack_exports__["default"] = (function (nativeLibrary) {
-  var lookups = {
-    libraryColorVariables: createLookupName(nativeLibrary.allSwatches())
-  };
-  return lookups;
 });
 
 /***/ }),
@@ -579,14 +550,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = (function (docLayers, nativeDocSwatches, nativeLibrary) {
+/* harmony default export */ __webpack_exports__["default"] = (function (docLayers, nativeLibSwatches, nativeLibrary) {
   docLayers.forEach(function (layer) {
     var nativeLayer = layer.sketchObject;
 
     switch (String(nativeLayer.class())) {
       case "MSTextLayer":
         if (String(nativeLayer.style().textStyle().encodedAttributes().MSAttributedStringColorAttribute.swatchID()) != 'null') {
-          var matchingSwatch = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_2__["default"])(nativeLayer.style().textStyle().encodedAttributes().MSAttributedStringColorAttribute.swatchID(), context.document.documentData(), nativeDocSwatches.libraryColorVariables);
+          var matchingSwatch = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_2__["default"])(nativeLayer.style().textStyle().encodedAttributes().MSAttributedStringColorAttribute.swatchID(), context.document.documentData(), nativeLibSwatches);
           var newSwatch = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_3__["default"])(matchingSwatch, nativeLibrary);
           var newColor = Object(_create_color_with_swatch__WEBPACK_IMPORTED_MODULE_4__["default"])(newSwatch);
           nativeLayer.setTextColor(newColor);
@@ -595,7 +566,7 @@ __webpack_require__.r(__webpack_exports__);
         if (nativeLayer.style().fills().length > 0) {
           nativeLayer.style().fills().forEach(function (fill) {
             if (String(fill.color().swatchID()) != 'null') {
-              var _matchingSwatch = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_2__["default"])(fill.color().swatchID(), context.document.documentData(), nativeDocSwatches.libraryColorVariables);
+              var _matchingSwatch = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_2__["default"])(fill.color().swatchID(), context.document.documentData(), nativeLibSwatches);
 
               var _newSwatch = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_3__["default"])(_matchingSwatch, nativeLibrary);
 
@@ -607,7 +578,7 @@ __webpack_require__.r(__webpack_exports__);
         if (nativeLayer.style().borders().length > 0) {
           nativeLayer.style().borders().forEach(function (border) {
             if (String(border.color().swatchID()) != 'null') {
-              var _matchingSwatch2 = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_2__["default"])(border.color().swatchID(), context.document.documentData(), nativeDocSwatches.libraryColorVariables);
+              var _matchingSwatch2 = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_2__["default"])(border.color().swatchID(), context.document.documentData(), nativeLibSwatches);
 
               var _newSwatch2 = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_3__["default"])(_matchingSwatch2, nativeLibrary);
 
@@ -624,7 +595,7 @@ __webpack_require__.r(__webpack_exports__);
 
         if (jsSymbolMaster.overrides.length > 0) {
           jsSymbolMaster.overrides.forEach(function (jsOverride) {
-            Object(_replace_selected_symbol_swatches__WEBPACK_IMPORTED_MODULE_5__["default"])(jsOverride, nativeLayer, layer, jsSymbolMaster, nativeDocSwatches, nativeLibrary);
+            Object(_replace_selected_symbol_swatches__WEBPACK_IMPORTED_MODULE_5__["default"])(jsOverride, nativeLayer, layer, jsSymbolMaster, nativeLibSwatches, nativeLibrary);
           });
         }
 
@@ -634,7 +605,7 @@ __webpack_require__.r(__webpack_exports__);
         if (nativeLayer.style().fills().length > 0) {
           nativeLayer.style().fills().forEach(function (fill) {
             if (String(fill.color().swatchID()) != 'null') {
-              var _matchingSwatch3 = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_2__["default"])(fill.color().swatchID(), context.document.documentData(), nativeDocSwatches.libraryColorVariables);
+              var _matchingSwatch3 = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_2__["default"])(fill.color().swatchID(), context.document.documentData(), nativeLibSwatches);
 
               var _newSwatch3 = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_3__["default"])(_matchingSwatch3, nativeLibrary);
 
@@ -646,7 +617,7 @@ __webpack_require__.r(__webpack_exports__);
         if (nativeLayer.style().borders().length > 0) {
           nativeLayer.style().borders().forEach(function (border) {
             if (String(border.color().swatchID()) != 'null') {
-              var _matchingSwatch4 = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_2__["default"])(border.color().swatchID(), context.document.documentData(), nativeDocSwatches.libraryColorVariables);
+              var _matchingSwatch4 = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_2__["default"])(border.color().swatchID(), context.document.documentData(), nativeLibSwatches);
 
               var _newSwatch4 = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_3__["default"])(_matchingSwatch4, nativeLibrary);
 
@@ -660,7 +631,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
     if (typeof nativeLayer.layers === 'function') {
-      Object(_replace_selected_swatches__WEBPACK_IMPORTED_MODULE_1__["default"])(layer.layers, nativeDocSwatches, nativeLibrary);
+      Object(_replace_selected_swatches__WEBPACK_IMPORTED_MODULE_1__["default"])(layer.layers, nativeLibSwatches, nativeLibrary);
     }
   });
 });
@@ -694,7 +665,7 @@ __webpack_require__.r(__webpack_exports__);
     var _jsOverride = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.fromNative(override);
 
     if (_jsOverride.isDefault) {
-      var currentSwatchID = override.currentValue().swatchID(); // If there is a swatc with same ID in current document
+      var currentSwatchID = override.currentValue().swatchID(); // If there is a swatch with same ID in current document
 
       var match = context.document.documentData().swatchWithID(String(currentSwatchID));
 
@@ -705,7 +676,6 @@ __webpack_require__.r(__webpack_exports__);
         var matchingSwatch = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_1__["default"])(override.currentValue().swatchID(), nativeLibFromSymbol.document().documentData(), nativeDocSwatches.libraryColorVariables);
 
         if (matchingSwatch === undefined) {
-          console.log('caso nested');
           var pe = nativeLibFromSymbol.document().documentData().allSymbols();
           pe.forEach(function (p) {
             if (sketch__WEBPACK_IMPORTED_MODULE_0___default.a.fromNative(p).getLibrary() != null) {
@@ -717,15 +687,11 @@ __webpack_require__.r(__webpack_exports__);
                   var _matchingSwatch = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_1__["default"])(m.sketchObject.currentValue().swatchID(), le.document().documentData(), nativeDocSwatches.libraryColorVariables);
 
                   if (_matchingSwatch === undefined) {
-                    console.log('meganested');
                     Object(_replace_selected_symbol_swatches__WEBPACK_IMPORTED_MODULE_4__["default"])(_jsOverride, nativeLayer, jsLayer, we, nativeDocSwatches, le);
                   } else {
-                    console.log(_matchingSwatch);
                     var newSwatch = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_2__["default"])(_matchingSwatch, le);
                     var newColor = Object(_create_color_with_swatch__WEBPACK_IMPORTED_MODULE_3__["default"])(newSwatch);
                     nativeLayer.setValue_forOverridePoint(newColor, overrideValue);
-                    console.log(jsLayer.name, newColor, overrideValue, newSwatch);
-                    console.log('cambiado nested!!');
                   }
                 }
               });
@@ -981,31 +947,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = (function (document, library) {
   var lookup = Object(_map_shared_styles__WEBPACK_IMPORTED_MODULE_0__["default"])(document, library);
-  var librarySwatches = library.getImportableSwatchReferencesForDocument(document); // review code when API exposes foreignSwatches
-
-  var docData = document.sketchObject.documentData();
-  var docSwatches = docData.allSwatches(); // replace the symbols
+  var librarySwatches = library.getImportableSwatchReferencesForDocument(document); // replace the symbols
 
   var _replaceSymbols = Object(_replace_symbols__WEBPACK_IMPORTED_MODULE_1__["default"])(document, library),
       symbolsMap = _replaceSymbols.symbolsMap,
       docSymbolInstances = _replaceSymbols.docSymbolInstances; // replace the styles
 
 
-  var layerStylesMap = Object(_replace_shared_styles__WEBPACK_IMPORTED_MODULE_3__["default"])(document.getSharedLayerStyles(), lookup.layer, library); // replace the textStyles
+  var layerStylesMap = Object(_replace_shared_styles__WEBPACK_IMPORTED_MODULE_3__["default"])(document.getSharedLayerStyles, lookup.layer, library); // replace the textStyles
 
-  var textStylesMap = Object(_replace_shared_styles__WEBPACK_IMPORTED_MODULE_3__["default"])(document.getSharedTextStyles(), lookup.text, library); // replace the overrides
+  var textStylesMap = Object(_replace_shared_styles__WEBPACK_IMPORTED_MODULE_3__["default"])(document.getSharedTextStyles, lookup.text, library); // replace the overrides
 
   Object(_replace_overrides__WEBPACK_IMPORTED_MODULE_2__["default"])(docSymbolInstances, {
     symbolsMap: symbolsMap,
     layerStylesMap: layerStylesMap,
     textStylesMap: textStylesMap
-  }); // replace the swatches
-  // replaceSwatches(
-  //   docData,
-  //   librarySwatches,
-  //   docSwatches
-  // )
-  // reload the inspector to make sure we show the latest changes
+  }); // reload the inspector to make sure we show the latest changes
 
   document.sketchObject.reloadInspector();
 });
