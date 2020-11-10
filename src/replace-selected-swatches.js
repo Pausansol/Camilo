@@ -1,3 +1,4 @@
+import { toArray } from 'util'
 import sketch from 'sketch'
 import replaceSelectedSwatches from './replace-selected-swatches'
 import getMatchingSwatch from './get-matching-swatch'
@@ -5,7 +6,7 @@ import importSwatchFromLibrary from './import-swatch-from-library'
 import createColorWithSwatch from './create-color-with-swatch'
 import replaceSelectedSymbolSwatches from './replace-selected-symbol-swatches'
 
-export default function(docLayers, nativeLibSwatches, nativeLibrary) {
+export default function(docLayers, nativeLibSwatches, nativeLibrary, librariesController) {
 	docLayers.forEach((layer) => {
 		let nativeLayer = layer.sketchObject
 		switch(String(nativeLayer.class())) {
@@ -37,11 +38,11 @@ export default function(docLayers, nativeLibSwatches, nativeLibrary) {
 			break;
 			
 			case "MSSymbolInstance":
-				// let jsLayer = sketch.fromNative(nativeLayer)
-        let jsSymbolMaster = layer.master
-        if(jsSymbolMaster.overrides.length>0){
-          jsSymbolMaster.overrides.forEach(function(jsOverride){
-          	replaceSelectedSymbolSwatches(jsOverride,nativeLayer, layer, jsSymbolMaster, nativeLibSwatches, nativeLibrary)
+        let symbolMaster = nativeLayer.symbolMaster()
+        let overrides = toArray(MSAvailableOverride.flattenAvailableOverrides(nativeLayer.availableOverrides()))
+        if(overrides.length>0){
+          overrides.forEach(function(override){
+          	replaceSelectedSymbolSwatches(override,nativeLayer, symbolMaster, nativeLibSwatches, nativeLibrary,librariesController)
         	})
         }
 				break;

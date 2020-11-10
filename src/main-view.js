@@ -16,7 +16,7 @@ import createRadioButtons from './ui/create-radio-buttons'
 import replaceSelectedSwatches from './replace-selected-swatches'
 
 
-export default function(context,panelStyles, theme, doc, libraries) {
+export default function(context,panelStyles, theme, libraries) {
 
   //Settings
   let lastSelected = settings.sessionVariable('Selected')
@@ -46,6 +46,7 @@ export default function(context,panelStyles, theme, doc, libraries) {
     let artboardSubtitle = createText(theme,panelStyles.darkTextGrey,panelStyles.lightTextGrey,panelStyles.subtitleFont,String(library.libraryType),NSMakeRect(panelStyles.rightColX,38,panelStyles.rightColWidth-88,14))
     let artboardTitle = createText(theme,panelStyles.blackText,panelStyles.whiteText,panelStyles.titleFont,String(library.name),NSMakeRect(panelStyles.rightColX,20,panelStyles.rightColWidth-88,18))
     let divider = createDivider(theme,NSMakeRect(20,panelStyles.itemHeight - 1,panelStyles.itemWidth - 40,0.5))
+    let librariesController = AppController.sharedInstance().librariesController()
 
     let button = NSButton.alloc().initWithFrame(NSMakeRect(237,18,88,36)) 
     button.setTitle('Swap')
@@ -53,6 +54,7 @@ export default function(context,panelStyles, theme, doc, libraries) {
     button.setAction('callAction:')
 
     button.setCOSJSTargetFunction(function() {
+    let doc = sketch.getSelectedDocument()
     let nativeLibSwatches = nativeLibrary.document().documentData().allSwatches()     
 
       if (swapType.selectedCell().tag() === 0) {
@@ -65,7 +67,7 @@ export default function(context,panelStyles, theme, doc, libraries) {
         } else {    
           
           switchSelection(doc, lib)
-          replaceSelectedSwatches(selectedLayers, nativeLibSwatches, nativeLibrary)          
+          replaceSelectedSwatches(selectedLayers, nativeLibSwatches, nativeLibrary, librariesController)          
           googleAnalytics(context, 'Replace selected with', lib.name, 'Library')
           sketch.UI.message(`🎉 🎈 🙌🏼  Applied theme from ${lib.name}  🙌🏼 🎉 🎈`)
         }
@@ -75,7 +77,7 @@ export default function(context,panelStyles, theme, doc, libraries) {
         settings.setSessionVariable('Selected', 1)
         let selectedPages = doc.pages
         switchLibrary(doc, lib)
-        replaceSelectedSwatches(selectedPages, nativeLibSwatches, nativeLibrary)          
+        replaceSelectedSwatches(selectedPages, nativeLibSwatches, nativeLibrary, librariesController)          
         googleAnalytics(context, 'Replace document with', lib.name, 'Library')
         sketch.UI.message(`🎉 🎈 🙌🏼  Applied theme from ${lib.name}  🙌🏼 🎉 🎈`)     
       }

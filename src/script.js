@@ -8,12 +8,12 @@ const theme = sketch.UI.getTheme()
 const librariesArray = sketch.getLibraries().filter(l => l.valid && l.enabled)
 const libraries = librariesArray.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1)
 const pluginName = __command.pluginBundle().name()
-const doc = sketch.getSelectedDocument()
+
 
 export default function(context) {
 
   let panelStyles = styles()
-  let panelContent = mainView(context,panelStyles,theme,doc,libraries)
+  let panelContent = mainView(context,panelStyles,theme,libraries)
 
   let fiber = sketch.Async.createFiber()
   let panel = createFloatingPanel(theme,pluginName,NSMakeRect(0,0,panelStyles.panelWidth,panelStyles.panelHeight))

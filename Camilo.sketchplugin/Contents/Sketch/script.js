@@ -302,7 +302,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = (function (context, panelStyles, theme, doc, libraries) {
+/* harmony default export */ __webpack_exports__["default"] = (function (context, panelStyles, theme, libraries) {
   //Settings
   var lastSelected = sketch_settings__WEBPACK_IMPORTED_MODULE_1___default.a.sessionVariable('Selected');
   var panelContent = Object(_ui_create_view__WEBPACK_IMPORTED_MODULE_7__["default"])(NSMakeRect(0, 0, panelStyles.panelWidth, panelStyles.panelHeight - panelStyles.panelHeader));
@@ -326,11 +326,13 @@ __webpack_require__.r(__webpack_exports__);
     var artboardSubtitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, panelStyles.darkTextGrey, panelStyles.lightTextGrey, panelStyles.subtitleFont, String(library.libraryType), NSMakeRect(panelStyles.rightColX, 38, panelStyles.rightColWidth - 88, 14));
     var artboardTitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, panelStyles.blackText, panelStyles.whiteText, panelStyles.titleFont, String(library.name), NSMakeRect(panelStyles.rightColX, 20, panelStyles.rightColWidth - 88, 18));
     var divider = Object(_ui_create_divider__WEBPACK_IMPORTED_MODULE_12__["default"])(theme, NSMakeRect(20, panelStyles.itemHeight - 1, panelStyles.itemWidth - 40, 0.5));
+    var librariesController = AppController.sharedInstance().librariesController();
     var button = NSButton.alloc().initWithFrame(NSMakeRect(237, 18, 88, 36));
     button.setTitle('Swap');
     button.setBezelStyle(NSRoundedBezelStyle);
     button.setAction('callAction:');
     button.setCOSJSTargetFunction(function () {
+      var doc = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.getSelectedDocument();
       var nativeLibSwatches = nativeLibrary.document().documentData().allSwatches();
 
       if (swapType.selectedCell().tag() === 0) {
@@ -341,7 +343,7 @@ __webpack_require__.r(__webpack_exports__);
           sketch__WEBPACK_IMPORTED_MODULE_0___default.a.UI.message("Select a layer");
         } else {
           Object(_switch_selection__WEBPACK_IMPORTED_MODULE_4__["default"])(doc, lib);
-          Object(_replace_selected_swatches__WEBPACK_IMPORTED_MODULE_15__["default"])(selectedLayers, nativeLibSwatches, nativeLibrary);
+          Object(_replace_selected_swatches__WEBPACK_IMPORTED_MODULE_15__["default"])(selectedLayers, nativeLibSwatches, nativeLibrary, librariesController);
           Object(_analytics__WEBPACK_IMPORTED_MODULE_2__["default"])(context, 'Replace selected with', lib.name, 'Library');
           sketch__WEBPACK_IMPORTED_MODULE_0___default.a.UI.message("\uD83C\uDF89 \uD83C\uDF88 \uD83D\uDE4C\uD83C\uDFFC  Applied theme from ".concat(lib.name, "  \uD83D\uDE4C\uD83C\uDFFC \uD83C\uDF89 \uD83C\uDF88"));
         }
@@ -351,7 +353,7 @@ __webpack_require__.r(__webpack_exports__);
         sketch_settings__WEBPACK_IMPORTED_MODULE_1___default.a.setSessionVariable('Selected', 1);
         var selectedPages = doc.pages;
         Object(_switch_library__WEBPACK_IMPORTED_MODULE_3__["default"])(doc, lib);
-        Object(_replace_selected_swatches__WEBPACK_IMPORTED_MODULE_15__["default"])(selectedPages, nativeLibSwatches, nativeLibrary);
+        Object(_replace_selected_swatches__WEBPACK_IMPORTED_MODULE_15__["default"])(selectedPages, nativeLibSwatches, nativeLibrary, librariesController);
         Object(_analytics__WEBPACK_IMPORTED_MODULE_2__["default"])(context, 'Replace document with', lib.name, 'Library');
         sketch__WEBPACK_IMPORTED_MODULE_0___default.a.UI.message("\uD83C\uDF89 \uD83C\uDF88 \uD83D\uDE4C\uD83C\uDFFC  Applied theme from ".concat(lib.name, "  \uD83D\uDE4C\uD83C\uDFFC \uD83C\uDF89 \uD83C\uDF88"));
       }
@@ -537,38 +539,41 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var sketch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sketch */ "sketch");
-/* harmony import */ var sketch__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sketch__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _replace_selected_swatches__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./replace-selected-swatches */ "./src/replace-selected-swatches.js");
-/* harmony import */ var _get_matching_swatch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./get-matching-swatch */ "./src/get-matching-swatch.js");
-/* harmony import */ var _import_swatch_from_library__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./import-swatch-from-library */ "./src/import-swatch-from-library.js");
-/* harmony import */ var _create_color_with_swatch__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./create-color-with-swatch */ "./src/create-color-with-swatch.js");
-/* harmony import */ var _replace_selected_symbol_swatches__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./replace-selected-symbol-swatches */ "./src/replace-selected-symbol-swatches.js");
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! util */ "util");
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(util__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var sketch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! sketch */ "sketch");
+/* harmony import */ var sketch__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(sketch__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _replace_selected_swatches__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./replace-selected-swatches */ "./src/replace-selected-swatches.js");
+/* harmony import */ var _get_matching_swatch__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./get-matching-swatch */ "./src/get-matching-swatch.js");
+/* harmony import */ var _import_swatch_from_library__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./import-swatch-from-library */ "./src/import-swatch-from-library.js");
+/* harmony import */ var _create_color_with_swatch__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./create-color-with-swatch */ "./src/create-color-with-swatch.js");
+/* harmony import */ var _replace_selected_symbol_swatches__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./replace-selected-symbol-swatches */ "./src/replace-selected-symbol-swatches.js");
 
 
 
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = (function (docLayers, nativeLibSwatches, nativeLibrary) {
+
+/* harmony default export */ __webpack_exports__["default"] = (function (docLayers, nativeLibSwatches, nativeLibrary, librariesController) {
   docLayers.forEach(function (layer) {
     var nativeLayer = layer.sketchObject;
 
     switch (String(nativeLayer.class())) {
       case "MSTextLayer":
         if (String(nativeLayer.style().textStyle().encodedAttributes().MSAttributedStringColorAttribute.swatchID()) != 'null') {
-          var matchingSwatch = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_2__["default"])(nativeLayer.style().textStyle().encodedAttributes().MSAttributedStringColorAttribute.swatchID(), context.document.documentData(), nativeLibSwatches);
-          var newSwatch = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_3__["default"])(matchingSwatch, nativeLibrary);
-          var newColor = Object(_create_color_with_swatch__WEBPACK_IMPORTED_MODULE_4__["default"])(newSwatch);
+          var matchingSwatch = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_3__["default"])(nativeLayer.style().textStyle().encodedAttributes().MSAttributedStringColorAttribute.swatchID(), context.document.documentData(), nativeLibSwatches);
+          var newSwatch = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_4__["default"])(matchingSwatch, nativeLibrary);
+          var newColor = Object(_create_color_with_swatch__WEBPACK_IMPORTED_MODULE_5__["default"])(newSwatch);
           nativeLayer.setTextColor(newColor);
         }
 
         if (nativeLayer.style().fills().length > 0) {
           nativeLayer.style().fills().forEach(function (fill) {
             if (String(fill.color().swatchID()) != 'null') {
-              var _matchingSwatch = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_2__["default"])(fill.color().swatchID(), context.document.documentData(), nativeLibSwatches);
+              var _matchingSwatch = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_3__["default"])(fill.color().swatchID(), context.document.documentData(), nativeLibSwatches);
 
-              var _newSwatch = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_3__["default"])(_matchingSwatch, nativeLibrary);
+              var _newSwatch = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_4__["default"])(_matchingSwatch, nativeLibrary);
 
               fill.color().setSwatch(_newSwatch.localSwatch());
             }
@@ -578,9 +583,9 @@ __webpack_require__.r(__webpack_exports__);
         if (nativeLayer.style().borders().length > 0) {
           nativeLayer.style().borders().forEach(function (border) {
             if (String(border.color().swatchID()) != 'null') {
-              var _matchingSwatch2 = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_2__["default"])(border.color().swatchID(), context.document.documentData(), nativeLibSwatches);
+              var _matchingSwatch2 = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_3__["default"])(border.color().swatchID(), context.document.documentData(), nativeLibSwatches);
 
-              var _newSwatch2 = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_3__["default"])(_matchingSwatch2, nativeLibrary);
+              var _newSwatch2 = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_4__["default"])(_matchingSwatch2, nativeLibrary);
 
               border.color().setSwatch(_newSwatch2.localSwatch());
             }
@@ -590,12 +595,12 @@ __webpack_require__.r(__webpack_exports__);
         break;
 
       case "MSSymbolInstance":
-        // let jsLayer = sketch.fromNative(nativeLayer)
-        var jsSymbolMaster = layer.master;
+        var symbolMaster = nativeLayer.symbolMaster();
+        var overrides = Object(util__WEBPACK_IMPORTED_MODULE_0__["toArray"])(MSAvailableOverride.flattenAvailableOverrides(nativeLayer.availableOverrides()));
 
-        if (jsSymbolMaster.overrides.length > 0) {
-          jsSymbolMaster.overrides.forEach(function (jsOverride) {
-            Object(_replace_selected_symbol_swatches__WEBPACK_IMPORTED_MODULE_5__["default"])(jsOverride, nativeLayer, layer, jsSymbolMaster, nativeLibSwatches, nativeLibrary);
+        if (overrides.length > 0) {
+          overrides.forEach(function (override) {
+            Object(_replace_selected_symbol_swatches__WEBPACK_IMPORTED_MODULE_6__["default"])(override, nativeLayer, symbolMaster, nativeLibSwatches, nativeLibrary, librariesController);
           });
         }
 
@@ -605,9 +610,9 @@ __webpack_require__.r(__webpack_exports__);
         if (nativeLayer.style().fills().length > 0) {
           nativeLayer.style().fills().forEach(function (fill) {
             if (String(fill.color().swatchID()) != 'null') {
-              var _matchingSwatch3 = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_2__["default"])(fill.color().swatchID(), context.document.documentData(), nativeLibSwatches);
+              var _matchingSwatch3 = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_3__["default"])(fill.color().swatchID(), context.document.documentData(), nativeLibSwatches);
 
-              var _newSwatch3 = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_3__["default"])(_matchingSwatch3, nativeLibrary);
+              var _newSwatch3 = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_4__["default"])(_matchingSwatch3, nativeLibrary);
 
               fill.color().setSwatch(_newSwatch3.localSwatch());
             }
@@ -617,9 +622,9 @@ __webpack_require__.r(__webpack_exports__);
         if (nativeLayer.style().borders().length > 0) {
           nativeLayer.style().borders().forEach(function (border) {
             if (String(border.color().swatchID()) != 'null') {
-              var _matchingSwatch4 = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_2__["default"])(border.color().swatchID(), context.document.documentData(), nativeLibSwatches);
+              var _matchingSwatch4 = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_3__["default"])(border.color().swatchID(), context.document.documentData(), nativeLibSwatches);
 
-              var _newSwatch4 = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_3__["default"])(_matchingSwatch4, nativeLibrary);
+              var _newSwatch4 = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_4__["default"])(_matchingSwatch4, nativeLibrary);
 
               border.color().setSwatch(_newSwatch4.localSwatch());
             }
@@ -631,7 +636,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
     if (typeof nativeLayer.layers === 'function') {
-      Object(_replace_selected_swatches__WEBPACK_IMPORTED_MODULE_1__["default"])(layer.layers, nativeLibSwatches, nativeLibrary);
+      Object(_replace_selected_swatches__WEBPACK_IMPORTED_MODULE_2__["default"])(layer.layers, nativeLibSwatches, nativeLibrary);
     }
   });
 });
@@ -647,50 +652,47 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var sketch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sketch */ "sketch");
-/* harmony import */ var sketch__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sketch__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _get_matching_swatch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./get-matching-swatch */ "./src/get-matching-swatch.js");
-/* harmony import */ var _import_swatch_from_library__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./import-swatch-from-library */ "./src/import-swatch-from-library.js");
-/* harmony import */ var _create_color_with_swatch__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./create-color-with-swatch */ "./src/create-color-with-swatch.js");
-/* harmony import */ var _replace_selected_symbol_swatches__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./replace-selected-symbol-swatches */ "./src/replace-selected-symbol-swatches.js");
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! util */ "util");
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(util__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var sketch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! sketch */ "sketch");
+/* harmony import */ var sketch__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(sketch__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _get_matching_swatch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./get-matching-swatch */ "./src/get-matching-swatch.js");
+/* harmony import */ var _import_swatch_from_library__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./import-swatch-from-library */ "./src/import-swatch-from-library.js");
+/* harmony import */ var _create_color_with_swatch__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./create-color-with-swatch */ "./src/create-color-with-swatch.js");
+/* harmony import */ var _replace_selected_symbol_swatches__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./replace-selected-symbol-swatches */ "./src/replace-selected-symbol-swatches.js");
 
 
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = (function (jsOverride, nativeLayer, jsLayer, jsSymbolMaster, nativeLibSwatches, nativeLibrary) {
-  var override = jsOverride.sketchObject;
 
+/* harmony default export */ __webpack_exports__["default"] = (function (override, nativeLayer, symbolMaster, nativeLibSwatches, nativeLibrary, librariesController) {
   if (String(override.currentValue().class()) == 'MSColor' || String(override.currentValue().class()) == 'MSImmutableColor') {
-    var _jsOverride = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.fromNative(override);
-
-    if (_jsOverride.isDefault) {
+    if (override.hasOverride() === 0) {
       var currentSwatchID = override.currentValue().swatchID(); // If there is a swatch with same ID in current document
 
       var match = context.document.documentData().swatchWithID(String(currentSwatchID));
 
       if (match == null) {
-        var jsLib = jsSymbolMaster.getLibrary();
-        var nativeLibFromSymbol = jsLib.sketchObject;
+        var nativeLibFromSymbol = librariesController.libraryForShareableObject(symbolMaster);
         var overrideValue = override.overridePoint();
-        var matchingSwatch = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_1__["default"])(override.currentValue().swatchID(), nativeLibFromSymbol.document().documentData(), nativeLibSwatches);
+        var matchingSwatch = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_2__["default"])(override.currentValue().swatchID(), nativeLibFromSymbol.document().documentData(), nativeLibSwatches);
 
         if (matchingSwatch === undefined) {
           var pe = nativeLibFromSymbol.document().documentData().allSymbols();
           pe.forEach(function (p) {
-            if (sketch__WEBPACK_IMPORTED_MODULE_0___default.a.fromNative(p).getLibrary() != null) {
-              var l = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.fromNative(p).getLibrary();
-              var le = l.sketchObject;
-              var we = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.fromNative(p);
-              we.overrides.forEach(function (m) {
-                if (String(m.sketchObject.currentValue().class()) == 'MSColor' || String(m.sketchObject.currentValue().class()) == 'MSImmutableColor') {
-                  var _matchingSwatch = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_1__["default"])(m.sketchObject.currentValue().swatchID(), le.document().documentData(), nativeLibSwatches);
+            if (librariesController.libraryForShareableObject(p) != null) {
+              var le = librariesController.libraryForShareableObject(p);
+              var overrides = Object(util__WEBPACK_IMPORTED_MODULE_0__["toArray"])(MSAvailableOverride.flattenAvailableOverrides(p.availableOverrides()));
+              overrides.forEach(function (m) {
+                if (String(m.currentValue().class()) == 'MSColor' || String(m.currentValue().class()) == 'MSImmutableColor') {
+                  var _matchingSwatch = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_2__["default"])(m.currentValue().swatchID(), le.document().documentData(), nativeLibSwatches);
 
                   if (_matchingSwatch === undefined) {
-                    Object(_replace_selected_symbol_swatches__WEBPACK_IMPORTED_MODULE_4__["default"])(_jsOverride, nativeLayer, jsLayer, we, nativeLibSwatches, le);
+                    Object(_replace_selected_symbol_swatches__WEBPACK_IMPORTED_MODULE_5__["default"])(override, nativeLayer, p, nativeLibSwatches, le, librariesController);
                   } else {
-                    var newSwatch = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_2__["default"])(_matchingSwatch, le);
-                    var newColor = Object(_create_color_with_swatch__WEBPACK_IMPORTED_MODULE_3__["default"])(newSwatch);
+                    var newSwatch = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_3__["default"])(_matchingSwatch, le);
+                    var newColor = Object(_create_color_with_swatch__WEBPACK_IMPORTED_MODULE_4__["default"])(newSwatch);
                     nativeLayer.setValue_forOverridePoint(newColor, overrideValue);
                   }
                 }
@@ -698,29 +700,29 @@ __webpack_require__.r(__webpack_exports__);
             }
           });
         } else {
-          var newSwatch = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_2__["default"])(matchingSwatch, nativeLibrary);
-          var newColor = Object(_create_color_with_swatch__WEBPACK_IMPORTED_MODULE_3__["default"])(newSwatch);
+          var newSwatch = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_3__["default"])(matchingSwatch, nativeLibrary);
+          var newColor = Object(_create_color_with_swatch__WEBPACK_IMPORTED_MODULE_4__["default"])(newSwatch);
           nativeLayer.setValue_forOverridePoint(newColor, overrideValue);
         }
       } else {
         var _overrideValue = override.overridePoint();
 
-        var _matchingSwatch2 = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_1__["default"])(override.currentValue().swatchID(), context.document.documentData(), nativeLibSwatches);
+        var _matchingSwatch2 = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_2__["default"])(override.currentValue().swatchID(), context.document.documentData(), nativeLibSwatches);
 
-        var _newSwatch = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_2__["default"])(_matchingSwatch2, nativeLibrary);
+        var _newSwatch = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_3__["default"])(_matchingSwatch2, nativeLibrary);
 
-        var _newColor = Object(_create_color_with_swatch__WEBPACK_IMPORTED_MODULE_3__["default"])(_newSwatch);
+        var _newColor = Object(_create_color_with_swatch__WEBPACK_IMPORTED_MODULE_4__["default"])(_newSwatch);
 
         nativeLayer.setValue_forOverridePoint(_newColor, _overrideValue);
       }
     } else {
       var _overrideValue2 = override.overridePoint();
 
-      var _matchingSwatch3 = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_1__["default"])(override.currentValue().swatchID(), context.document.documentData(), nativeLibSwatches);
+      var _matchingSwatch3 = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_2__["default"])(override.currentValue().swatchID(), context.document.documentData(), nativeLibSwatches);
 
-      var _newSwatch2 = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_2__["default"])(_matchingSwatch3, nativeLibrary);
+      var _newSwatch2 = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_3__["default"])(_matchingSwatch3, nativeLibrary);
 
-      var _newColor2 = Object(_create_color_with_swatch__WEBPACK_IMPORTED_MODULE_3__["default"])(_newSwatch2);
+      var _newColor2 = Object(_create_color_with_swatch__WEBPACK_IMPORTED_MODULE_4__["default"])(_newSwatch2);
 
       nativeLayer.setValue_forOverridePoint(_newColor2, _overrideValue2);
     }
@@ -909,10 +911,9 @@ var libraries = librariesArray.sort(function (a, b) {
 
 var pluginName = __command.pluginBundle().name();
 
-var doc = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.getSelectedDocument();
 /* harmony default export */ __webpack_exports__["default"] = (function (context) {
   var panelStyles = Object(_ui_styles__WEBPACK_IMPORTED_MODULE_3__["default"])();
-  var panelContent = Object(_main_view__WEBPACK_IMPORTED_MODULE_4__["default"])(context, panelStyles, theme, doc, libraries);
+  var panelContent = Object(_main_view__WEBPACK_IMPORTED_MODULE_4__["default"])(context, panelStyles, theme, libraries);
   var fiber = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.Async.createFiber();
   var panel = Object(_ui_create_floating_panel__WEBPACK_IMPORTED_MODULE_2__["default"])(theme, pluginName, NSMakeRect(0, 0, panelStyles.panelWidth, panelStyles.panelHeight));
   var panelClose = panel.standardWindowButton(NSWindowCloseButton);
@@ -1344,6 +1345,17 @@ module.exports = require("sketch");
 /***/ (function(module, exports) {
 
 module.exports = require("sketch/settings");
+
+/***/ }),
+
+/***/ "util":
+/*!***********************!*\
+  !*** external "util" ***!
+  \***********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("util");
 
 /***/ })
 
