@@ -658,7 +658,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = (function (jsOverride, nativeLayer, jsLayer, jsSymbolMaster, nativeDocSwatches, nativeLibrary) {
+/* harmony default export */ __webpack_exports__["default"] = (function (jsOverride, nativeLayer, jsLayer, jsSymbolMaster, nativeLibSwatches, nativeLibrary) {
   var override = jsOverride.sketchObject;
 
   if (String(override.currentValue().class()) == 'MSColor' || String(override.currentValue().class()) == 'MSImmutableColor') {
@@ -673,7 +673,7 @@ __webpack_require__.r(__webpack_exports__);
         var jsLib = jsSymbolMaster.getLibrary();
         var nativeLibFromSymbol = jsLib.sketchObject;
         var overrideValue = override.overridePoint();
-        var matchingSwatch = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_1__["default"])(override.currentValue().swatchID(), nativeLibFromSymbol.document().documentData(), nativeDocSwatches.libraryColorVariables);
+        var matchingSwatch = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_1__["default"])(override.currentValue().swatchID(), nativeLibFromSymbol.document().documentData(), nativeLibSwatches);
 
         if (matchingSwatch === undefined) {
           var pe = nativeLibFromSymbol.document().documentData().allSymbols();
@@ -684,10 +684,10 @@ __webpack_require__.r(__webpack_exports__);
               var we = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.fromNative(p);
               we.overrides.forEach(function (m) {
                 if (String(m.sketchObject.currentValue().class()) == 'MSColor' || String(m.sketchObject.currentValue().class()) == 'MSImmutableColor') {
-                  var _matchingSwatch = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_1__["default"])(m.sketchObject.currentValue().swatchID(), le.document().documentData(), nativeDocSwatches.libraryColorVariables);
+                  var _matchingSwatch = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_1__["default"])(m.sketchObject.currentValue().swatchID(), le.document().documentData(), nativeLibSwatches);
 
                   if (_matchingSwatch === undefined) {
-                    Object(_replace_selected_symbol_swatches__WEBPACK_IMPORTED_MODULE_4__["default"])(_jsOverride, nativeLayer, jsLayer, we, nativeDocSwatches, le);
+                    Object(_replace_selected_symbol_swatches__WEBPACK_IMPORTED_MODULE_4__["default"])(_jsOverride, nativeLayer, jsLayer, we, nativeLibSwatches, le);
                   } else {
                     var newSwatch = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_2__["default"])(_matchingSwatch, le);
                     var newColor = Object(_create_color_with_swatch__WEBPACK_IMPORTED_MODULE_3__["default"])(newSwatch);
@@ -705,7 +705,7 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         var _overrideValue = override.overridePoint();
 
-        var _matchingSwatch2 = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_1__["default"])(override.currentValue().swatchID(), context.document.documentData(), nativeDocSwatches.libraryColorVariables);
+        var _matchingSwatch2 = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_1__["default"])(override.currentValue().swatchID(), context.document.documentData(), nativeLibSwatches);
 
         var _newSwatch = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_2__["default"])(_matchingSwatch2, nativeLibrary);
 
@@ -716,7 +716,7 @@ __webpack_require__.r(__webpack_exports__);
     } else {
       var _overrideValue2 = override.overridePoint();
 
-      var _matchingSwatch3 = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_1__["default"])(override.currentValue().swatchID(), context.document.documentData(), nativeDocSwatches.libraryColorVariables);
+      var _matchingSwatch3 = Object(_get_matching_swatch__WEBPACK_IMPORTED_MODULE_1__["default"])(override.currentValue().swatchID(), context.document.documentData(), nativeLibSwatches);
 
       var _newSwatch2 = Object(_import_swatch_from_library__WEBPACK_IMPORTED_MODULE_2__["default"])(_matchingSwatch3, nativeLibrary);
 
@@ -954,9 +954,9 @@ __webpack_require__.r(__webpack_exports__);
       docSymbolInstances = _replaceSymbols.docSymbolInstances; // replace the styles
 
 
-  var layerStylesMap = Object(_replace_shared_styles__WEBPACK_IMPORTED_MODULE_3__["default"])(document.getSharedLayerStyles, lookup.layer, library); // replace the textStyles
+  var layerStylesMap = Object(_replace_shared_styles__WEBPACK_IMPORTED_MODULE_3__["default"])(document.getSharedLayerStyles(), lookup.layer, library); // replace the textStyles
 
-  var textStylesMap = Object(_replace_shared_styles__WEBPACK_IMPORTED_MODULE_3__["default"])(document.getSharedTextStyles, lookup.text, library); // replace the overrides
+  var textStylesMap = Object(_replace_shared_styles__WEBPACK_IMPORTED_MODULE_3__["default"])(document.getSharedTextStyles(), lookup.text, library); // replace the overrides
 
   Object(_replace_overrides__WEBPACK_IMPORTED_MODULE_2__["default"])(docSymbolInstances, {
     symbolsMap: symbolsMap,

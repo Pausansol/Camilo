@@ -13,13 +13,13 @@ export default function(document, library) {
 
   // replace the styles
   const layerStylesMap = replaceSharedStyles(
-    document.getSharedLayerStyles,
+    document.getSharedLayerStyles(),
     lookup.layer,
     library
   )
   // replace the textStyles
   const textStylesMap = replaceSharedStyles(
-    document.getSharedTextStyles,
+    document.getSharedTextStyles(),
     lookup.text,
     library
   )
