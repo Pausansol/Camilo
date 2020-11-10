@@ -180,7 +180,7 @@ __webpack_require__.r(__webpack_exports__);
     return;
   } else {
     var newSwatch = librarySwatches.find(function (swatch) {
-      return swatch.name() === currentSwatch.name();
+      return String(swatch.name()) === String(currentSwatch.name());
     });
     return newSwatch;
   }

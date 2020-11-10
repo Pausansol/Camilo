@@ -3,7 +3,7 @@ export default function(swatchID, doc, librarySwatches) {
 	if(currentSwatch === null){
 		return
 	} else {
-		let newSwatch = librarySwatches.find(swatch => swatch.name() === currentSwatch.name());
+		let newSwatch = librarySwatches.find(swatch => String(swatch.name()) === String(currentSwatch.name()));
 		return newSwatch	
 	}
 }
