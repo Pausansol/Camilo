@@ -52,6 +52,7 @@ export default function(panelStyles, theme, doc, libraries) {
     button.setAction('callAction:')
 
     button.setCOSJSTargetFunction(function() {
+      let doc = sketch.getSelectedDocument()
 
       if (swapType.selectedCell().tag() === 0) {
         settings.setSessionVariable('Selected', 0)

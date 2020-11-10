@@ -14,6 +14,10 @@ One click theme change for [Sketch app](https://www.sketchapp.com/). It replaces
 
 ## What's new?
 
+New in 2.0.4
+
+- Fixed a bug when working with multiple documents
+
 New in 2.0.3
 
 - Sort library list by alphabetical order
@@ -34,7 +38,7 @@ New in 1.3.0
 
 ## Install
 
-* Download and install the `camilo.sketchplugin` zip file [here](https://github.com/Pausansol/Camilo/releases/download/v2.0.3/Camilo.sketchplugin.zip).
+* Download and install the `camilo.sketchplugin` zip file [here](https://github.com/Pausansol/Camilo/releases/download/v2.0.4/Camilo.sketchplugin.zip).
 
 * Or you can install it with Sketch Runner, just go to the `install` command and search for `Camilo`. Runner allows you to manage plugins and do much more to speed up your workflow in Sketch.
 

@@ -271,6 +271,8 @@ __webpack_require__.r(__webpack_exports__);
     button.setBezelStyle(NSRoundedBezelStyle);
     button.setAction('callAction:');
     button.setCOSJSTargetFunction(function () {
+      var doc = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.getSelectedDocument();
+
       if (swapType.selectedCell().tag() === 0) {
         sketch_settings__WEBPACK_IMPORTED_MODULE_1___default.a.setSessionVariable('Selected', 0);
         var selectedLayers = doc.selectedLayers.layers;
