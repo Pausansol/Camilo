@@ -636,7 +636,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
     if (typeof nativeLayer.layers === 'function') {
-      Object(_replace_selected_swatches__WEBPACK_IMPORTED_MODULE_2__["default"])(layer.layers, nativeLibSwatches, nativeLibrary);
+      Object(_replace_selected_swatches__WEBPACK_IMPORTED_MODULE_2__["default"])(layer.layers, nativeLibSwatches, nativeLibrary, librariesController);
     }
   });
 });

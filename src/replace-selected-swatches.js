@@ -70,7 +70,7 @@ export default function(docLayers, nativeLibSwatches, nativeLibrary, librariesCo
 		}
 		// Iterate through layers array
 		if(typeof nativeLayer.layers === 'function') {
-    	replaceSelectedSwatches(layer.layers, nativeLibSwatches, nativeLibrary)
+    	replaceSelectedSwatches(layer.layers, nativeLibSwatches, nativeLibrary, librariesController)
   	}
 	})
 }
