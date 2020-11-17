@@ -247,10 +247,10 @@ __webpack_require__.r(__webpack_exports__);
   var lastSelected = sketch_settings__WEBPACK_IMPORTED_MODULE_1___default.a.sessionVariable('Selected');
   var panelContent = Object(_ui_create_view__WEBPACK_IMPORTED_MODULE_7__["default"])(NSMakeRect(0, 0, panelStyles.panelWidth, panelStyles.panelHeight - panelStyles.panelHeader));
   var swapType = Object(_ui_create_radio_buttons__WEBPACK_IMPORTED_MODULE_14__["default"])(['Apply to selection', 'Apply to document'], lastSelected);
-  var themesTitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, panelStyles.blackText, panelStyles.whiteText, panelStyles.sectionFont, 'Libraries', NSMakeRect(20, 40, 100, 18));
-  var optionsTitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, panelStyles.blackText, panelStyles.whiteText, panelStyles.sectionFont, 'Options', NSMakeRect(20, 334, 100, 18));
-  var scrollViewMask = Object(_ui_create_image__WEBPACK_IMPORTED_MODULE_9__["default"])(theme, NSMakeRect(20, 75, 338, 239), 'scrollViewMask.png', 'scrollViewMaskDark.png');
-  var libraryList = Object(_ui_create_scroll_view__WEBPACK_IMPORTED_MODULE_6__["default"])(theme, NSMakeRect(20, 75, 338, 239));
+  var themesTitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, panelStyles.blackText, panelStyles.whiteText, panelStyles.sectionFont, 'Libraries', NSMakeRect(20, 55, 100, 18));
+  var optionsTitle = Object(_ui_create_text__WEBPACK_IMPORTED_MODULE_11__["default"])(theme, panelStyles.blackText, panelStyles.whiteText, panelStyles.sectionFont, 'Options', NSMakeRect(20, 349, 100, 18));
+  var scrollViewMask = Object(_ui_create_image__WEBPACK_IMPORTED_MODULE_9__["default"])(theme, NSMakeRect(20, 90, 338, 239), 'scrollViewMask.png', 'scrollViewMaskDark.png');
+  var libraryList = Object(_ui_create_scroll_view__WEBPACK_IMPORTED_MODULE_6__["default"])(theme, NSMakeRect(20, 90, 338, 239));
   var addComponentsToPanel = [themesTitle, optionsTitle, swapType, libraryList, scrollViewMask].forEach(function (i) {
     return panelContent.addSubview(i);
   });
@@ -890,7 +890,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return createRadioButtons; });
 function createRadioButtons(options, selected, format) {
   var x = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 20;
-  var y = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 375;
+  var y = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 390;
   var rows = options.length;
   var columns = 1;
   var buttonMatrixWidth = 300;
@@ -1007,7 +1007,7 @@ function styles() {
   var styles = {
     // Panel dimens
     panelHeader: 20,
-    panelHeight: 468,
+    panelHeight: 483,
     panelWidth: 378,
     panelGutter: 15,
     // List

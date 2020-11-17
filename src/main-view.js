@@ -26,10 +26,10 @@ export default function(panelStyles, theme, doc, libraries) {
     lastSelected
   )
   
-  let themesTitle = createText(theme,panelStyles.blackText,panelStyles.whiteText,panelStyles.sectionFont,'Libraries',NSMakeRect(20,40,100,18))
-  let optionsTitle = createText(theme,panelStyles.blackText,panelStyles.whiteText,panelStyles.sectionFont,'Options',NSMakeRect(20,334,100,18))
-  let scrollViewMask = createImage(theme,NSMakeRect(20,75,338,239),'scrollViewMask.png','scrollViewMaskDark.png')
-  let libraryList = createScrollView(theme,NSMakeRect(20,75,338,239))
+  let themesTitle = createText(theme,panelStyles.blackText,panelStyles.whiteText,panelStyles.sectionFont,'Libraries',NSMakeRect(20,55,100,18))
+  let optionsTitle = createText(theme,panelStyles.blackText,panelStyles.whiteText,panelStyles.sectionFont,'Options',NSMakeRect(20,349,100,18))
+  let scrollViewMask = createImage(theme,NSMakeRect(20,90,338,239),'scrollViewMask.png','scrollViewMaskDark.png')
+  let libraryList = createScrollView(theme,NSMakeRect(20,90,338,239))
   
   let addComponentsToPanel = [themesTitle,optionsTitle,swapType,libraryList,scrollViewMask].forEach(i => panelContent.addSubview(i))
   let itemContent = createView(NSMakeRect(0,0,panelStyles.itemWidth,panelStyles.itemHeight * libraries.length))

@@ -3,7 +3,7 @@ export default function styles() {
 
 		// Panel dimens
 		panelHeader: 20,
-		panelHeight: 468,
+		panelHeight: 483,
 		panelWidth: 378,
 		panelGutter: 15,
 
