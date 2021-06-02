@@ -117,7 +117,7 @@ function googleAnalytics(context, category, action, label, value) {
 
   url += "&tid=".concat(trackingID); // Source
 
-  url += "&ds=sketch".concat(MSApplicationMetadata.metadata().appVersion); // Client ID
+  url += "&ds=sketch".concat(BCSketchInfo.shared().metadata().appVersion); // Client ID
 
   url += "&cid=".concat(uuid); // pageview, screenview, event, transaction, item, social, exception, timing
 
