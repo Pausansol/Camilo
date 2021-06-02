@@ -1,4 +1,3 @@
-// Replace all symbols in the document wich match their names with selected theme library
 export default function(document, library) {
   const docSymbols = document.getSymbols()
   let docSymbolInstances = []

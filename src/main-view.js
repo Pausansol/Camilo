@@ -13,9 +13,10 @@ import createText from './ui/create-text'
 import createDivider from './ui/create-divider'
 import createLibraryPreview from './ui/create-library-preview'
 import createRadioButtons from './ui/create-radio-buttons'
+import replaceSelectedSwatches from './replace-selected-swatches'
 
 
-export default function(panelStyles, theme, doc, libraries) {
+export default function(context,panelStyles, theme, libraries) {
 
   //Settings
   let lastSelected = settings.sessionVariable('Selected')
@@ -26,10 +27,10 @@ export default function(panelStyles, theme, doc, libraries) {
     lastSelected
   )
   
-  let themesTitle = createText(theme,panelStyles.blackText,panelStyles.whiteText,panelStyles.sectionFont,'Libraries',NSMakeRect(20,55,100,18))
-  let optionsTitle = createText(theme,panelStyles.blackText,panelStyles.whiteText,panelStyles.sectionFont,'Options',NSMakeRect(20,349,100,18))
-  let scrollViewMask = createImage(theme,NSMakeRect(20,90,338,239),'scrollViewMask.png','scrollViewMaskDark.png')
-  let libraryList = createScrollView(theme,NSMakeRect(20,90,338,239))
+  let themesTitle = createText(theme,panelStyles.blackText,panelStyles.whiteText,panelStyles.sectionFont,'Libraries',NSMakeRect(20,40,100,18))
+  let optionsTitle = createText(theme,panelStyles.blackText,panelStyles.whiteText,panelStyles.sectionFont,'Options',NSMakeRect(20,334,100,18))
+  let scrollViewMask = createImage(theme,NSMakeRect(20,75,338,239),'scrollViewMask.png','scrollViewMaskDark.png')
+  let libraryList = createScrollView(theme,NSMakeRect(20,75,338,239))
   
   let addComponentsToPanel = [themesTitle,optionsTitle,swapType,libraryList,scrollViewMask].forEach(i => panelContent.addSubview(i))
   let itemContent = createView(NSMakeRect(0,0,panelStyles.itemWidth,panelStyles.itemHeight * libraries.length))
@@ -45,6 +46,7 @@ export default function(panelStyles, theme, doc, libraries) {
     let artboardSubtitle = createText(theme,panelStyles.darkTextGrey,panelStyles.lightTextGrey,panelStyles.subtitleFont,String(library.libraryType),NSMakeRect(panelStyles.rightColX,38,panelStyles.rightColWidth-88,14))
     let artboardTitle = createText(theme,panelStyles.blackText,panelStyles.whiteText,panelStyles.titleFont,String(library.name),NSMakeRect(panelStyles.rightColX,20,panelStyles.rightColWidth-88,18))
     let divider = createDivider(theme,NSMakeRect(20,panelStyles.itemHeight - 1,panelStyles.itemWidth - 40,0.5))
+    let librariesController = AppController.sharedInstance().librariesController()
 
     let button = NSButton.alloc().initWithFrame(NSMakeRect(237,18,88,36)) 
     button.setTitle('Swap')
@@ -52,15 +54,20 @@ export default function(panelStyles, theme, doc, libraries) {
     button.setAction('callAction:')
 
     button.setCOSJSTargetFunction(function() {
-      let doc = sketch.getSelectedDocument()
+    let doc = sketch.getSelectedDocument()
+    let nativeLibSwatches = nativeLibrary.document().documentData().allSwatches()     
 
       if (swapType.selectedCell().tag() === 0) {
         settings.setSessionVariable('Selected', 0)
-      const selectedLayers = doc.selectedLayers.layers
+        let selectedLayers = doc.selectedLayers
+        
+        
         if (selectedLayers.length < 1) {
           sketch.UI.message(`Select a layer`)
-        } else {         
-          switchSelection(doc, lib)          
+        } else {    
+          
+          switchSelection(doc, lib)
+          replaceSelectedSwatches(selectedLayers, nativeLibSwatches, nativeLibrary, librariesController)          
           googleAnalytics(context, 'Replace selected with', lib.name, 'Library')
           sketch.UI.message(`🎉 🎈 🙌🏼  Applied theme from ${lib.name}  🙌🏼 🎉 🎈`)
         }
@@ -68,7 +75,9 @@ export default function(panelStyles, theme, doc, libraries) {
 
       if (swapType.selectedCell().tag() === 1) {
         settings.setSessionVariable('Selected', 1)
+        let selectedPages = doc.pages
         switchLibrary(doc, lib)
+        replaceSelectedSwatches(selectedPages, nativeLibSwatches, nativeLibrary, librariesController)          
         googleAnalytics(context, 'Replace document with', lib.name, 'Library')
         sketch.UI.message(`🎉 🎈 🙌🏼  Applied theme from ${lib.name}  🙌🏼 🎉 🎈`)     
       }

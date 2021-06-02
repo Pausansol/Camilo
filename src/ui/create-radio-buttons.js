@@ -1,4 +1,4 @@
-export default function createRadioButtons(options, selected, format, x = 20, y = 390) {
+export default function createRadioButtons(options, selected, format, x = 20, y = 375) {
   let rows = options.length;
     let columns = 1;
     let buttonMatrixWidth = 300;
