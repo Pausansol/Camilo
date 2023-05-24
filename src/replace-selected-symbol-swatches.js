@@ -5,30 +5,30 @@ import importSwatchFromLibrary from './import-swatch-from-library'
 import createColorWithSwatch from './create-color-with-swatch'
 import replaceSelectedSymbolSwatches from './replace-selected-symbol-swatches'
 
-export default function(override,nativeLayer, symbolMaster, nativeLibSwatches, nativeLibrary,librariesController){  
+export default function (override, nativeLayer, symbolMaster, nativeLibSwatches, nativeLibrary, librariesController) {
 
-  if(String(override.currentValue().class()) == 'MSColor' || String(override.currentValue().class()) == 'MSImmutableColor'){
-    if(override.hasOverride() === 0){
+  if (String(override.class()) == 'MSColor' || String(override.class()) == 'MSImmutableColor') {
+    if (override.hasOverride() === 0) {
       let currentSwatchID = override.currentValue().swatchID()
       // If there is a swatch with same ID in current document
       let match = context.document.documentData().swatchWithID(String(currentSwatchID))
-      if(match == null){    
+      if (match == null) {
         let nativeLibFromSymbol = librariesController.libraryForShareableObject(symbolMaster)
         let overrideValue = override.overridePoint()
         let matchingSwatch = getMatchingSwatch(override.currentValue().swatchID(), nativeLibFromSymbol.document().documentData(), nativeLibSwatches)
-        
-        if (matchingSwatch === undefined){
+
+        if (matchingSwatch === undefined) {
           let pe = nativeLibFromSymbol.document().documentData().allSymbols()
-          pe.forEach(function(p){
-            if(librariesController.libraryForShareableObject(p) != null){
+          pe.forEach(function (p) {
+            if (librariesController.libraryForShareableObject(p) != null) {
               let le = librariesController.libraryForShareableObject(p)
               let overrides = toArray(MSAvailableOverride.flattenAvailableOverrides(p.availableOverrides()))
-              
-              overrides.forEach(function(m){
-                if(String(m.currentValue().class()) == 'MSColor' || String(m.currentValue().class()) == 'MSImmutableColor'){
+
+              overrides.forEach(function (m) {
+                if (String(m.currentValue().class()) == 'MSColor' || String(m.currentValue().class()) == 'MSImmutableColor') {
                   let matchingSwatch = getMatchingSwatch(m.currentValue().swatchID(), le.document().documentData(), nativeLibSwatches)
-                  if (matchingSwatch === undefined){
-                    replaceSelectedSymbolSwatches(override,nativeLayer,p,nativeLibSwatches, le, librariesController)
+                  if (matchingSwatch === undefined) {
+                    replaceSelectedSymbolSwatches(override, nativeLayer, p, nativeLibSwatches, le, librariesController)
                   } else {
                     let newSwatch = importSwatchFromLibrary(matchingSwatch, le)
                     let newColor = createColorWithSwatch(newSwatch)
@@ -39,10 +39,10 @@ export default function(override,nativeLayer, symbolMaster, nativeLibSwatches, n
             }
           })
 
-        }else{ 
-        let newSwatch = importSwatchFromLibrary(matchingSwatch, nativeLibrary)
-        let newColor = createColorWithSwatch(newSwatch)
-        nativeLayer.setValue_forOverridePoint(newColor, overrideValue)
+        } else {
+          let newSwatch = importSwatchFromLibrary(matchingSwatch, nativeLibrary)
+          let newColor = createColorWithSwatch(newSwatch)
+          nativeLayer.setValue_forOverridePoint(newColor, overrideValue)
         }
       } else {
         let overrideValue = override.overridePoint()
@@ -51,7 +51,7 @@ export default function(override,nativeLayer, symbolMaster, nativeLibSwatches, n
         let newColor = createColorWithSwatch(newSwatch)
         nativeLayer.setValue_forOverridePoint(newColor, overrideValue)
       }
-    } else {      
+    } else {
       let overrideValue = override.overridePoint()
       let matchingSwatch = getMatchingSwatch(override.currentValue().swatchID(), context.document.documentData(), nativeLibSwatches)
       let newSwatch = importSwatchFromLibrary(matchingSwatch, nativeLibrary)

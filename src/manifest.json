@@ -1,7 +1,7 @@
 {
   "commands": [
     {
-      "name": "Camilo",
+      "name": "Camilo-v96",
       "identifier": "camilo.replaceStyles",
       "shortcut": "ctrl command c",
       "script": "script.js"
@@ -13,5 +13,5 @@
   },
   "icon": "icon.png",
   "appcast": "https://raw.githubusercontent.com/pausansol/camilo/master/appcast.xml",
-  "compatibleVersion": "53"
+  "compatibleVersion": "96"
 }
