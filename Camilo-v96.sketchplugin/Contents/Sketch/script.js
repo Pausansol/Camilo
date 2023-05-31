@@ -1090,25 +1090,8 @@ function getLibraryPreview(source) {
   }
 }
 function createLibraryPreview(theme, source, frame) {
-  var image = NSImageView.alloc().initWithFrame(frame);
-  var libraryPreviewLayer = getLibraryPreview(source);
-  if (libraryPreviewLayer != undefined || null) {
-    var parent = libraryPreviewLayer.parentObject();
-    var relativeRect = libraryPreviewLayer.frame().rect();
-    var exportRequest = MSExportRequest.exportRequestsFromExportableLayer_inRect_useIDForName_(libraryPreviewLayer, parent.convertRect_toCoordinateSpace_(relativeRect, nil), false).firstObject();
-    exportRequest.format = 'png';
-    var colorSpace = NSColorSpace.sRGBColorSpace();
-    var exporter = MSExporter.exporterForRequest_colorSpace_(exportRequest, colorSpace);
-    var imageRep = exporter.data();
-    var libraryPreviewImage = NSImage.alloc().init().autorelease();
-    libraryPreviewImage.addRepresentation(imageRep);
-    image.setImage(libraryPreviewImage);
-    image.setImageScaling(3);
-    return image;
-  } else {
-    var _libraryPreviewImage = Object(_create_image__WEBPACK_IMPORTED_MODULE_0__["default"])(theme, frame, 'library.png', 'library.png');
-    return _libraryPreviewImage;
-  }
+  var libraryPreviewImage = Object(_create_image__WEBPACK_IMPORTED_MODULE_0__["default"])(theme, frame, 'library.png', 'library.png');
+  return libraryPreviewImage;
 }
 
 /***/ }),

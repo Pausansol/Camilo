@@ -12,37 +12,7 @@ export function getLibraryPreview(source) {
 }
 
 export default function createLibraryPreview(theme, source, frame) {
-	let image = NSImageView.alloc().initWithFrame(frame)
-
-	let libraryPreviewLayer = getLibraryPreview(source)
-
-	if (libraryPreviewLayer != undefined || null) {
-		let parent = libraryPreviewLayer.parentObject()
-		let relativeRect = libraryPreviewLayer.frame().rect()
-
-		let exportRequest = MSExportRequest.exportRequestsFromExportableLayer_inRect_useIDForName_(
-			libraryPreviewLayer,
-			parent.convertRect_toCoordinateSpace_(relativeRect, nil),
-			false
-		).firstObject();
-
-		exportRequest.format = 'png';
-
-		let colorSpace = NSColorSpace.sRGBColorSpace();
-		let exporter = MSExporter.exporterForRequest_colorSpace_(exportRequest, colorSpace);
-		let imageRep = exporter.data();
-
-		let libraryPreviewImage = NSImage.alloc().init().autorelease();
-		libraryPreviewImage.addRepresentation(imageRep)
-		image.setImage(libraryPreviewImage)
-		image.setImageScaling(3)
-
-		return image;
-
-	} else {
-
-		let libraryPreviewImage = createImage(theme, frame, 'library.png', 'library.png');
-		return libraryPreviewImage;
-	}
+	let libraryPreviewImage = createImage(theme, frame, 'library.png', 'library.png');
+	return libraryPreviewImage;
 }
 
