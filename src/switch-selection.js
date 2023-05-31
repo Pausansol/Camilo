@@ -10,8 +10,8 @@ export default function(document, library) {
     selection,
     lookup,
     docSymbols,
-    document.getSharedLayerStyles(),
-    document.getSharedTextStyles()
+    document.sharedLayerStyles,
+    document.sharedTextStyles
   )
 
   // reload the inspector to make sure we show the latest changes

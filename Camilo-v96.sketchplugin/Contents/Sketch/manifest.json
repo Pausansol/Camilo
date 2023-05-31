@@ -1,7 +1,7 @@
 {
   "commands": [
     {
-      "name": "Camilo",
+      "name": "Camilo-v96",
       "identifier": "camilo.replaceStyles",
       "shortcut": "ctrl command c",
       "script": "script.js"
@@ -15,12 +15,12 @@
   },
   "icon": "icon.png",
   "appcast": "https://raw.githubusercontent.com/pausansol/camilo/master/appcast.xml",
-  "compatibleVersion": "53",
-  "version": "2.1.0",
+  "compatibleVersion": "96",
+  "version": "3.0.0",
   "description": "Swap theme from selected library.",
   "homepage": "https://github.com/Pausansol/Camilo#readme",
-  "name": "Camilo",
-  "identifier": "Camilo",
+  "name": "Camilo-v96",
+  "identifier": "Camilo-v96",
   "disableCocoaScriptPreprocessor": true,
   "author": "Pausansol",
   "authorEmail": "pausansol@gmail.com"

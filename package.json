@@ -1,11 +1,11 @@
 {
   "name": "camilo",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "Swap theme from selected library.",
   "skpm": {
-    "name": "Camilo",
+    "name": "Camilo-v96",
     "manifest": "src/manifest.json",
-    "main": "Camilo.sketchplugin",
+    "main": "Camilo-v96.sketchplugin",
     "assets": [
       "assets/**/*"
     ]
